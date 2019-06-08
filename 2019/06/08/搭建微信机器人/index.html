@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="杂七杂八,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="从0开始搭建微信聊天机器人本教程使用wxBot框架实现个人微信机器人，wxBot框架是通过封装Web微信API实现的，可以自动处理你收到的微信消息，而且可以实现主动发送消息。">
+<meta name="keywords" content="杂七杂八">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建微信机器人">
+<meta property="og:url" content="http://yoursite.com/2019/06/08/搭建微信机器人/index.html">
+<meta property="og:site_name" content="黑面宝宝的博客">
+<meta property="og:description" content="从0开始搭建微信聊天机器人本教程使用wxBot框架实现个人微信机器人，wxBot框架是通过封装Web微信API实现的，可以自动处理你收到的微信消息，而且可以实现主动发送消息。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-08T09:20:07.562Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="搭建微信机器人">
+<meta name="twitter:description" content="从0开始搭建微信聊天机器人本教程使用wxBot框架实现个人微信机器人，wxBot框架是通过封装Web微信API实现的，可以自动处理你收到的微信消息，而且可以实现主动发送消息。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/08/搭建微信机器人/">
+
+
+
+
+
+  <title>搭建微信机器人 | 黑面宝宝的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bb1b3f4c4b4bc6dbe5d0c19279b2faa2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">黑面宝宝的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">精通Linux、OpenStack、Docker等单词拼写</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categrories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/08/搭建微信机器人/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="黑面宝宝">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/img.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黑面宝宝的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">搭建微信机器人</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-08T17:06:07+08:00">
+                2019-06-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/自然语言处理/" itemprop="url" rel="index">
+                    <span itemprop="name">自然语言处理</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/08/搭建微信机器人/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/06/08/搭建微信机器人/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/06/08/搭建微信机器人/" class="leancloud_visitors" data-flag-title="搭建微信机器人">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="从0开始搭建微信聊天机器人"><a href="#从0开始搭建微信聊天机器人" class="headerlink" title="从0开始搭建微信聊天机器人"></a>从0开始搭建微信聊天机器人</h2><h4 id="本教程使用wxBot框架实现个人微信机器人，wxBot框架是通过封装Web微信API实现的，可以自动处理你收到的微信消息，而且可以实现主动发送消息。"><a href="#本教程使用wxBot框架实现个人微信机器人，wxBot框架是通过封装Web微信API实现的，可以自动处理你收到的微信消息，而且可以实现主动发送消息。" class="headerlink" title="本教程使用wxBot框架实现个人微信机器人，wxBot框架是通过封装Web微信API实现的，可以自动处理你收到的微信消息，而且可以实现主动发送消息。"></a>本教程使用wxBot框架实现个人微信机器人，wxBot框架是通过封装Web微信API实现的，可以自动处理你收到的微信消息，而且可以实现主动发送消息。</h4><a id="more"></a>
+<h4 id="一、下载项目"><a href="#一、下载项目" class="headerlink" title="一、下载项目"></a>一、下载项目</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/liuwons/wxBot</span><br></pre></td></tr></table></figure>
+<h4 id="二、环境与依赖"><a href="#二、环境与依赖" class="headerlink" title="二、环境与依赖"></a>二、环境与依赖</h4><p>该版本只能使用pyhon2环境，目前笔者是一个python小白，所以这里记录一下遇到的问题。搭建环境是mac，mac是默认自带pyhon2，但是这个python不带pip工具，所以需要自己安装，可以参考如下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl &apos;https://bootstrap.pypa.io/get-pip.py&apos; &gt; get-pip.py</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo python get-pip.py</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo easy_install pip</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用curl命令将网页内容保存到当前目录中，输出到get-pip.py文件里，使用python命令启动这个脚本，接着使easy_install命令去安装pip</li>
+<li>介绍一下easy_install与pip的区别，pip 是一个现代通用的 Python 包管理工具。提供了对 Python 包的查找、下载、安装、卸载的功能；pip会把插件及其相关的依赖一起安装，而easy_install只会安装制定的插件，pip继承easy_install，即安装pip之前必须有easy_install存在.</li>
+</ul>
+<p>好回到wxBot上面，我们需要如下依赖：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pip install requests</span><br><span class="line">pip install pyqrcode</span><br><span class="line">pip install pypng</span><br><span class="line">pip install Pillow</span><br></pre></td></tr></table></figure></p>
+<h4 id="三、启动项目"><a href="#三、启动项目" class="headerlink" title="三、启动项目"></a>三、启动项目</h4><h3 id="3-1-登录微信"><a href="#3-1-登录微信" class="headerlink" title="3.1 登录微信"></a>3.1 登录微信</h3><p>直接用 <code>python</code> 运行代码(如运行测试代码 <strong><em>test.py</em></strong> ):</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python test.py</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-登录微信"><a href="#3-2-登录微信" class="headerlink" title="3.2 登录微信"></a>3.2 登录微信</h3><p>程序运行之后，会在当前目录下生成二维码图片文件 <strong><em>qr.png</em></strong> 并自动打开，用微信扫描此二维码并按操作指示确认登录网页微信。</p>
+<p>如果运行在Linux下，还可以通过设置 <strong>WXBot</strong> 对象的 <code>conf[&#39;qr&#39;]</code> 为 <code>tty</code> 的方式直接在终端打印二维码(此方法只能在Linux终端下使用）</p>
+<h2 id="四、接口"><a href="#四、接口" class="headerlink" title="四、接口"></a>四、接口</h2><h3 id="4-1-handle-msg-all"><a href="#4-1-handle-msg-all" class="headerlink" title="4.1 handle_msg_all"></a>4.1 <code>handle_msg_all</code></h3><p><code>handle_msg_all</code> 函数的参数 <code>msg</code> 是代表一条消息的字典。字段的内容为：</p>
+<p>【注】字典是另一种可变容器模型，且可存储任意类型对象。<br>字典的每个键值(key=&gt;value)对用冒号(:)分割，每个对之间用逗号(,)分割，整个字典包括在花括号({})中 。</p>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>字段内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>msg_type_id</code></td>
+<td>整数，消息类型，具体解释可以查看 <strong>消息类型表</strong></td>
+</tr>
+<tr>
+<td><code>msg_id</code></td>
+<td>字符串，消息id</td>
+</tr>
+<tr>
+<td><code>content</code></td>
+<td>字典，消息内容，具体含有的字段请参考 <strong>消息类型表</strong> ，一般含有 <code>type</code>(数据类型)与 <code>data</code>(数据内容)字段，<code>type</code> 与 <code>data</code>的对应关系可以参考 <strong>数据类型表</strong></td>
+</tr>
+<tr>
+<td><code>user</code></td>
+<td>字典，消息来源，字典包含 <code>name</code>(发送者名称,如果是群则为群名称，如果为微信号，有备注则为备注名，否则为微信号或者群昵称)字段与 <code>id</code>(发送者id)字段，都是字符串</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-2-消息类型表"><a href="#4-2-消息类型表" class="headerlink" title="4.2 消息类型表"></a>4.2 消息类型表</h3><table>
+<thead>
+<tr>
+<th>类型号</th>
+<th>消息类型</th>
+<th><code>content</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>初始化消息，内部数据</td>
+<td>无意义，可以忽略</td>
+</tr>
+<tr>
+<td>1</td>
+<td>自己发送的消息</td>
+<td>无意义，可以忽略</td>
+</tr>
+<tr>
+<td>2</td>
+<td>文件消息</td>
+<td>字典，包含 <code>type</code> 与 <code>data</code> 字段</td>
+</tr>
+<tr>
+<td>3</td>
+<td>群消息</td>
+<td>字典， 包含 <code>user</code> (字典，包含 <code>id</code> 与 <code>name</code>字段，都是字符串，表示发送此消息的群用户)与 <code>type</code> 、 <code>data</code> 字段，红包消息只有 <code>type</code> 字段， 文本消息还有detail、desc字段， 参考 <strong>群文本消息</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td>联系人消息</td>
+<td>字典，包含 <code>type</code> 与 <code>data</code> 字段</td>
+</tr>
+<tr>
+<td>5</td>
+<td>公众号消息</td>
+<td>字典，包含 <code>type</code> 与 <code>data</code> 字段</td>
+</tr>
+<tr>
+<td>6</td>
+<td>特殊账号消息</td>
+<td>字典，包含 <code>type</code> 与 <code>data</code> 字段</td>
+</tr>
+<tr>
+<td>99</td>
+<td>未知账号消息</td>
+<td>无意义，可以忽略</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-3-数据类型表"><a href="#4-3-数据类型表" class="headerlink" title="4.3 数据类型表"></a>4.3 数据类型表</h3><table>
+<thead>
+<tr>
+<th><code>type</code></th>
+<th>数据类型</th>
+<th><code>data</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>文本</td>
+<td>字符串，表示文本消息的具体内容</td>
+</tr>
+<tr>
+<td>1</td>
+<td>地理位置</td>
+<td>字符串，表示地理位置</td>
+</tr>
+<tr>
+<td>3</td>
+<td>图片</td>
+<td>字符串，图片数据的url，HTTP POST请求此url可以得到jpg文件格式的数据</td>
+</tr>
+<tr>
+<td>4</td>
+<td>语音</td>
+<td>字符串，语音数据的url，HTTP POST请求此url可以得到mp3文件格式的数据</td>
+</tr>
+<tr>
+<td>5</td>
+<td>名片</td>
+<td>字典，包含 <code>nickname</code> (昵称)， <code>alias</code> (别名)，<code>province</code> (省份)，<code>city</code> (城市)， <code>gender</code> (性别)字段</td>
+</tr>
+<tr>
+<td>6</td>
+<td>动画</td>
+<td>字符串， 动画url, HTTP POST请求此url可以得到gif文件格式的数据</td>
+</tr>
+<tr>
+<td>7</td>
+<td>分享</td>
+<td>字典，包含 <code>type</code> (类型)，<code>title</code> (标题)，<code>desc</code> (描述)，<code>url</code> (链接)，<code>from</code> (源网站)字段</td>
+</tr>
+<tr>
+<td>8</td>
+<td>视频</td>
+<td>不可用</td>
+</tr>
+<tr>
+<td>9</td>
+<td>视频电话</td>
+<td>不可用</td>
+</tr>
+<tr>
+<td>10</td>
+<td>撤回消息</td>
+<td>不可用</td>
+</tr>
+<tr>
+<td>11</td>
+<td>空内容</td>
+<td>空字符串</td>
+</tr>
+<tr>
+<td>12</td>
+<td>红包</td>
+<td>不可用</td>
+</tr>
+<tr>
+<td>13</td>
+<td>小视频</td>
+<td>字符串，视频数据的url，HTTP POST请求此url可以得到mp4文件格式的数据</td>
+</tr>
+<tr>
+<td>99</td>
+<td>未知类型</td>
+<td>不可用</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-4-群文本消息"><a href="#4-4-群文本消息" class="headerlink" title="4.4 群文本消息"></a>4.4 群文本消息</h3><p>由于群文本消息中可能含有@信息，因此群文本消息的 <code>content</code> 字典除了含有 <code>type</code> 与 <code>data</code> 字段外，还含有 <code>detail</code> 与 <code>desc</code> 字段。</p>
+<p>各字段内容为：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>数据类型， 为0(文本)</td>
+</tr>
+<tr>
+<td><code>data</code></td>
+<td>字符串，消息内容，含有@信息</td>
+</tr>
+<tr>
+<td><code>desc</code></td>
+<td>字符串，删除了所有@信息</td>
+</tr>
+<tr>
+<td><code>detail</code></td>
+<td>数组，元素类型为含有 <code>type</code> 与 <code>value</code> 字段的字典， <code>type</code> 为字符串 <strong><em>str</em></strong> (表示元素为普通字符串，此时value为消息内容) 或 <strong><em>at</em></strong> (表示元素为@信息， 此时value为所@的用户名)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-5-WXBot对象属性"><a href="#4-5-WXBot对象属性" class="headerlink" title="4.5 WXBot对象属性"></a>4.5 WXBot对象属性</h3><p><strong>WXBot</strong> 对象在登录并初始化之后,含有以下的可用数据:</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>contact_list</code></td>
+<td>当前用户的微信联系人列表</td>
+</tr>
+<tr>
+<td><code>group_list</code></td>
+<td>当前用户的微信群列表</td>
+</tr>
+<tr>
+<td><code>public_list</code></td>
+<td>当前用户关注的公众号列表</td>
+</tr>
+<tr>
+<td><code>special_list</code></td>
+<td>特殊账号列表</td>
+</tr>
+<tr>
+<td><code>session</code></td>
+<td><strong>WXBot</strong> 与WEB微信服务器端交互所用的 <strong>Requests</strong> <code>Session</code> 对象</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-6-WXBot对象方法"><a href="#4-6-WXBot对象方法" class="headerlink" title="4.6 WXBot对象方法"></a>4.6 WXBot对象方法</h3><p><strong>WXBot</strong> 对象还含有一些可以利用的方法</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_icon(uid, gid)</code></td>
+<td>获取联系人或者群聊成员头像并保存到本地文件 <strong><em>img_[uid].jpg</em></strong>  , <code>uid</code> 为用户id, <code>gid</code> 为群id</td>
+</tr>
+<tr>
+<td><code>get_head_img(id)</code></td>
+<td>获取用户头像并保存到本地文件 <strong><em>img_[id].jpg</em></strong> ，<code>id</code> 为用户id(Web微信数据)</td>
+</tr>
+<tr>
+<td><code>get_msg_img(msgid)</code></td>
+<td>获取图像消息并保存到本地文件 <strong><em>img_[msgid].jpg</em></strong> , <code>msgid</code> 为消息id(Web微信数据)</td>
+</tr>
+<tr>
+<td><code>get_voice(msgid)</code></td>
+<td>获取语音消息并保存到本地文件 <strong><em>voice_[msgid].mp3</em></strong> , <code>msgid</code> 为消息id(Web微信数据)</td>
+</tr>
+<tr>
+<td><code>get_video(msgid)</code></td>
+<td>获取视频消息并保存到本地文件 <strong><em>video_[msgid].mp4</em></strong> , <code>msgid</code> 为消息id(Web微信数据)</td>
+</tr>
+<tr>
+<td><code>get_contact_name(uid)</code></td>
+<td>获取微信id对应的名称，返回一个可能包含 <code>remark_name</code> (备注名), <code>nickname</code> (昵称), <code>display_name</code> (群名称)的字典</td>
+</tr>
+<tr>
+<td><code>send_msg_by_uid(word, dst)</code></td>
+<td>向好友发送消息，<code>word</code> 为消息字符串，<code>dst</code> 为好友用户id(Web微信数据)</td>
+</tr>
+<tr>
+<td><code>send_img_msg_by_uid(fpath, dst)</code></td>
+<td>向好友发送图片消息，<code>fpath</code> 为本地图片文件路径，<code>dst</code> 为好友用户id(Web微信数据)</td>
+</tr>
+<tr>
+<td><code>send_file_msg_by_uid(fpath, dst)</code></td>
+<td>向好友发送文件消息，<code>fpath</code> 为本地文件路径，<code>dst</code> 为好友用户id(Web微信数据)</td>
+</tr>
+<tr>
+<td><code>send_msg_by_uid(word, dst)</code></td>
+<td>向好友发送消息，<code>word</code> 为消息字符串，<code>dst</code> 为好友用户id(Web微信数据)</td>
+</tr>
+<tr>
+<td><code>send_msg(name, word, isfile)</code></td>
+<td>向好友发送消息，<code>name</code> 为好友的备注名或者好友微信号， <code>isfile</code>为 <code>False</code> 时 <code>word</code> 为消息，<code>isfile</code> 为 <code>True</code> 时 <code>word</code> 为文件路径(此时向好友发送文件里的每一行)，此方法在有重名好友时会有问题，因此更推荐使用 <code>send_msg_by_uid(word, dst)</code></td>
+</tr>
+<tr>
+<td><code>is_contact(uid)</code></td>
+<td>判断id为 <code>uid</code> 的账号是否是本帐号的好友，返回 <code>True</code> (是)或 <code>False</code> (不是)</td>
+</tr>
+<tr>
+<td><code>is_public(uid)</code></td>
+<td>判断id为 <code>uid</code> 的账号是否是本帐号所关注的公众号，返回 <code>True</code> (是)或 <code>False</code> (不是)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="四、接入图灵机器人"><a href="#四、接入图灵机器人" class="headerlink" title="四、接入图灵机器人"></a>四、接入图灵机器人</h4><p><strong><em>bot.py</em></strong> 用 <strong><a href="http://www.tuling123.com/" target="_blank" rel="noopener">图灵机器人</a></strong> API 以及 <strong>wxBot</strong> 实现了一个自动回复机器人.</p>
+<p>此机器人会回复来自联系人的消息，以及群里@此账号的消息。</p>
+<p>并且本帐号可以通过发送 <em>退下</em> 、 <em>走开</em> 、 <em>关闭</em> 、 <em>关掉</em> 、 <em>休息</em> 、 <em>滚开</em> 来关闭机器人的自动回复。</p>
+<p>也可以通过发送 <em>出来</em> 、 <em>启动</em> 、 <em>工作</em> 来再次开启机器人的自动回复。</p>
+<p><strong><em>bot.py</em></strong> 的运行方法：</p>
+<ul>
+<li><p>要接入图灵机器人API时：</p>
+<ol>
+<li>在<a href="http://www.tuling123.com/" target="_blank" rel="noopener">图灵机器人官网</a>注册账号，申请图灵key: <a href="http://www.tuling123.com/html/doc/apikey.html" target="_blank" rel="noopener">图灵key申请地址</a></li>
+</ol>
+<p>【注】目前图灵机器人API是个人版只能使用100次</p>
+<ol start="2">
+<li><p>在 <strong><em>bot.py</em></strong> 文件所在目录下新建 <strong><em>conf.ini</em></strong> 文件，内容为:(key字段内容为申请到的图灵key)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[main]    </span><br><span class="line">key=1d2678900f734aa0a23734ace8aec5b1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行 <strong><em>bot.py</em></strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python bot.py</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>不接入图灵机器人API时(此时机器人对联系人消息以及群里@自己的消息统一回复 <em>知道了</em> )：</p>
+<ol>
+<li><p>运行 <strong><em>bot.py</em></strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python bot.py</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/杂七杂八/" rel="tag"># 杂七杂八</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/img.jpeg" alt="黑面宝宝">
+            
+              <p class="site-author-name" itemprop="name">黑面宝宝</p>
+              <p class="site-description motion-element" itemprop="description">我在努力，你不要喜欢上别人</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categrories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#从0开始搭建微信聊天机器人"><span class="nav-number">1.</span> <span class="nav-text">从0开始搭建微信聊天机器人</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#本教程使用wxBot框架实现个人微信机器人，wxBot框架是通过封装Web微信API实现的，可以自动处理你收到的微信消息，而且可以实现主动发送消息。"><span class="nav-number">1.0.1.</span> <span class="nav-text">本教程使用wxBot框架实现个人微信机器人，wxBot框架是通过封装Web微信API实现的，可以自动处理你收到的微信消息，而且可以实现主动发送消息。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一、下载项目"><span class="nav-number">1.0.2.</span> <span class="nav-text">一、下载项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、环境与依赖"><span class="nav-number">1.0.3.</span> <span class="nav-text">二、环境与依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、启动项目"><span class="nav-number">1.0.4.</span> <span class="nav-text">三、启动项目</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-登录微信"><span class="nav-number">1.1.</span> <span class="nav-text">3.1 登录微信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-登录微信"><span class="nav-number">1.2.</span> <span class="nav-text">3.2 登录微信</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#四、接口"><span class="nav-number">2.</span> <span class="nav-text">四、接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-handle-msg-all"><span class="nav-number">2.1.</span> <span class="nav-text">4.1 handle_msg_all</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-消息类型表"><span class="nav-number">2.2.</span> <span class="nav-text">4.2 消息类型表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-数据类型表"><span class="nav-number">2.3.</span> <span class="nav-text">4.3 数据类型表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-群文本消息"><span class="nav-number">2.4.</span> <span class="nav-text">4.4 群文本消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-WXBot对象属性"><span class="nav-number">2.5.</span> <span class="nav-text">4.5 WXBot对象属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-WXBot对象方法"><span class="nav-number">2.6.</span> <span class="nav-text">4.6 WXBot对象方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#四、接入图灵机器人"><span class="nav-number">2.6.1.</span> <span class="nav-text">四、接入图灵机器人</span></a></li></ol></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-snowflke-o"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">黑面宝宝</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '8797TxycjrkGtj0bgjX6zyIl-gzGzoHsz',
+        appKey: 'FPPp8orVxskuR5V1SIppklGG',
+        placeholder: '发表你的看法吧！',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Y0R7yYqeY1K9O2pzRCkbPmWR-gzGzoHsz", "qWSy3mp3emJuXahp2fkyQ1ky");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
