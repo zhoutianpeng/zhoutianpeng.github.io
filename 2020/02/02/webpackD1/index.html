@@ -79,16 +79,17 @@
 
 
 
-<meta name="description" content="单纯的菜鸡一枚">
-<meta property="og:type" content="website">
-<meta property="og:title" content="黑面宝宝的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="该系列是记录webpack的初学笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack学习笔记D1">
+<meta property="og:url" content="http://yoursite.com/2020/02/02/webpackD1/index.html">
 <meta property="og:site_name" content="黑面宝宝的博客">
-<meta property="og:description" content="单纯的菜鸡一枚">
+<meta property="og:description" content="该系列是记录webpack的初学笔记">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-02-02T14:19:40.564Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="黑面宝宝的博客">
-<meta name="twitter:description" content="单纯的菜鸡一枚">
+<meta name="twitter:title" content="webpack学习笔记D1">
+<meta name="twitter:description" content="该系列是记录webpack的初学笔记">
 
 
 
@@ -118,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/">
+  <link rel="canonical" href="http://yoursite.com/2020/02/02/webpackD1/">
 
 
 
 
 
-  <title>黑面宝宝的博客</title>
+  <title>webpack学习笔记D1 | 黑面宝宝的博客</title>
   
 
 
@@ -153,8 +154,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -247,9 +247,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -279,9 +279,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/02/02/webpackD1/" itemprop="url">webpack学习笔记D1</a></h1>
+          <h1 class="post-title" itemprop="name headline">webpack学习笔记D1</h1>
         
 
         <div class="post-meta">
@@ -396,205 +394,60 @@
       
 
       
-        
-          <p>该系列是记录webpack的初学笔记<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/02/02/webpackD1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </p></div>
-    
-    
-    
+        <p>该系列是记录webpack的初学笔记<br><a id="more"></a></p>
+<h1 id="第一节-webpack3-0-初识与安装"><a href="#第一节-webpack3-0-初识与安装" class="headerlink" title="第一节 webpack3.0 初识与安装"></a>第一节 webpack3.0 初识与安装</h1><blockquote>
+<p>该小节对webpack进行简介，并学习如何安装webpack</p>
+</blockquote>
+<h2 id="一、webpack的作用"><a href="#一、webpack的作用" class="headerlink" title="一、webpack的作用"></a>一、webpack的作用</h2><p>webpack在业界的流行主要是因为前端网页功能丰富，尤其是在SPA单页应用流行后。前端为了简化开发的复杂度出现了许多优秀的解决方案，比如模块化、TypeScript扩展语言、scss less等CSS预处理器，这些方式极大的提高了开发效率，但他们往往需要额外的处理才能够被浏览器识别比如ts代码转为js，手工处理是麻烦的，由此产生了了webpack等打包工具出现的需求。</p>
+<p>webpack可以看看作模块打包机，他做的事情简单来说是：分析你的项目结构–&gt;找到js模块以及其他不能被浏览器直接运行的扩展语言（ts、scss）–&gt;将其打包为合适格式供浏览器使用，同时还会做性能的优化</p>
+<h2 id="二、安装"><a href="#二、安装" class="headerlink" title="二、安装"></a>二、安装</h2><p><strong><em>全局安装</em></strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g webpack</span><br></pre></td></tr></table></figure></p>
+<p>官方不推荐全局安装webpack，因为全局安装会锁定webpack版本对于多项目使用不同版本webpack不友好</p>
+<p><strong><em>本地安装</em></strong></p>
+<p>创建本地空项目<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev webpack</span><br></pre></td></tr></table></figure>
+<p>–save是指该模块会进行本地安装该依赖会写入到package.json文件中</p>
+<p>–save-dev是指保存到开发环境，不进入生产环境</p>
+<p>webpack安装失败时需要检查三个方面</p>
+<ul>
+<li>node版本过低，6以下版本过低</li>
+<li>npm被阻挡，可以使用cnpm</li>
+<li>权限问题 sudo安装</li>
+</ul>
+<h1 id="第二节-快速创建demo"><a href="#第二节-快速创建demo" class="headerlink" title="第二节 快速创建demo"></a>第二节 快速创建demo</h1><blockquote>
+<p>该小节创建了一个最简单的demo，直观的学习webpack打包的过程</p>
+</blockquote>
+<p>webpack在项目中使用的时间较少，基本只有在项目初期会使用</p>
+<p>Q：如何把旧项目的webpack更新？</p>
+<ul>
+<li>打开package.json，找到webpack，修改对应的version</li>
+<li>删除工程的<code>node_modules</code>文件夹</li>
+<li>执行<code>npm i</code></li>
+</ul>
+<h2 id="一、建立基本的项目结构"><a href="#一、建立基本的项目结构" class="headerlink" title="一、建立基本的项目结构"></a>一、建立基本的项目结构</h2><p>打开上节创建的项目（这里使用vs code开发环境），在项目的根目录下创建两个目录src和dist，dist目录用于存放生产环境的代码</p>
+<p>demo如下</p>
+<ul>
+<li><p>在dist目录中创建index.html,简单的写一些网页，并引入一个名为<code>bundle.js</code>的脚本</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span> = <span class="string">"title"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span> =<span class="string">"./bundle.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在src目录下创建一个entry.js文件实现一些简单功能</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.getElementById(<span class="string">"title"</span>).innerHTML=<span class="string">"Hello webPack"</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="二、使用webpack进行打包"><a href="#二、使用webpack进行打包" class="headerlink" title="二、使用webpack进行打包"></a>二、使用webpack进行打包</h2><p>打开terminal输入命令<code>webpack src/entry.js dist/bundle.js</code>，即将entry.js打包到dist目录下bundle.js</p>
+<p>使用live-server创建一个临时服务，查看效果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g live-server //安装live-server</span><br><span class="line">live-server //启动临时服务</span><br></pre></td></tr></table></figure>
+<p>实际操作demo遇到了如下问题</p>
+<ol>
+<li><code>bash: webpack: command not found</code>，打包时，提示webpack not found，是因为直接输入<code>webpack src/entry.js dist/bundle.js</code>命令相当于在搜寻全局的webpack，若使用npm run 自定义命令，则是在项目的模块中搜寻webpack。该demo使用是本地安装的webpack，这里没有创建npm run的自定义命令解决，而是偷懒使用了<code>node_modules/.bin/webpack 后面接参数选项</code>的方式避开了问题。</li>
+</ol>
+<h1 id="第三节-webpack入口和出口"><a href="#第三节-webpack入口和出口" class="headerlink" title="第三节 webpack入口和出口"></a>第三节 webpack入口和出口</h1><blockquote>
+<p>该小节创建并编写了webpack的配置文件，并配置了多入口多出口的情况</p>
+</blockquote>
+<h2 id="一、使用webpack-config-js结构"><a href="#一、使用webpack-config-js结构" class="headerlink" title="一、使用webpack.config.js结构"></a>一、使用webpack.config.js结构</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports=&#123;</span><br><span class="line">    entry: &#123;&#125;,</span><br><span class="line">    output: &#123;&#125;,</span><br><span class="line">    <span class="built_in">module</span>: &#123;&#125;, <span class="comment">//打包css、图片转换、图片压缩等配置</span></span><br><span class="line">    plugins: [], <span class="comment">//</span></span><br><span class="line">    devServer:&#123;&#125; <span class="comment">//配置开发服务</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="二、entry选项（入口配置）"><a href="#二、entry选项（入口配置）" class="headerlink" title="二、entry选项（入口配置）"></a>二、entry选项（入口配置）</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">entry: &#123;</span><br><span class="line">      entry: <span class="string">'./src/entry.js'</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="三、output选项（出口配置）"><a href="#三、output选项（出口配置）" class="headerlink" title="三、output选项（出口配置）"></a>三、output选项（出口配置）</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">output: &#123;</span><br><span class="line">    path: path.resolve(__dirname,<span class="string">'dist'</span>),</span><br><span class="line">    filename: <span class="string">'bundle.js'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="四、多入口、多出口配置"><a href="#四、多入口、多出口配置" class="headerlink" title="四、多入口、多出口配置"></a>四、多入口、多出口配置</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports=&#123;</span><br><span class="line">    entry: &#123;</span><br><span class="line">        entry: <span class="string">'./src/entry.js'</span>,</span><br><span class="line">        entry2: <span class="string">'./src/entry2.js'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.resolve(__dirname,<span class="string">'dist'</span>),</span><br><span class="line">        filename: <span class="string">'[name].js'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="built_in">module</span>: &#123;&#125;, </span><br><span class="line">    plugins: [], </span><br><span class="line">    devServer:&#123;&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/06/vue1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="黑面宝宝">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/uploads/img.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="黑面宝宝的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/01/06/vue1/" itemprop="url">vue入门笔记1-从0开始搭建vue开发环境</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-06T00:03:53+08:00">
-                2020-01-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vue/" itemprop="url" rel="index">
-                    <span itemprop="name">vue</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nodejs/" itemprop="url" rel="index">
-                    <span itemprop="name">nodejs</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/01/06/vue1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/01/06/vue1/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2020/01/06/vue1/" class="leancloud_visitors" data-flag-title="vue入门笔记1-从0开始搭建vue开发环境">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="从0开始搭建vue开发环境"><a href="#从0开始搭建vue开发环境" class="headerlink" title="从0开始搭建vue开发环境"></a>从0开始搭建vue开发环境</h1><p>该笔记记录在mac平台下搭建vue的开发环境，其中node是使用nvm安装管理（非必须）。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/01/06/vue1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
       
     </div>
     
@@ -611,12 +464,28 @@
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/06/vue1/" rel="next" title="vue入门笔记1-从0开始搭建vue开发环境">
+                <i class="fa fa-chevron-left"></i> vue入门笔记1-从0开始搭建vue开发环境
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -626,188 +495,11 @@
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/08/搭建微信机器人/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="黑面宝宝">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/uploads/img.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="黑面宝宝的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/08/搭建微信机器人/" itemprop="url">搭建微信机器人</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-08T17:06:07+08:00">
-                2019-06-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/自然语言处理/" itemprop="url" rel="index">
-                    <span itemprop="name">自然语言处理</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/06/08/搭建微信机器人/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/06/08/搭建微信机器人/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/06/08/搭建微信机器人/" class="leancloud_visitors" data-flag-title="搭建微信机器人">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="从0开始搭建微信聊天机器人"><a href="#从0开始搭建微信聊天机器人" class="headerlink" title="从0开始搭建微信聊天机器人"></a>从0开始搭建微信聊天机器人</h2><h4 id="本教程使用wxBot框架实现个人微信机器人，wxBot框架是通过封装Web微信API实现的，可以自动处理你收到的微信消息，而且可以实现主动发送消息。"><a href="#本教程使用wxBot框架实现个人微信机器人，wxBot框架是通过封装Web微信API实现的，可以自动处理你收到的微信消息，而且可以实现主动发送消息。" class="headerlink" title="本教程使用wxBot框架实现个人微信机器人，wxBot框架是通过封装Web微信API实现的，可以自动处理你收到的微信消息，而且可以实现主动发送消息。"></a>本教程使用wxBot框架实现个人微信机器人，wxBot框架是通过封装Web微信API实现的，可以自动处理你收到的微信消息，而且可以实现主动发送消息。</h4>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/06/08/搭建微信机器人/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
 
 
           </div>
@@ -815,6 +507,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -835,8 +534,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -914,6 +622,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一节-webpack3-0-初识与安装"><span class="nav-number">1.</span> <span class="nav-text">第一节 webpack3.0 初识与安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、webpack的作用"><span class="nav-number">1.1.</span> <span class="nav-text">一、webpack的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、安装"><span class="nav-number">1.2.</span> <span class="nav-text">二、安装</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二节-快速创建demo"><span class="nav-number">2.</span> <span class="nav-text">第二节 快速创建demo</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、建立基本的项目结构"><span class="nav-number">2.1.</span> <span class="nav-text">一、建立基本的项目结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、使用webpack进行打包"><span class="nav-number">2.2.</span> <span class="nav-text">二、使用webpack进行打包</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第三节-webpack入口和出口"><span class="nav-number">3.</span> <span class="nav-text">第三节 webpack入口和出口</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、使用webpack-config-js结构"><span class="nav-number">3.1.</span> <span class="nav-text">一、使用webpack.config.js结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、entry选项（入口配置）"><span class="nav-number">3.2.</span> <span class="nav-text">二、entry选项（入口配置）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、output选项（出口配置）"><span class="nav-number">3.3.</span> <span class="nav-text">三、output选项（出口配置）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、多入口、多出口配置"><span class="nav-number">3.4.</span> <span class="nav-text">四、多入口、多出口配置</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1050,6 +774,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
