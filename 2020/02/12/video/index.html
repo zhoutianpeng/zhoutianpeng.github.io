@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="杂七杂八,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="从0开始搭建vue开发环境该笔记记录在mac平台下搭建vue的开发环境，其中node是使用nvm安装管理（非必须）。">
-<meta name="keywords" content="杂七杂八">
+<meta name="description" content="前端之video踩坑笔记前言这一切都要从一个简单的example讲起，就是这个PIXI播放视频，简单来看这就是在页面中播放了一个视频，其本质并不是流媒体形式直接解码播放视频，这个稍后在聊。这篇博文主要是笔者分享了作为前端小白在开发视频相关需求遇到的各种问题，如果需要干货总结，跳过笔者的废话请戳这里。 小时候，播放视频是一个小小的需求，我在这边，W3C在那边。长大后，播放视频是一个兼容性挑战，我这这">
 <meta property="og:type" content="article">
-<meta property="og:title" content="vue入门笔记1-从0开始搭建vue开发环境">
-<meta property="og:url" content="http://yoursite.com/2020/01/06/vue1/index.html">
+<meta property="og:title" content="浏览器播放video踩坑">
+<meta property="og:url" content="http://yoursite.com/2020/02/12/video/index.html">
 <meta property="og:site_name" content="黑面宝宝的博客">
-<meta property="og:description" content="从0开始搭建vue开发环境该笔记记录在mac平台下搭建vue的开发环境，其中node是使用nvm安装管理（非必须）。">
+<meta property="og:description" content="前端之video踩坑笔记前言这一切都要从一个简单的example讲起，就是这个PIXI播放视频，简单来看这就是在页面中播放了一个视频，其本质并不是流媒体形式直接解码播放视频，这个稍后在聊。这篇博文主要是笔者分享了作为前端小白在开发视频相关需求遇到的各种问题，如果需要干货总结，跳过笔者的废话请戳这里。 小时候，播放视频是一个小小的需求，我在这边，W3C在那边。长大后，播放视频是一个兼容性挑战，我这这">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-01-06T03:08:27.527Z">
+<meta property="og:updated_time" content="2020-02-12T15:06:58.693Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="vue入门笔记1-从0开始搭建vue开发环境">
-<meta name="twitter:description" content="从0开始搭建vue开发环境该笔记记录在mac平台下搭建vue的开发环境，其中node是使用nvm安装管理（非必须）。">
+<meta name="twitter:title" content="浏览器播放video踩坑">
+<meta name="twitter:description" content="前端之video踩坑笔记前言这一切都要从一个简单的example讲起，就是这个PIXI播放视频，简单来看这就是在页面中播放了一个视频，其本质并不是流媒体形式直接解码播放视频，这个稍后在聊。这篇博文主要是笔者分享了作为前端小白在开发视频相关需求遇到的各种问题，如果需要干货总结，跳过笔者的废话请戳这里。 小时候，播放视频是一个小小的需求，我在这边，W3C在那边。长大后，播放视频是一个兼容性挑战，我这这">
 
 
 
@@ -120,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/01/06/vue1/">
+  <link rel="canonical" href="http://yoursite.com/2020/02/12/video/">
 
 
 
 
 
-  <title>vue入门笔记1-从0开始搭建vue开发环境 | 黑面宝宝的博客</title>
+  <title>浏览器播放video踩坑 | 黑面宝宝的博客</title>
   
 
 
@@ -263,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/06/vue1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/12/video/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="黑面宝宝">
@@ -280,7 +279,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">vue入门笔记1-从0开始搭建vue开发环境</h1>
+          <h1 class="post-title" itemprop="name headline">浏览器播放video踩坑</h1>
         
 
         <div class="post-meta">
@@ -292,8 +291,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-06T00:03:53+08:00">
-                2020-01-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-12T23:02:53+08:00">
+                2020-02-12
               </time>
             
 
@@ -326,8 +325,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vue/" itemprop="url" rel="index">
-                    <span itemprop="name">vue</span>
+                  <a href="/categories/video/" itemprop="url" rel="index">
+                    <span itemprop="name">video</span>
                   </a>
                 </span>
 
@@ -337,8 +336,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nodejs/" itemprop="url" rel="index">
-                    <span itemprop="name">nodejs</span>
+                  <a href="/categories/pixiJS/" itemprop="url" rel="index">
+                    <span itemprop="name">pixiJS</span>
                   </a>
                 </span>
 
@@ -355,8 +354,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/01/06/vue1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/01/06/vue1/" itemprop="commentCount"></span>
+                <a href="/2020/02/12/video/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/02/12/video/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -364,7 +363,7 @@
 
           
           
-             <span id="/2020/01/06/vue1/" class="leancloud_visitors" data-flag-title="vue入门笔记1-从0开始搭建vue开发环境">
+             <span id="/2020/02/12/video/" class="leancloud_visitors" data-flag-title="浏览器播放video踩坑">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -395,78 +394,48 @@
       
 
       
-        <h1 id="从0开始搭建vue开发环境"><a href="#从0开始搭建vue开发环境" class="headerlink" title="从0开始搭建vue开发环境"></a>从0开始搭建vue开发环境</h1><p>该笔记记录在mac平台下搭建vue的开发环境，其中node是使用nvm安装管理（非必须）。</p>
-<a id="more"></a>
-<h2 id="一、安装nvm"><a href="#一、安装nvm" class="headerlink" title="一、安装nvm"></a>一、安装nvm</h2><p>进入nvm的github仓库<a href="https://github.com/nvm-sh/nvm" target="_blank" rel="noopener">nvm Github地址</a>，详细安装过程可以参考README，遇到的问题基本在issues中可以找到解决方案，这里简单记录下过程：</p>
-<p>执行nvm安装脚本:<br><code>curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash</code></p>
-<p>编辑bash_profile文件，添加如下配置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export NVM_DIR=&quot;$([ -z &quot;$&#123;XDG_CONFIG_HOME-&#125;&quot; ] &amp;&amp; printf %s &quot;$&#123;HOME&#125;/.nvm&quot; || printf %s &quot;$&#123;XDG_CONFIG_HOME&#125;/nvm&quot;)&quot;</span><br><span class="line">[ -s &quot;$NVM_DIR/nvm.sh&quot; ] &amp;&amp; \. &quot;$NVM_DIR/nvm.sh&quot; # This loads nvm</span><br></pre></td></tr></table></figure></p>
-<p>新建terminal，输入<code>nvm --version</code>若输出版本号则安装nvm成功</p>
-<h2 id="二、安装node"><a href="#二、安装node" class="headerlink" title="二、安装node"></a>二、安装node</h2><p>这里使用nvm安装管理node版本</p>
-<p><code>nvm install v8.16.0</code></p>
-<h2 id="三、安装-amp-介绍vue工程使用的模块"><a href="#三、安装-amp-介绍vue工程使用的模块" class="headerlink" title="三、安装&amp;介绍vue工程使用的模块"></a>三、安装&amp;介绍vue工程使用的模块</h2><ol>
-<li><p>webpackage</p>
-<ul>
-<li>工程打包模块，webpack会有单独的笔记详细记录使用</li>
-<li><code>npm install webpack -g</code></li>
-</ul>
-</li>
-<li><p>vue-cli</p>
-<ul>
-<li>项目的构筑工具，它会自动为我们下载开发需要的一些环境，并生成项目的目录结构</li>
-<li>vue-cli的2.x与3.x版本差异较大，该工程使用的是vue-cli3.x</li>
-<li>vue-cli 2.x的使用<ul>
-<li>安装<code>npm install vue-cli -g</code></li>
-<li>创建项目 <code>vue init webpack 项目名</code></li>
-</ul>
-</li>
-<li>vue-cli 3.x的使用<ul>
-<li>安装<code>npm install @vue/cli@3.4.0 -g</code></li>
-<li>创建项目 <code>vue create 项目名</code></li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<p>vue-cli2.x与3.x的差别从目录结构上看主要是3.x移除了<code>build</code>、<code>config</code>目录，大部分配置集成到了<code>vue.config.js</code>里面了，使用vue-cli3.x版本创建工程后若没有<code>vue.config.js</code>文件需要手动在工程的根目录下创建，<code>vue.config.js</code>文件负责配置常用的输出路径、根目录、预处理、devServer配置、pwa、dll、第三方插件；</p>
-<p>目前vue-cli已经更新到了4.x, <code>npm install</code>模块时若不指定@版本号，npm默认会安装最新稳定的版本；</p>
-<ol start="3">
-<li><p>vue-router</p>
-<ul>
-<li>路由是单页应用的核心插件</li>
-<li><code>npm install vue-router</code></li>
-</ul>
-</li>
-<li><p>vuex</p>
-<ul>
-<li>状态管理库，理解为全局数据集中地</li>
-<li>小项目不推荐使用，使用bus总线机制处理就可以</li>
-<li><code>npm install vuex</code></li>
-</ul>
-</li>
-</ol>
-<ol start="5">
-<li>axios（vue-resource 官方以及停止维护）<ul>
-<li>使用Promise封装的ajax</li>
-<li><code>npm install axios</code></li>
-</ul>
-</li>
-</ol>
-<ol start="6">
-<li>cube-ui<ul>
-<li>滴滴开发的移动端UI库</li>
-<li>对于vue-cli3.x以上版本在创建完工程后使用如下命令安装cube-ui<br>  <code>vue add cube-ui</code></li>
-</ul>
-</li>
-</ol>
-<h2 id="四、初始化项目"><a href="#四、初始化项目" class="headerlink" title="四、初始化项目"></a>四、初始化项目</h2><ul>
-<li><p><code>vue create 项目名</code></p>
-</li>
-<li><p>在根目录下创建<code>vue.config.js</code>，可以根据需要添加如下配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    configureWebpack : &#123;</span><br><span class="line">        devServer : &#123;</span><br><span class="line">            port : <span class="number">8089</span>, </span><br><span class="line">            open : <span class="literal">true</span>, <span class="comment">//启动项目后，自动在浏览器打开页面</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动项目<br>  <code>npm run serve</code></p>
-</li>
-</ul>
+        <h1 id="前端之video踩坑笔记"><a href="#前端之video踩坑笔记" class="headerlink" title="前端之video踩坑笔记"></a>前端之video踩坑笔记</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这一切都要从一个简单的example讲起，就是这个<a href="https://pixijs.io/examples/#/sprite/video.js" target="_blank" rel="noopener">PIXI播放视频</a>，简单来看这就是在页面中播放了一个视频，其本质并不是流媒体形式直接解码播放视频，这个稍后在聊。这篇博文主要是笔者分享了作为前端小白在开发视频相关需求遇到的各种问题，如果需要干货总结，跳过笔者的废话<a href="##summry">请戳这里</a>。</p>
+<h3 id="小时候，播放视频是一个小小的需求，我在这边，W3C在那边。"><a href="#小时候，播放视频是一个小小的需求，我在这边，W3C在那边。" class="headerlink" title="小时候，播放视频是一个小小的需求，我在这边，W3C在那边。"></a>小时候，播放视频是一个小小的需求，我在这边，W3C在那边。</h3><h3 id="长大后，播放视频是一个兼容性挑战，我这这边，三观在那边。"><a href="#长大后，播放视频是一个兼容性挑战，我这这边，三观在那边。" class="headerlink" title="长大后，播放视频是一个兼容性挑战，我这这边，三观在那边。"></a>长大后，播放视频是一个兼容性挑战，我这这边，三观在那边。</h3><p>令我比较自闭的是，作为浏览器咱能不能稍微重视一下W3C的标准，同一个接口在不同浏览器表现的五花八门，同样是程序员自己人何苦为难自己人。每次在一个新的平台测试代码，效果永远令你先惊喜再自闭，逛各路论坛博客看到issue中使用者与开发者的博弈像极了你在和产品经理极力狡辩这个需求做不了时的情形。</p>
+<h2 id="pixiJS播放video"><a href="#pixiJS播放video" class="headerlink" title="pixiJS播放video"></a>pixiJS播放video</h2><h3 id="一、pixiJS简介"><a href="#一、pixiJS简介" class="headerlink" title="一、pixiJS简介"></a>一、pixiJS简介</h3><p>最开始了解开发内容时<del>觉得很简单</del>这辈子我再不会有这种错觉了，就是使用pixiJS播放video的需求，pixiJS是一个浏览器端的高性能2D渲染引擎，本质上是对webGL进行了封装，可以让开发者快速开发出交互式图形、动画、游戏等应用。</p>
+<p>第一次逛pixiJS的官网时，翻阅examples其实并没有看到特别多有意思的demo，尤其是相比于threeJS的examples，个人理解原因在于这两个项目的定位并不同，不是直观的2D与3D的区别，pixiJS的定位是<code>The HTML5 Creation Engine</code>，而threeJS的定位则是<code>JavaScript 3D library</code>，作为渲染引擎pixiJS更加注重渲染的高效性，pixi通过一个清晰的树状结构表达了显示元素之间的关系，并在底层针对webGL渲染顺序方式进行了优化，因此也能够找到许多使用pixi开发的优秀应用。</p>
+<h3 id="二、视频demo跑不起来？"><a href="#二、视频demo跑不起来？" class="headerlink" title="二、视频demo跑不起来？"></a>二、视频demo跑不起来？</h3><p>回到需求的开发使用pixiJS播放视频，准确的说是使用pixiJS将视频作为材质texture赋给spirit从而实现了视频的播放，官方提供了可展示的example以及文档，就是前言中引用的链接，所以<del>复制粘贴</del>实现起来还是比较容易的，但运行时遇到了第一个问题就是demo本地跑不起来，经过排查确定是只有chrome浏览器运行代码会报错，而safair和火狐运行没有问题，在chrome中会抛出如下错误：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WebGL: INVALID_VALUE: tex(Sub)Image2D: video visible size is empty</span><br><span class="line">[.WebGL-0x7f861a496800]GL ERROR :GL_INVALID_OPERATION : glTexSubImage2D: level 0 does not exist</span><br></pre></td></tr></table></figure></p>
+<p>查询了issue发现也有开发者遇到了相同的问题，而pixi官方也是很给力的把这个BUG修复了，需要升级为pixi 5.x版本就可以解决该问题。</p>
+<p>这是git上中关于该BUG的issue，可以认为出现问题的原因是chrome的版本升级</p>
+<p><a href="https://github.com/pixijs/pixi.js/issues/5996" target="_blank" rel="noopener">https://github.com/pixijs/pixi.js/issues/5996</a></p>
+<p><a href="https://github.com/pixijs/pixi.js/pull/6088" target="_blank" rel="noopener">https://github.com/pixijs/pixi.js/pull/6088</a></p>
+<h3 id="三、视频跑起来太卡？"><a href="#三、视频跑起来太卡？" class="headerlink" title="三、视频跑起来太卡？"></a>三、视频跑起来太卡？</h3><p>跑起demo仅仅是第一关，接下来磨人的问题才慢慢出现，首先也是比较棘手的问题就是这个视频播放太卡了，在PC端并没有出现明显的问题，但是在移动端就彻底暴露了，运行的效果用眨眼补帧也救不了，仿佛是在看ppt，看来是需要优化的时候了，等等～我好像也没怎么写代码呀？关于pixiJS的video介绍的资料少得可怜，只能自己动手丰衣足食了，大致的看了下pixiJS的源代码，简单的梳理了一下pixi实现视频材质的过程：pixiJS创建一个<code>video</code>元素用于加载视频，每次渲染画面时调用<code>update()</code>渲染当前帧的材质，<code>update()</code>内部做的事情是利用<code>video</code>解码出当前的视频帧然后将生成texture，<code>update()</code>是实时将视频帧传递给GPU渲染出texture，函数本身比较慢并且对GPU有所依赖，怀疑这里是瓶颈。</p>
+<p>同时也查询了论坛发现了也有开发者人遇到相似的问题，在移动端进行视频渲染会卡顿</p>
+<blockquote>
+<p>Uploading a new texture to the GPU for each frame sounds like a recipe for lag on mobile. Isn’t it? (although it makes sense that’s what you have to do in order to display a video)</p>
+<p>That’s precisely the reason we use prepare for images before displaying them, or do videos have a different solution behind the hood that take care of making things smooth?</p>
+</blockquote>
+<p>论坛中有人提议是否可以提前生成视频材质而不是实时的渲染材质，来避免移动端的计算行能不足导致的卡顿，好在pixiJS的Moderator出来回了这个帖子帮助我们死了这个心</p>
+<blockquote>
+<blockquote>
+<p>I guess my question is - was PIXI video developed with cordova in mind? Is it supposed to work smoothly on cordova?</p>
+</blockquote>
+<p>I think you are misunderstanding. This is not a limitation of PixiJS. This is how WebGL works. We have to upload each frame to render it, there is no other option. Either that works for your use case or it doesn’t, but either way there isn’t anything we can do about it.</p>
+<p>Specifically answering your question: No, PixiJS was not built specifically to work on cordova. We built it to work in the browser, on mobile and desktop. However, we do try to support Ejecta, CocoonJS, Cordova, et al.</p>
+</blockquote>
+<p>从中我们得到信息是提前渲染目前应该无法实现，webGL播放video的方式就是实时的渲染出每一个视频帧材质，即使尝试降低视频的fps以及质量也未获得明显的效果。至此决定换一种方式来播放视频。</p>
+<p>这里放一下相关资料的链接<br><code>https://www.html5gamedevs.com/topic/32147-prepare-and-destroy-texture-from-video/</code></p>
+<p>未完待更🐤🐤🐤</p>
+<!--
+## canvas渲染video
+
+### 一、实验demo
+
+
+
+pixiJS工程中有一个集中加载资源的loader，这个loader不是pixi自己实现的而是使用了开源项目 https://github.com/englercj/resource-loader ，pixi根据自己的需求写了一些中间件挂载到loader中，这些中间件主要是作用是处理图片类型的资源，我记得好想是在load完图片资源后直接处理为texture，对于视频资源loader的做法是创建一个video元素将其src属性设置为资源的URL，
+
+
+
+在确认逻辑没有错误后我与官方的example比较了一下，发现是因为pixi版本不同，example的代码使用pixi5以前的版本是跑不起来的，本地安装的是pixi4
+
+找到问题的原因但是还不知道为什么，查阅了资料以及pixi项目github的issue后
+-->
+<h2 id="开发总结"><a href="#开发总结" class="headerlink" title="开发总结"></a><span id="summry">开发总结</span></h2><p>我还没写</p>
 
       
     </div>
@@ -482,12 +451,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/杂七杂八/" rel="tag"># 杂七杂八</a>
-          
-        </div>
-      
 
       
       
@@ -497,8 +460,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/08/搭建微信机器人/" rel="next" title="搭建微信机器人">
-                <i class="fa fa-chevron-left"></i> 搭建微信机器人
+              <a href="/2020/02/08/webpackD5/" rel="next" title="webpack学习笔记D5">
+                <i class="fa fa-chevron-left"></i> webpack学习笔记D5
               </a>
             
           </div>
@@ -506,10 +469,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/02/02/webpackD1/" rel="prev" title="webpack学习笔记D1">
-                webpack学习笔记D1 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -662,7 +621,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#从0开始搭建vue开发环境"><span class="nav-number">1.</span> <span class="nav-text">从0开始搭建vue开发环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、安装nvm"><span class="nav-number">1.1.</span> <span class="nav-text">一、安装nvm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、安装node"><span class="nav-number">1.2.</span> <span class="nav-text">二、安装node</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、安装-amp-介绍vue工程使用的模块"><span class="nav-number">1.3.</span> <span class="nav-text">三、安装&amp;介绍vue工程使用的模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、初始化项目"><span class="nav-number">1.4.</span> <span class="nav-text">四、初始化项目</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前端之video踩坑笔记"><span class="nav-number">1.</span> <span class="nav-text">前端之video踩坑笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#小时候，播放视频是一个小小的需求，我在这边，W3C在那边。"><span class="nav-number">1.1.1.</span> <span class="nav-text">小时候，播放视频是一个小小的需求，我在这边，W3C在那边。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#长大后，播放视频是一个兼容性挑战，我这这边，三观在那边。"><span class="nav-number">1.1.2.</span> <span class="nav-text">长大后，播放视频是一个兼容性挑战，我这这边，三观在那边。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pixiJS播放video"><span class="nav-number">1.2.</span> <span class="nav-text">pixiJS播放video</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、pixiJS简介"><span class="nav-number">1.2.1.</span> <span class="nav-text">一、pixiJS简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、视频demo跑不起来？"><span class="nav-number">1.2.2.</span> <span class="nav-text">二、视频demo跑不起来？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、视频跑起来太卡？"><span class="nav-number">1.2.3.</span> <span class="nav-text">三、视频跑起来太卡？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发总结"><span class="nav-number">1.3.</span> <span class="nav-text">开发总结</span></a></li></ol></li></ol></div>
             
 
           </div>
