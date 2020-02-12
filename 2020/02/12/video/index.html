@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="前端之video踩坑笔记前言这一切都要从一个简单的example讲起，就是这个PIXI播放视频，简单来看这就是在页面中播放了一个视频，其本质并不是流媒体形式直接解码播放视频，这个稍后在聊。这篇博文主要是笔者分享了作为前端小白在开发视频相关需求遇到的各种问题，如果需要干货总结，跳过笔者的废话请戳这里。 小时候，播放视频是一个小小的需求，我在这边，W3C在那边。长大后，播放视频是一个兼容性挑战，我这这">
+<meta name="description" content="前言这一切都要从一个简单的example讲起，就是这个PIXI播放视频，简单来看这就是在页面中播放了一个视频，其本质并不是流媒体形式直接解码播放视频，这个稍后在聊。这篇博文主要是笔者分享了作为前端小白在开发视频相关需求遇到的各种问题，如果需要干货总结，跳过笔者的废话请戳这里。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浏览器播放video踩坑">
 <meta property="og:url" content="http://yoursite.com/2020/02/12/video/index.html">
 <meta property="og:site_name" content="黑面宝宝的博客">
-<meta property="og:description" content="前端之video踩坑笔记前言这一切都要从一个简单的example讲起，就是这个PIXI播放视频，简单来看这就是在页面中播放了一个视频，其本质并不是流媒体形式直接解码播放视频，这个稍后在聊。这篇博文主要是笔者分享了作为前端小白在开发视频相关需求遇到的各种问题，如果需要干货总结，跳过笔者的废话请戳这里。 小时候，播放视频是一个小小的需求，我在这边，W3C在那边。长大后，播放视频是一个兼容性挑战，我这这">
+<meta property="og:description" content="前言这一切都要从一个简单的example讲起，就是这个PIXI播放视频，简单来看这就是在页面中播放了一个视频，其本质并不是流媒体形式直接解码播放视频，这个稍后在聊。这篇博文主要是笔者分享了作为前端小白在开发视频相关需求遇到的各种问题，如果需要干货总结，跳过笔者的废话请戳这里。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-02-12T15:06:58.693Z">
+<meta property="og:updated_time" content="2020-02-12T15:09:10.790Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浏览器播放video踩坑">
-<meta name="twitter:description" content="前端之video踩坑笔记前言这一切都要从一个简单的example讲起，就是这个PIXI播放视频，简单来看这就是在页面中播放了一个视频，其本质并不是流媒体形式直接解码播放视频，这个稍后在聊。这篇博文主要是笔者分享了作为前端小白在开发视频相关需求遇到的各种问题，如果需要干货总结，跳过笔者的废话请戳这里。 小时候，播放视频是一个小小的需求，我在这边，W3C在那边。长大后，播放视频是一个兼容性挑战，我这这">
+<meta name="twitter:description" content="前言这一切都要从一个简单的example讲起，就是这个PIXI播放视频，简单来看这就是在页面中播放了一个视频，其本质并不是流媒体形式直接解码播放视频，这个稍后在聊。这篇博文主要是笔者分享了作为前端小白在开发视频相关需求遇到的各种问题，如果需要干货总结，跳过笔者的废话请戳这里。">
 
 
 
@@ -394,7 +394,8 @@
       
 
       
-        <h1 id="前端之video踩坑笔记"><a href="#前端之video踩坑笔记" class="headerlink" title="前端之video踩坑笔记"></a>前端之video踩坑笔记</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这一切都要从一个简单的example讲起，就是这个<a href="https://pixijs.io/examples/#/sprite/video.js" target="_blank" rel="noopener">PIXI播放视频</a>，简单来看这就是在页面中播放了一个视频，其本质并不是流媒体形式直接解码播放视频，这个稍后在聊。这篇博文主要是笔者分享了作为前端小白在开发视频相关需求遇到的各种问题，如果需要干货总结，跳过笔者的废话<a href="##summry">请戳这里</a>。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这一切都要从一个简单的example讲起，就是这个<a href="https://pixijs.io/examples/#/sprite/video.js" target="_blank" rel="noopener">PIXI播放视频</a>，简单来看这就是在页面中播放了一个视频，其本质并不是流媒体形式直接解码播放视频，这个稍后在聊。这篇博文主要是笔者分享了作为前端小白在开发视频相关需求遇到的各种问题，如果需要干货总结，跳过笔者的废话<a href="##summry">请戳这里</a>。</p>
+<a id="more"></a>
 <h3 id="小时候，播放视频是一个小小的需求，我在这边，W3C在那边。"><a href="#小时候，播放视频是一个小小的需求，我在这边，W3C在那边。" class="headerlink" title="小时候，播放视频是一个小小的需求，我在这边，W3C在那边。"></a>小时候，播放视频是一个小小的需求，我在这边，W3C在那边。</h3><h3 id="长大后，播放视频是一个兼容性挑战，我这这边，三观在那边。"><a href="#长大后，播放视频是一个兼容性挑战，我这这边，三观在那边。" class="headerlink" title="长大后，播放视频是一个兼容性挑战，我这这边，三观在那边。"></a>长大后，播放视频是一个兼容性挑战，我这这边，三观在那边。</h3><p>令我比较自闭的是，作为浏览器咱能不能稍微重视一下W3C的标准，同一个接口在不同浏览器表现的五花八门，同样是程序员自己人何苦为难自己人。每次在一个新的平台测试代码，效果永远令你先惊喜再自闭，逛各路论坛博客看到issue中使用者与开发者的博弈像极了你在和产品经理极力狡辩这个需求做不了时的情形。</p>
 <h2 id="pixiJS播放video"><a href="#pixiJS播放video" class="headerlink" title="pixiJS播放video"></a>pixiJS播放video</h2><h3 id="一、pixiJS简介"><a href="#一、pixiJS简介" class="headerlink" title="一、pixiJS简介"></a>一、pixiJS简介</h3><p>最开始了解开发内容时<del>觉得很简单</del>这辈子我再不会有这种错觉了，就是使用pixiJS播放video的需求，pixiJS是一个浏览器端的高性能2D渲染引擎，本质上是对webGL进行了封装，可以让开发者快速开发出交互式图形、动画、游戏等应用。</p>
 <p>第一次逛pixiJS的官网时，翻阅examples其实并没有看到特别多有意思的demo，尤其是相比于threeJS的examples，个人理解原因在于这两个项目的定位并不同，不是直观的2D与3D的区别，pixiJS的定位是<code>The HTML5 Creation Engine</code>，而threeJS的定位则是<code>JavaScript 3D library</code>，作为渲染引擎pixiJS更加注重渲染的高效性，pixi通过一个清晰的树状结构表达了显示元素之间的关系，并在底层针对webGL渲染顺序方式进行了优化，因此也能够找到许多使用pixi开发的优秀应用。</p>
@@ -621,7 +622,7 @@ pixiJS工程中有一个集中加载资源的loader，这个loader不是pixi自�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前端之video踩坑笔记"><span class="nav-number">1.</span> <span class="nav-text">前端之video踩坑笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#小时候，播放视频是一个小小的需求，我在这边，W3C在那边。"><span class="nav-number">1.1.1.</span> <span class="nav-text">小时候，播放视频是一个小小的需求，我在这边，W3C在那边。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#长大后，播放视频是一个兼容性挑战，我这这边，三观在那边。"><span class="nav-number">1.1.2.</span> <span class="nav-text">长大后，播放视频是一个兼容性挑战，我这这边，三观在那边。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pixiJS播放video"><span class="nav-number">1.2.</span> <span class="nav-text">pixiJS播放video</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、pixiJS简介"><span class="nav-number">1.2.1.</span> <span class="nav-text">一、pixiJS简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、视频demo跑不起来？"><span class="nav-number">1.2.2.</span> <span class="nav-text">二、视频demo跑不起来？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、视频跑起来太卡？"><span class="nav-number">1.2.3.</span> <span class="nav-text">三、视频跑起来太卡？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发总结"><span class="nav-number">1.3.</span> <span class="nav-text">开发总结</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#小时候，播放视频是一个小小的需求，我在这边，W3C在那边。"><span class="nav-number">1.1.</span> <span class="nav-text">小时候，播放视频是一个小小的需求，我在这边，W3C在那边。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#长大后，播放视频是一个兼容性挑战，我这这边，三观在那边。"><span class="nav-number">1.2.</span> <span class="nav-text">长大后，播放视频是一个兼容性挑战，我这这边，三观在那边。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pixiJS播放video"><span class="nav-number">2.</span> <span class="nav-text">pixiJS播放video</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、pixiJS简介"><span class="nav-number">2.1.</span> <span class="nav-text">一、pixiJS简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、视频demo跑不起来？"><span class="nav-number">2.2.</span> <span class="nav-text">二、视频demo跑不起来？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、视频跑起来太卡？"><span class="nav-number">2.3.</span> <span class="nav-text">三、视频跑起来太卡？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发总结"><span class="nav-number">3.</span> <span class="nav-text">开发总结</span></a></li></ol></div>
             
 
           </div>
