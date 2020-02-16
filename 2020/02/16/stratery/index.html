@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、概述1）定义定义了算法族，分别封装起来，让它们之间可以互相替换，此模式让算法的变化独立于使用算法的客户。 2）UML图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重学设计模式-策略模式">
+<meta property="og:url" content="http://yoursite.com/2020/02/16/stratery/index.html">
+<meta property="og:site_name" content="黑面宝宝的博客">
+<meta property="og:description" content="一、概述1）定义定义了算法族，分别封装起来，让它们之间可以互相替换，此模式让算法的变化独立于使用算法的客户。 2）UML图">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/02/16/stratery/img/firstHead/1s.jpg">
+<meta property="og:updated_time" content="2020-02-16T15:34:05.546Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="重学设计模式-策略模式">
+<meta name="twitter:description" content="一、概述1）定义定义了算法族，分别封装起来，让它们之间可以互相替换，此模式让算法的变化独立于使用算法的客户。 2）UML图">
+<meta name="twitter:image" content="http://yoursite.com/2020/02/16/stratery/img/firstHead/1s.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/02/16/stratery/">
+
+
+
+
+
+  <title>重学设计模式-策略模式 | 黑面宝宝的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bb1b3f4c4b4bc6dbe5d0c19279b2faa2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">黑面宝宝的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">精通Linux、OpenStack、Docker等单词拼写</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categrories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/16/stratery/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="黑面宝宝">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/img.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黑面宝宝的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">重学设计模式-策略模式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-16T23:30:52+08:00">
+                2020-02-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/02/16/stratery/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/02/16/stratery/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/02/16/stratery/" class="leancloud_visitors" data-flag-title="重学设计模式-策略模式">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><h3 id="1）定义"><a href="#1）定义" class="headerlink" title="1）定义"></a>1）定义</h3><p>定义了算法族，分别封装起来，让它们之间可以互相替换，此模式让算法的变化独立于使用算法的客户。</p>
+<h3 id="2）UML图"><a href="#2）UML图" class="headerlink" title="2）UML图"></a>2）UML图</h3><p><img src="./img/firstHead/1s.jpg" width="90%" style="text-align:center"></p>
+<a id="more"></a>
+<h3 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3) 代码实现"></a>3) 代码实现</h3><p>Context类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Context</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Strategy strategy;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 构造函数，传入一个具体策略对象</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> strategy 具体策略对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Context</span><span class="params">(Strategy strategy)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.strategy = strategy;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *替换策略方法</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">setStrategy</span><span class="params">(Strategy strategy)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.strategy = strategy;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 策略方法</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextInterface</span><span class="params">()</span></span>&#123;</span><br><span class="line">        strategy.algorithmInterface();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Strategy接口类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Strategy</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 策略方法</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">algorithmInterface</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Strategy接口实现类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteStrategyA</span> <span class="keyword">implements</span> <span class="title">Strategy</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">algorithmInterface</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//todo</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="二、分析"><a href="#二、分析" class="headerlink" title="二、分析"></a>二、分析</h2><p>在软件开发中的唯一不变真理就是-<code>CHANGE</code>，不管当初软件设计的多好，过一段时间之后总是需要成长与变化的</p>
+<h3 id="1-场景"><a href="#1-场景" class="headerlink" title="1) 场景"></a>1) 场景</h3><p>软件开发中容易遇到这样的场景，对于相同的功能有多种算法或者策略来实现，我们可以根据环境或者条件选择不同的算法来完成功能。该场景的一种实现方案是将这些算法写到一个类中，在该类中提供多个方法，每一个方法对应一个具体的算法；当然也可以将这些算法封装在一个统一的方法中，通过if-else或者switch-case等条件判断语句来进行选择，这些统称为硬编码方式，而该类方式的问题就是不易维护和扩展，每当新增一种策略的时候我们需要修改封装类（函数），更换策略的时候我们需要修改调用端的代码，而最大的问题在于这个硬编码的封装类中保存了大量的实现代码，这样不易于维护；想象一下，一个2000行的实现类和一个200行的实现类，你更愿意看哪个</p>
+<p>列举出两个实际的场景</p>
+<ul>
+<li>在前端页面提供了用户自定义布局的功能，页面列表的展示有多种方式：单列、双列、不规则等方式，展示可以根据用户的偏好设置来决定。</li>
+<li>在后端开发中文件在服务器的存储类型，有多种存储方式比如NAS、OSS或者是AWS提供的对象存储方式，根据业务场景的不同服务器端所选择的存储类型也不同。</li>
+</ul>
+<h3 id="2）核心问题"><a href="#2）核心问题" class="headerlink" title="2）核心问题"></a>2）核心问题</h3><p>该类场景的核心问题在于将对象与行为分离，而策略模式就是将对象本身和运算规则区分开来，因为这个设计模式本身的核心思想就是面向对象编程的多形性。</p>
+<p>我们可以在策略模式的UML类图看到这个关系，Context类就是对象类，而这个对象的一个行为被定义为Stratety接口，这个行为的实现并不在Context类中，而是被一个单独的类实现，Context类所做的是持有这行为。</p>
+<h3 id="3-策略模式中的设计原则"><a href="#3-策略模式中的设计原则" class="headerlink" title="3) 策略模式中的设计原则"></a>3) 策略模式中的设计原则</h3><ul>
+<li><p>找出应用中可能需要的变化之处，把他们独立出来，不要和那些不需要变化的代码混在一起</p>
+</li>
+<li><p>针对接口编程，而不是针对实现编程</p>
+</li>
+<li><p>多用组合，少用继承</p>
+</li>
+</ul>
+<p>第一条就不再说明，来看第二条，<code>针对接口编程，而不是针对实现编程</code>这个设计原则在策略模式中的体现，我的理解是两点：</p>
+<ol>
+<li><p>Context依旧拥有行为可以执行行为，但这个行为的实现并不是在Context中，而是一个其他的专门类，这个专门类实现了行为的接口也就达成了一种约定规范，Context类可以放心大胆地调用它；这样的做法迥异于以往，以前的做法是行为的实现来自于Context超类的具体实现，或者是Context继承自某个接口并实现该接口。这两种方式均依赖于<code>&quot;实现&quot;</code>，Context被实现绑的死死的，无法做到在不修改代码的情况下更改行为。</p>
+</li>
+<li><p>针对接口编程，真正意思是针对超类型（supertype）编程，可以在UML图中看到Context持有的是strategy接口而不是具体的实现类，也就是变量的声明应该是超类型，通常是一个抽象类或者接口，如此做只要是实现这个超类型的类所产生的对象均可以指定给这个变量，做Java后端开发的小伙伴最常见的可能是后端单体应用程序的垂直三层结构，Controller调用Service层时，Controller持有的变量类型是Service接口。</p>
+</li>
+</ol>
+<p><code>多用组合，少用继承</code></p>
+<p>在策略模式的定义中可以看到「让它们之间可以互相替换」，就是在程序运行过程中我们可以调用Context的<code>setStrategy()</code>方法动态的更换行为，允许这样的原因是行为是组合而来的，而不是继承而来的，使用组合的系统具有很大的弹性，不仅可以将算法族封装为算法类，更可以在运行时动态的改变行为（有点想起反射），因为“有一个”往往比“是一个”更好。</p>
+<h3 id="4）优缺点"><a href="#4）优缺点" class="headerlink" title="4）优缺点"></a>4）优缺点</h3><ul>
+<li>优点<ul>
+<li>Context和具体策略是松耦合关系。Context只需要指导它要使用某一个实现Strategy接口类的实例，而不需要知道具体是哪一个类。 </li>
+<li>策略模式满足“开-闭原则”。当增加新的具体策略时，不需要修改Context类的代码，Context就可以引用新的具体策略的实例。</li>
+</ul>
+</li>
+<li>缺点<ul>
+<li>策略模式只适用于客户端知道所有的算法或行为的情况。</li>
+<li>策略模式把每个具体的策略实现都单独封装成为类，所以如果策略很多的话，那么对象的数目就会比较爆炸，管理起来嗯～有那味儿了。</li>
+</ul>
+</li>
+</ul>
+<h2 id="三、使用场景分析"><a href="#三、使用场景分析" class="headerlink" title="三、使用场景分析"></a>三、使用场景分析</h2><p>在JDK中比较经典让人一下就能想起来的场景是JUC的线程池，这里就趁热分析一下，笔者已经好久没写JAVA了有些小小的想念😂</p>
+<h3 id="1）概念以及基本使用"><a href="#1）概念以及基本使用" class="headerlink" title="1）概念以及基本使用"></a>1）概念以及基本使用</h3><p>线程池作用就是限制系统中执行线程的数量，线程池提供了对于线程的管理，减少了创建和销毁线程的次数，每个工作线程都可以被重复利用，这样可以减少系统资源的浪费。同时还可以根据系统的承受能力调整线程池中工作线线程的数目，防止因为消耗过多的内存，将服务器搞宕机。</p>
+<p>线程池的基本使用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadPoolDemo1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 创建一个可重用固定线程数的线程池</span></span><br><span class="line">        ExecutorService pool = Executors.newFixedThreadPool(<span class="number">2</span>);</span><br><span class="line">        <span class="comment">// 创建实现了Runnable接口对象</span></span><br><span class="line">        Thread ta = <span class="keyword">new</span> MyThread();</span><br><span class="line">        Thread tb = <span class="keyword">new</span> MyThread();</span><br><span class="line">        Thread tc = <span class="keyword">new</span> MyThread();</span><br><span class="line">        Thread td = <span class="keyword">new</span> MyThread();</span><br><span class="line">        Thread te = <span class="keyword">new</span> MyThread();</span><br><span class="line">        <span class="comment">// 将线程放入池中进行执行</span></span><br><span class="line">        pool.execute(ta);</span><br><span class="line">        pool.execute(tb);</span><br><span class="line">        pool.execute(tc);</span><br><span class="line">        pool.execute(td);</span><br><span class="line">        pool.execute(te);</span><br><span class="line">        <span class="comment">// 关闭线程池</span></span><br><span class="line">        pool.shutdown();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getName()+ <span class="string">" is running."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>主线程中创建了线程池pool，线程池的容量是2。即线程池中最多能同时运行2个线程。紧接着将ta,tb,tc,td,te这3个线程添加到线程池中运行。最后通过shutdown()关闭线程池。</p>
+<p>这里并不能看出来哪里是用了策略模式，我们还需稍微深究一下代码</p>
+<p>简单介绍一下JUC线程池这个大家族的关系:</p>
+<ul>
+<li><p>最顶层的接口是<code>Executor</code>,它只定义了一个函数接口，用来执行任务的</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">execute</span><span class="params">(Runnable command)</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>ExecutorService</code>这个接口继承了<code>Executor</code>接口，<code>ExecutorService</code>的作用是为<code>Executor</code>服务，提供了<code>invokeAll</code>等方法</p>
+</li>
+<li><p><code>AbstractExecutorService</code>是一个抽象类，它实现了<code>ExecutorService</code>接口,<code>AbstractExecutorService</code>存在的目的是为<code>ExecutorService</code>中的函数接口提供了默认实现。</p>
+</li>
+<li><p><code>ThreadPoolExecutor</code>就是大名鼎鼎的”线程池”。它继承于<code>AbstractExecutorService</code>抽象类。</p>
+</li>
+<li><p><code>Executors</code>是个静态工厂类。它通过静态工厂方法返回<code>ExecutorService</code>的类的对象</p>
+</li>
+</ul>
+<p>实例中创建线程池是通过<code>ExecutorService pool = Executors.newFixedThreadPool(2);</code></p>
+<p>这里是通过静态工厂方法的方式创建了一个固定大小的线程池，限制大小为2，Executors中还提供了其他的方法可以创建各种特点的线程池，这里之演示固定大小的线程池，我们看一下<code>newFixedThreadPool</code>的源代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newFixedThreadPool</span><span class="params">(<span class="keyword">int</span> nThreads)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(nThreads, nThreads,</span><br><span class="line">                                  <span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line">                                  <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>它的实现是调用<code>ThreadPoolExecutor</code>的构造函数，我们来看一下<code>ThreadPoolExecutor</code>构造函数定义：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                          <span class="keyword">int</span> maximumPoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                          <span class="keyword">long</span> keepAliveTime,</span></span></span><br><span class="line"><span class="function"><span class="params">                          TimeUnit unit,</span></span></span><br><span class="line"><span class="function"><span class="params">                          BlockingQueue&lt;Runnable&gt; workQueue)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,</span><br><span class="line">         Executors.defaultThreadFactory(), defaultHandler);</span><br><span class="line">                          &#125;</span><br></pre></td></tr></table></figure></p>
+<p>终于回到了正题，这个地方的使用到了策略模式，说一下几个参数的含义：</p>
+<ul>
+<li>corePoolSize是”核心池大小”，maximumPoolSize是”最大池大小”。它们的作用是调整线程池中实际运行的线程的数量，例如当新任务提交给线程池时<ul>
+<li>如果此时线程池中运行的线程数量&lt; corePoolSize，则创建新线程来处理请求。</li>
+<li>如果此时线程池中运行的线程数量&gt; corePoolSize，但是却&lt; maximumPoolSize；则仅当阻塞队列满时才创建新线程。</li>
+<li>设置的 corePoolSize 和 maximumPoolSize 相同，则创建了固定大小的线程池。</li>
+</ul>
+</li>
+<li>keepAliveTime 线程存活时间，超过keepAliveTime时间之后，空闲的线程会被终止。</li>
+<li>workQueue是BlockingQueue类型，即它是一个阻塞队列。当线程池中的线程数超过它的容量的时候，线程会进入阻塞队列进行阻塞等待。通过workQueue，线程池实现了阻塞功能。</li>
+<li>handler是RejectedExecutionHandler类型。它代表线程池拒绝策略，也就是说当某任务添加到线程池中，而线程池拒绝该任务时，线程池会通过handler进行相应的处理。</li>
+</ul>
+<p>其中最后的<code>RejectedExecutionHandler</code>就是使用了策略模式，好吧我承认目前为止这块废话说有点多，来看一下线程池拒绝策略的使用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ArrayBlockingQueue;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ThreadPoolExecutor;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ThreadPoolExecutor.DiscardOldestPolicy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DiscardOldestPolicyDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> THREADS_SIZE = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CAPACITY = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建线程池。线程池的"最大池大小"和"核心池大小"都为1(THREADS_SIZE)，"线程池"的阻塞队列容量为1(CAPACITY)。</span></span><br><span class="line">        ThreadPoolExecutor pool = <span class="keyword">new</span> ThreadPoolExecutor(THREADS_SIZE, THREADS_SIZE, <span class="number">0</span>, TimeUnit.SECONDS,</span><br><span class="line">                <span class="keyword">new</span> ArrayBlockingQueue&lt;Runnable&gt;(CAPACITY));</span><br><span class="line">        <span class="comment">// 设置线程池的拒绝策略为"DiscardOldestPolicy"</span></span><br><span class="line">        pool.setRejectedExecutionHandler(<span class="keyword">new</span> ThreadPoolExecutor.DiscardOldestPolicy());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 新建10个任务，并将它们添加到线程池中。</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            Runnable myrun = <span class="keyword">new</span> MyRunnable(<span class="string">"task-"</span>+i);</span><br><span class="line">            pool.execute(myrun);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 关闭线程池</span></span><br><span class="line">        pool.shutdown();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyRunnable</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            System.out.println(<span class="keyword">this</span>.name + <span class="string">" is running."</span>);</span><br><span class="line">            Thread.sleep(<span class="number">200</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>线程池的拒绝策略，是指当任务添加到线程池中被拒绝而采取的处理措施。<br>当任务添加到线程池中之所以被拒绝，可能是由于：</p>
+<ol>
+<li>线程池异常关闭。</li>
+<li>任务数量超过线程池的最大限制。</li>
+</ol>
+<p>线程池共包括4种拒绝策略，它们分别是：AbortPolicy, CallerRunsPolicy, DiscardOldestPolicy和DiscardPolicy。</p>
+<ul>
+<li>AbortPolicy         – 当任务添加到线程池中被拒绝时，它将抛出     RejectedExecutionException异常。</li>
+<li>CallerRunsPolicy    – 当任务添加到线程池中被拒绝时，会在线程池当前正在运行的Thread线程池中处理被拒绝的任务。</li>
+<li>DiscardOldestPolicy – 当任务添加到线程池中被拒绝时，线程池会放弃等待队列中最旧的未处理任务，然后将被拒绝的任务添加到等待队列中。</li>
+<li>DiscardPolicy       – 当任务添加到线程池中被拒绝时，线程池将丢弃被拒绝的任务。</li>
+</ul>
+<p>这些类实现了RejectedExecutionHandler接口，而ThreadPoolExecutor中持有这个策略，而且既然是策略模式那么我们自己可以实现自定义侧拒绝策略。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/12/video/" rel="next" title="浏览器播放video踩坑">
+                <i class="fa fa-chevron-left"></i> 浏览器播放video踩坑
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/img.jpeg" alt="黑面宝宝">
+            
+              <p class="site-author-name" itemprop="name">黑面宝宝</p>
+              <p class="site-description motion-element" itemprop="description">单纯的菜鸡一枚</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categrories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、概述"><span class="nav-number">1.</span> <span class="nav-text">一、概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1）定义"><span class="nav-number">1.1.</span> <span class="nav-text">1）定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2）UML图"><span class="nav-number">1.2.</span> <span class="nav-text">2）UML图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-代码实现"><span class="nav-number">1.3.</span> <span class="nav-text">3) 代码实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、分析"><span class="nav-number">2.</span> <span class="nav-text">二、分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-场景"><span class="nav-number">2.1.</span> <span class="nav-text">1) 场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2）核心问题"><span class="nav-number">2.2.</span> <span class="nav-text">2）核心问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-策略模式中的设计原则"><span class="nav-number">2.3.</span> <span class="nav-text">3) 策略模式中的设计原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4）优缺点"><span class="nav-number">2.4.</span> <span class="nav-text">4）优缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、使用场景分析"><span class="nav-number">3.</span> <span class="nav-text">三、使用场景分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1）概念以及基本使用"><span class="nav-number">3.1.</span> <span class="nav-text">1）概念以及基本使用</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-snowflke-o"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">黑面宝宝</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'Bm4PDVfyII7AkipwzxUcreCx-gzGzoHsz',
+        appKey: '615Uf5xJsI8lA8parGYw56gv',
+        placeholder: '发表你的看法吧！',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Bm4PDVfyII7AkipwzxUcreCx-gzGzoHsz", "615Uf5xJsI8lA8parGYw56gv");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
