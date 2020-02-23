@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="#   该文转译自 https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html  各位JavaScripters程序猿们，是时候承认一点：我们对于promise的使用一直存在问题。 不是promise自身的问题，A+ spec定义的promise规范非常棒，在过去的几年中，笔者看到了很多程序猿在调用 PouchDB 或者其">
+<meta name="description" content="该文转译自 https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html  各位JavaScripters程序猿们，是时候承认一点：我们对于promise的使用一直存在问题。 不是promise自身的问题，A+ spec定义的promise规范非常棒，在过去的几年中，笔者看到了很多程序猿在调用 PouchDB 或者其他 p">
 <meta property="og:type" content="article">
 <meta property="og:title" content="We have a problem with promises">
 <meta property="og:url" content="http://yoursite.com/2020/02/23/promise/index.html">
 <meta property="og:site_name" content="黑面宝宝的博客">
-<meta property="og:description" content="#   该文转译自 https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html  各位JavaScripters程序猿们，是时候承认一点：我们对于promise的使用一直存在问题。 不是promise自身的问题，A+ spec定义的promise规范非常棒，在过去的几年中，笔者看到了很多程序猿在调用 PouchDB 或者其">
+<meta property="og:description" content="该文转译自 https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html  各位JavaScripters程序猿们，是时候承认一点：我们对于promise的使用一直存在问题。 不是promise自身的问题，A+ spec定义的promise规范非常棒，在过去的几年中，笔者看到了很多程序猿在调用 PouchDB 或者其他 p">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-02-23T11:52:10.765Z">
+<meta property="og:updated_time" content="2020-02-23T11:53:09.915Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="We have a problem with promises">
-<meta name="twitter:description" content="#   该文转译自 https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html  各位JavaScripters程序猿们，是时候承认一点：我们对于promise的使用一直存在问题。 不是promise自身的问题，A+ spec定义的promise规范非常棒，在过去的几年中，笔者看到了很多程序猿在调用 PouchDB 或者其">
+<meta name="twitter:description" content="该文转译自 https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html  各位JavaScripters程序猿们，是时候承认一点：我们对于promise的使用一直存在问题。 不是promise自身的问题，A+ spec定义的promise规范非常棒，在过去的几年中，笔者看到了很多程序猿在调用 PouchDB 或者其他 p">
 
 
 
@@ -383,16 +383,14 @@
       
 
       
-        <p># </p>
-<blockquote>
+        <blockquote>
 <p>该文转译自 <a href="https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html" target="_blank" rel="noopener">https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html</a></p>
 </blockquote>
 <p>各位JavaScripters程序猿们，是时候承认一点：我们对于promise的使用一直存在问题。</p>
-<p>不是promise自身的问题，<a href="https://promisesaplus.com/" target="_blank" rel="noopener">A+ spec</a>定义的promise规范非常棒，在过去的几年中，笔者看到了很多程序猿在调用 <code>PouchDB</code> 或者其他 <code>promise</code> 化的 API 时遇到了很多困难。这让笔者认识到，在 JavaScript 程序员之中，只有少数人是真正理解了 promise 规范的。如果这个事实让你难以接受，那么思考一下我在 Twitter 上出的题：</p>
+<p>不是promise自身的问题，<a href="https://promisesaplus.com/" target="_blank" rel="noopener">A+ spec</a>定义的promise规范非常棒，在过去的几年中，笔者看到了很多程序猿在调用 <code>PouchDB</code> 或者其他 <code>promise</code> 化的 API 时遇到了很多困难。这让笔者认识到，在 JavaScript 程序员之中，只有少数人是真正理解了 promise 规范的。如果这个事实让你难以接受，那么思考一下我在 Twitter 上出的题：<br><a id="more"></a></p>
 <blockquote>
 <p>Q: What is the difference between these four promises?<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">doSomething().then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> doSomethingElse();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">doSomething().then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  doSomethingElse();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">doSomething().then(doSomethingElse());</span><br><span class="line"></span><br><span class="line">doSomething().then(doSomethingElse);</span><br></pre></td></tr></table></figure></p>
 </blockquote>
-<a id="more"></a>
 <p>如果你知道这个问题的答案，那么恭喜你，你已经是一个 promise大师并且可以直接关闭这个网页了。</p>
 <p>但是对于不能回答这个问题的程序猿中 99.9% 的人，别担心，你们不是少数派。没有人能够在笔者的 Twitter 上完全正确的回答这个问题，而且对于 第3题 最终答案也令我感到震惊，即便我是出题人。</p>
 <p>答案在本文的底部，但是首先笔者必须先探究一下 <code>promise</code> 为何如此复杂，为什么不管是新手还是专家都有被 <code>promise</code> 折磨的经历。同时，笔者也会给出自认为能够快速、准确理解 <code>promise</code> 的方法。而且笔者确信读过这篇文章之后，理解 <code>promise</code> 不会那么难了。</p>
