@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="黑面宝宝的博客">
 <meta property="og:description" content="该笔记包含以下内容：自动注入、Spring注解、AOP与代理">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-07-04T03:49:47.844Z">
+<meta property="og:updated_time" content="2020-07-04T07:15:33.408Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring复习笔记D3">
 <meta name="twitter:description" content="该笔记包含以下内容：自动注入、Spring注解、AOP与代理">
@@ -383,7 +383,31 @@
 <p>全局注入是通过在根节点beans中添加default-autowire属性设置的</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xmlns:p</span>=<span class="string">"http://www.springframework.org/schema/p"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans           http://www.springframework.org/schema/beans/spring-beans.xsd"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">default-autowire</span>=<span class="string">"byType"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h2 id="Spring注解"><a href="#Spring注解" class="headerlink" title="Spring注解"></a>Spring注解</h2><p>Spring可以通过配置文件来实现对于bean的配置，该方式比较繁琐复杂；除此之外，Spring还提供了基于注解的配置方式，通常在项目开发中注解使用的频率较高</p>
-<h3 id="annotation注解的引入"><a href="#annotation注解的引入" class="headerlink" title="annotation注解的引入"></a>annotation注解的引入</h3>
+<h3 id="annotation注解的引入"><a href="#annotation注解的引入" class="headerlink" title="annotation注解的引入"></a>annotation注解的引入</h3><p>使用注解，我们可以不在applicationContext.xml文件中做bean的配置，但需要引入annotation的注解</p>
+<p>我们需要引入aop.jar文件，然后在applicationContext.xml中如入下配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag"><span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag"><span class="attr">xmlns:p</span>=<span class="string">"http://www.springframework.org/schema/p"</span> </span></span><br><span class="line"><span class="tag"><span class="attr">xmlns:mvc</span>=<span class="string">"http://www.springframework.org/schema/mvc"</span> </span></span><br><span class="line"><span class="tag"><span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></span></span><br><span class="line"><span class="tag"><span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.xxn.spring01"</span>&gt;</span><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>此时beans中的属性增加了，主要是增加了对于context的使用约束，其次是配置了context:component-scan这个扫描器标签，它会使Spring去扫描目标包里面的类找到对应的注解，之后注册到Spring容器中；通常Spring中的注解有三种作用，一是注册bean，二是注入值，三是配合AOP做增强用的功能性注解；</p>
+<h3 id="常用注解"><a href="#常用注解" class="headerlink" title="常用注解"></a>常用注解</h3><p><strong>@Component</strong></p>
+<p>注解在类上，作用是来注册bean的，相当于在配置文件中写入<code>&lt;bean&gt;&lt;/bean&gt;</code>标签</p>
+<ul>
+<li>在类上添加<code>@Component</code>，默认会将首字母小写的类名作为Id注册到Spring容器中</li>
+<li>可以手动指定Id，<code>@Component(&quot;controller&quot;)</code></li>
+<li><code>@Controller</code>、<code>@Service</code>、<code>@Repository</code>是作用与<code>@Component</code>相同，只是其语义不同</li>
+</ul>
+<p><strong>@Scope</strong></p>
+<p>注解在类上，作用是来修改bean的作用域，相当于在配置文件设置bean的scope属性</p>
+<p><strong>@Value</strong></p>
+<p>注解在属性上，作用是来为bean注入值，相当于在配置文件设置bean的<code>&lt;property&gt;&lt;/property&gt;</code></p>
+<ul>
+<li>通过注解<code>@Value</code>注入值时，不需要为属性设置getter、setter方法</li>
+</ul>
+<p><strong>@Autowired</strong></p>
+<p>注解在属性上，作用是来为bean注入对象引用，相当于在配置文件设置bean的autowire属性</p>
+<ul>
+<li><code>@Autowired</code>注解默认是<code>byType</code>取值</li>
+<li>通过在与<code>@Qualifier(&quot;name&quot;)</code>一起使用，可以实现<code>byName</code>的效果</li>
+</ul>
+<h2 id="AOP与动态代理"><a href="#AOP与动态代理" class="headerlink" title="AOP与动态代理"></a>AOP与动态代理</h2>
       
     </div>
     
@@ -574,7 +598,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#自动注入"><span class="nav-number">1.</span> <span class="nav-text">自动注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring注解"><span class="nav-number">2.</span> <span class="nav-text">Spring注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#annotation注解的引入"><span class="nav-number">2.1.</span> <span class="nav-text">annotation注解的引入</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#自动注入"><span class="nav-number">1.</span> <span class="nav-text">自动注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring注解"><span class="nav-number">2.</span> <span class="nav-text">Spring注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#annotation注解的引入"><span class="nav-number">2.1.</span> <span class="nav-text">annotation注解的引入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用注解"><span class="nav-number">2.2.</span> <span class="nav-text">常用注解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOP与动态代理"><span class="nav-number">3.</span> <span class="nav-text">AOP与动态代理</span></a></li></ol></div>
             
 
           </div>
