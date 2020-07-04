@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Spring,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="该笔记包含以下内容：使用Maven构筑Spring开发环境、Spring IoC、基于XML的常用依赖注入（构造器、属性）、工厂方法、Bean作用域、循环引用">
+<meta name="keywords" content="Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring复习笔记D2">
+<meta property="og:url" content="http://yoursite.com/2020/07/03/java-2/index.html">
+<meta property="og:site_name" content="黑面宝宝的博客">
+<meta property="og:description" content="该笔记包含以下内容：使用Maven构筑Spring开发环境、Spring IoC、基于XML的常用依赖注入（构造器、属性）、工厂方法、Bean作用域、循环引用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-04T03:21:56.048Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring复习笔记D2">
+<meta name="twitter:description" content="该笔记包含以下内容：使用Maven构筑Spring开发环境、Spring IoC、基于XML的常用依赖注入（构造器、属性）、工厂方法、Bean作用域、循环引用">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/07/03/java-2/">
+
+
+
+
+
+  <title>Spring复习笔记D2 | 黑面宝宝的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bb1b3f4c4b4bc6dbe5d0c19279b2faa2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">黑面宝宝的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">精通Linux、OpenStack、Docker等单词拼写</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categrories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/03/java-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="黑面宝宝">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/img.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黑面宝宝的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring复习笔记D2</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-03T14:06:54+08:00">
+                2020-07-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java开发/" itemprop="url" rel="index">
+                    <span itemprop="name">java开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/07/03/java-2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/07/03/java-2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/07/03/java-2/" class="leancloud_visitors" data-flag-title="Spring复习笔记D2">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>该笔记包含以下内容：使用Maven构筑Spring开发环境、Spring IoC、基于XML的常用依赖注入（构造器、属性）、工厂方法、Bean作用域、循环引用</p>
+<a id="more"></a>
+<h2 id="使用Maven构筑Spring开发环境"><a href="#使用Maven构筑Spring开发环境" class="headerlink" title="使用Maven构筑Spring开发环境"></a>使用Maven构筑Spring开发环境</h2><h3 id="Maven简介"><a href="#Maven简介" class="headerlink" title="Maven简介"></a>Maven简介</h3><p>Maven是一个专门管理构筑Java工程的工具，它主要功能是：</p>
+<ul>
+<li>提供一套标准的项目结构</li>
+<li>提供一套标准的构筑流程</li>
+<li>提供一套依赖管理机制</li>
+</ul>
+<p>使用Maven管理的Java项目，它的目录结构默认如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">maven-project</span><br><span class="line">├── pom.xml // 项目描述文件，包含工程描述，依赖管理</span><br><span class="line">├── src</span><br><span class="line">│   ├── main</span><br><span class="line">│   │   ├── java //源码目录</span><br><span class="line">│   │   └── resources //资源目录，比如xml配置文件</span><br><span class="line">│   └── test</span><br><span class="line">│       ├── java //测试源码目录</span><br><span class="line">│       └── resources //测试资源</span><br><span class="line">└── target //存放编译结果、打包后文件</span><br></pre></td></tr></table></figure></p>
+<p>一般主流的开发环境都有自己的依赖管理平台，比如nodejs开发使用<code>npm</code>进行包管理，OSX以及iOS使用<code>CocoaPods</code>，Python生态里依赖库管理似乎更加丰富，工作中我使用<code>Anaconda</code>多一些，当然它不仅仅是一个依赖管理，更多的是对于py环境的管理</p>
+<p>C++的话，我在工作中在项目中使用第三方依赖时，是直接在git中下载对应版本的源代码然后在本地手动编译，多数情况会将代码<code>build</code>成动态库使用</p>
+<p>Maven中央仓库地址：<code>https://mvnrepository.com/</code></p>
+<h3 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h3><p>本次开发环境是使用了Spring官网推荐的STS开发工具，对应的下载地址是<br><code>https://spring.io/tools</code>，看起来是一个安装了插件的Eclipse，对于SpringBoot开发做了友好的支持，同时STS也提供了VS code的插件，我记得之前的展示页中也有Atom的插件，这次访问发现从展示页中移除了</p>
+<p>好的，我们来创建项目，<del>这里就不截图了，整理图片太麻烦，</del></p>
+<ul>
+<li><p><code>右击 - new - project</code> 会出现<code>select a wizard</code>面板，我们选择<code>Maven - Maven Project</code>点击 <code>next</code></p>
+</li>
+<li><p>接着会出现<code>New Maven project</code>面板，在这一步中我们需要勾选<code>Create a simple project(skip archetype selection)</code>选项，这样会创建一个基础的Maven模板工程，接着点击<code>next</code></p>
+</li>
+<li><p>此时会出现<code>Configure project</code>面板,这里是用来声明工程描述信息的，最终你可以在<code>pom.xml</code>这个配置文件中找到这些描述信息，简介一下这些信息</p>
+<ul>
+<li>Group Id:包名，用来描述工程的分组信息，即当前工程是属于哪个组的，同组内不允许出现两个相同Artifact Id的工程</li>
+<li>Artifact Id:工程的唯一的标识名</li>
+<li>Version:工程版本信息</li>
+<li>Packaging: (jar|war) 工程最后会打包的类型</li>
+<li>Name: 工程的名称</li>
+</ul>
+</li>
+<li><p>填写完描述信息点击<code>Finih</code>，完成工程的创建</p>
+</li>
+</ul>
+<h3 id="构建Spring开发环境"><a href="#构建Spring开发环境" class="headerlink" title="构建Spring开发环境"></a>构建Spring开发环境</h3><p><strong>引用Jar文件</strong></p>
+<p>在<code>pom.xml</code>添加如下依赖，保存后Maven就自动去中央仓库根据你的依赖下载jar包<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">	<span class="comment">&lt;!-- https://mvnrepository.com/artifact/org.springframework/spring-context --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.2.6.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	 <span class="comment">&lt;!-- https://mvnrepository.com/artifact/commons-logging/commons-logging --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>commons-logging<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-logging<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">&lt;!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.commons<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-lang3<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.9<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	</span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这里其实并没有把Spring基础的jar文件全部引用，当Maven去下载<code>spring-context.jar</code>时会把相关起来的其他jar文件也全部下载，最后依赖的<code>commons-lang3.jar</code>中封装了常用的工具，后续会使用它进行调试</p>
+<p><strong>创建配置文件applicationContext.xml</strong></p>
+<p>在<code>src/main/resources/</code>目录下创建<code>applicationContext.xml</code>配置文件，并粘贴以下内容，该部分在上一篇博文中做过详细解释<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag"><span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:p</span>=<span class="string">"http://www.springframework.org/schema/p"</span> <span class="attr">xmlns:mvc</span>=<span class="string">"http://www.springframework.org/schema/mvc"</span> <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></span></span><br><span class="line"><span class="tag"><span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>此时基础的Spring环境基本搭建完成</p>
+<h2 id="Spring-IoC"><a href="#Spring-IoC" class="headerlink" title="Spring IoC"></a>Spring IoC</h2><p>Spring Ioc是指控制反转，也就是在应用程序中对象的创建交给容器不是由开发写代码new出来，Spring框架的一个目的是解耦，而IoC是解耦的一种方式，也就是程序中出现的对象都交给Spring去管理</p>
+<p>Spring所管理的对象被叫做bean对象，配置文件是Spring进行生产、依赖注入以及分发Bean的蓝图，在配置文件中写入一个<code>&lt;bean&gt;</code>就是在配置一个bean对象，id是bean的唯一标识，class是对应类的包路径<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"user"</span> <span class="attr">class</span>=<span class="string">"com.xxn.User"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>为了方便对于bean的管理我们可以创建多个配置文件，用来配置不同类型的bean，在加载过程中，可以让Spring只加载一个配置，而这个配置文件去引用其他的配置文件，比如如下代码就是引用一个外部的配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;import resource=&quot;application-service.xml&quot;/&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="基于XML的常用依赖注入"><a href="#基于XML的常用依赖注入" class="headerlink" title="基于XML的常用依赖注入"></a>基于XML的常用依赖注入</h2><p>依赖注入的意思是，Spring可以为创建的bean对象设置属性，也就是为他们的成员变量赋值，该小节记录了基于XML的常用注入方式，实际在开发过程中我们很少去使用XML方式注入，更多的情况是使用注解的方式自动注入</p>
+<p>这里介绍构造器注入、属性注入</p>
+<p>还是回到上篇博客的问题中，我们要继续解决那个电商项目，现在让我们把之前定义的<code>User</code>类扩展一下，我们为他添加多种类型的成员变量，以存储更多的信息，扩展后的代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> String username;</span><br><span class="line">	<span class="keyword">public</span> String password;</span><br><span class="line">	<span class="keyword">public</span> String[] address;</span><br><span class="line">	<span class="keyword">public</span> List&lt;String&gt; orders;</span><br><span class="line">	<span class="keyword">public</span> Set&lt;String&gt; favours;</span><br><span class="line">	<span class="keyword">public</span> Map&lt;Integer,String&gt; orderStatus;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(String username, String password, String[] address, List&lt;String&gt; orders, Set&lt;String&gt; favours,</span></span></span><br><span class="line"><span class="function"><span class="params">			Map&lt;Integer, String&gt; orderStatus)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>();</span><br><span class="line">		<span class="keyword">this</span>.username = username;</span><br><span class="line">		<span class="keyword">this</span>.password = password;</span><br><span class="line">		<span class="keyword">this</span>.address = address;</span><br><span class="line">		<span class="keyword">this</span>.orders = orders;</span><br><span class="line">		<span class="keyword">this</span>.favours = favours;</span><br><span class="line">		<span class="keyword">this</span>.orderStatus = orderStatus;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    getter &amp;&amp; setter ...</span><br></pre></td></tr></table></figure>
+<p>这个为了稍微简化，他的成员变量存储的都是基础类型或者是集合类型</p>
+<h3 id="基于构造器的依赖注入"><a href="#基于构造器的依赖注入" class="headerlink" title="基于构造器的依赖注入"></a>基于构造器的依赖注入</h3><p>构造器注入在上一篇中已经介绍了，是使用<code>&lt;consructor-arg&gt;&lt;/constructor-arg&gt;</code>来注入属性，就不做演示了</p>
+<p>需要注意的是构造器注入就是Spring通过反射来调用类的带参数构造器，在配置文件中指定参数时可有以一下几种方法</p>
+<ul>
+<li><p>指定参数名称：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;constructor-arg name=&quot;username&quot;  value=&quot;tom&quot;&gt;&lt;/constructor-arg&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>指定参数类型：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;constructor-arg type=&quot;String&quot;  value=&quot;tom&quot;&gt;&lt;/constructor-arg&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>指定索引：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;constructor-arg index=&quot;0&quot; value=&quot;tom&quot;/&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>总而言之就是不常用，所以这里敷衍一下😂</p>
+<h3 id="基于属性的依赖注入"><a href="#基于属性的依赖注入" class="headerlink" title="基于属性的依赖注入"></a>基于属性的依赖注入</h3><p>属性注入是Spring通过反射调用对应成员变量的setter方法实现的，例如我们希望为User的username、password注入属性可以用如下方式：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span> = <span class="string">"user"</span> <span class="attr">class</span>=<span class="string">"com.xxn.spring01.User"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"tom"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"123456"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>若为集合类型成员变量注入则用以下方式：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"address"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>北京市XX区XX小区XX号<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>上海市XX区XX小区XX号<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>天津市XX区XX小区XX号<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"orders"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>洗手液<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>口罩<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>图书<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"favours"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">set</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>洗手液<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>口罩<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>图书<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">set</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"orderStatus"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">map</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">entry</span> <span class="attr">key</span> = <span class="string">"1001"</span> <span class="attr">value</span>=<span class="string">"已签收"</span>&gt;</span><span class="tag">&lt;/<span class="name">entry</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">entry</span> <span class="attr">key</span> = <span class="string">"1002"</span> <span class="attr">value</span>=<span class="string">"已发货"</span>&gt;</span><span class="tag">&lt;/<span class="name">entry</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">entry</span> <span class="attr">key</span> = <span class="string">"1003"</span> <span class="attr">value</span>=<span class="string">"未发货"</span>&gt;</span><span class="tag">&lt;/<span class="name">entry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">map</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>此时可以测试效果<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ApplicationContext ctx = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext.xml"</span>);</span><br><span class="line"></span><br><span class="line">User user = (User)ctx.getBean(<span class="string">"user"</span>);</span><br><span class="line"></span><br><span class="line">System.out.print(ToStringBuilder.reflectionToString(user, ToStringStyle.MULTI_LINE_STYLE));<span class="comment">//ToStringBuilder是之前引入的lang3中工具类，可以直接将对象以字符串形式打印出来</span></span><br></pre></td></tr></table></figure></p>
+<p>运行结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">com.xxn.spring01.User@932bc4a[</span><br><span class="line">  username=tom</span><br><span class="line">  password=123456</span><br><span class="line">  address=&#123;北京市XX区XX小区XX号,上海市XX区XX小区XX号,天津市XX区XX小区XX号&#125;</span><br><span class="line">  orders=[洗手液, 口罩, 图书]</span><br><span class="line">  favours=[洗手液, 口罩, 图书]</span><br><span class="line">  orderStatus=&#123;1001=已签收, 1002=已发货, 1003=未发货&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<h2 id="工厂方式创建Bean"><a href="#工厂方式创建Bean" class="headerlink" title="工厂方式创建Bean"></a>工厂方式创建Bean</h2><p>之前我们在配置文件中编写bean时是关联到了一个类上，事实上Spring允许我们关联到一个方法中，准确的说是关联到一个工厂方法中，这个方法会根据条件返回一个对象</p>
+<p>例如此时我们电商系统设计了一些货物类，这些货物类要拥有相同的一些方法，并我们会通过工厂方法构造它们的实例，所以首先我们创建了一个名为Goods的接口，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Goods</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getPrice</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着创建第一个接口实现类Book<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Book</span> <span class="keyword">implements</span> <span class="title">Goods</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> String name = <span class="string">"游戏引擎架构"</span>;</span><br><span class="line">	<span class="keyword">public</span> String price = <span class="string">"$128.00"</span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">return</span> name;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getPrice</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">return</span> price;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后编写工厂类来创建对象，此时根据工厂方法是否是静态的，我们有两种不同的实现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//动态工厂</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GoodsDynamicFactory</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Goods <span class="title">getGoods</span><span class="params">(String name)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(name.equals(<span class="string">"Book"</span>)) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">new</span> Book();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"can not create "</span> + name);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//静态工厂</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GoodsStaticFactory</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Goods <span class="title">getGoods</span><span class="params">(String name)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(name.equals(<span class="string">"Book"</span>)) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">new</span> Book();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"can not create "</span> + name);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后来编写配置文件<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Dynamic factory --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span> = <span class="string">"goodsFactory"</span> <span class="attr">class</span> = <span class="string">"com.xxn.spring01.GoodsDynamicFactory"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span> = <span class="string">"goods"</span> <span class="attr">factory-bean</span> = <span class="string">"goodsFactory"</span> <span class="attr">factory-method</span>=<span class="string">"getGoods"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">"Book"</span>&gt;</span><span class="tag">&lt;/<span class="name">constructor-arg</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- Static factory --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span> = <span class="string">"goodsStatic"</span> <span class="attr">class</span> = <span class="string">"com.xxn.spring01.GoodsStaticFactory"</span> <span class="attr">factory-method</span>=<span class="string">"getGoods"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">"Book"</span>&gt;</span><span class="tag">&lt;/<span class="name">constructor-arg</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>使用起来其实很容易理解，动态的工厂函数是要通过对象来调用的，所以我们需要先把这个工厂类也注册为bean，然后再注册货物的bean，此时货物bean就不再指向某一个类，而是指向工厂方法，至于传递参数是通过<code>&lt;constructor-arg&gt;&lt;/constructor-arg&gt;</code>而不是<code>&lt;property&gt;&lt;/property&gt;</code>，因为property底层就是反射调用了某一个属性的setter方法，所以他它就是用来为属性赋值的</p>
+<p>我们来测试一下代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Dynamic factory</span></span><br><span class="line">Book bookD = (Book)ctx.getBean(<span class="string">"goods"</span>);</span><br><span class="line">System.out.print(ToStringBuilder.reflectionToString(bookD, ToStringStyle.MULTI_LINE_STYLE));</span><br><span class="line"></span><br><span class="line"><span class="comment">//Static factory</span></span><br><span class="line">Book bookS = (Book)ctx.getBean(<span class="string">"goodsStatic"</span>);</span><br><span class="line">System.out.print(ToStringBuilder.reflectionToString(bookS, ToStringStyle.MULTI_LINE_STYLE));</span><br></pre></td></tr></table></figure></p>
+<p>运行结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">com.xxn.spring01.Book@10163d6[</span><br><span class="line">  name=游戏引擎架构</span><br><span class="line">  price=$128.00</span><br><span class="line">]</span><br><span class="line">com.xxn.spring01.Book@2dde1bff[</span><br><span class="line">  name=游戏引擎架构</span><br><span class="line">  price=$128.00</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<h2 id="Bean作用域"><a href="#Bean作用域" class="headerlink" title="Bean作用域"></a>Bean作用域</h2><p>Bean的作用域是指，被Spring创建的bean对象的生命周期，Spring为bean提供了六种作用域，分别是<code>singleton</code>,<code>prototype</code>,<code>websocket</code>,<code>request</code>,<code>session</code>,<code>application</code>，我们可以在配置文件<code>&lt;bean&gt;</code>标签中设置<code>scope</code>属性来指定这个bean的作用域</p>
+<p>其中singleton是单例模式，也就是自始至终Spring只会创建一个这个bean对象，这个是默认值，prototype是非单例的，每次该bean被注入或者通过getBean被获取时时，Spring都会创建一个新的对象</p>
+<p>后面四种作用域他们的使用场景都是在web服务器中，每个bean作用域与对应的生命周期所绑定，比如request作用域，他的生命周期就是指一个用户发送一次http的请求开始，到这一次请求结束为止，也就是这个bean的作用域从时序上来看就是这次请求开始，到请求结束。</p>
+<p>session作用域，因为http请求是无状态的，意思就是服务器收到两个http请求他并不能直接知道这两个请求是否是同一个用户发送过来的，这导致的问题是登录操作没啥用，所以为了实现会话追踪，其中一种解决方案就是session，这是在服务器端实现的一种会话追踪技术，简单来说就是在服务器端记录用户的某些信息，以此来识别每次请求的用户，session作用域是从用户发过来的第一个请求开始，结束时间通常不能直接判断，因为浏览器关闭是不会通知服务器的，一般我们判定如果用户在一定时间内没有反应则会话结束，tomcat默认失效时间是20min，此时bean在这个作用域内生效；另外一种常用的会话追踪是通过token，先不做介绍了</p>
+<p>application作用域好理解，是指服务器一开始执行运行，至到服务器关闭为止</p>
+<p>另外后面四种作用域，每个bean作用域与对应的生命周期所绑定，并且只在自己的生命周期内是单例的，例如用户A发送一个http请求，此时在request作用域内，不论bean被注入或是被获取，操作的都是同一对象；而用户A与用户B分别发送相同的请求，在这两个请求线程中bean分别是两个不同对象。</p>
+<h2 id="循环引用"><a href="#循环引用" class="headerlink" title="循环引用"></a>循环引用</h2><p>循环引用比较容易理解，就是A里面包含B类型的成员变量，B里又包含A类型的成员变量，这样的结构</p>
+<p>此时如果你的代码中不幸出现这种结构，直接看结论</p>
+<ul>
+<li><p>若所有循环引用的bean都是通过构造器注入，无论如何Spring都不能成功创建</p>
+</li>
+<li><p>若所有循环引用的bean都是通过属性注入</p>
+<ul>
+<li>若所有的bean都是singlton，Spring可以成功创建bean</li>
+<li>若所有的bean都是prototype，Spring不能成功创建bean</li>
+<li>若bean既有singlton又有prototype，当首先获取singlton的bean时会成功，否则会失败</li>
+</ul>
+</li>
+</ul>
+<p>原理的话后续在看Spring源码时会研究补充，先在这埋个坑</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/02/java-1/" rel="next" title="Spring复习笔记D1">
+                <i class="fa fa-chevron-left"></i> Spring复习笔记D1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/04/java-3/" rel="prev" title="Spring复习笔记D3">
+                Spring复习笔记D3 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/img.jpeg" alt="黑面宝宝">
+            
+              <p class="site-author-name" itemprop="name">黑面宝宝</p>
+              <p class="site-description motion-element" itemprop="description">单纯的菜鸡一枚</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categrories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Maven构筑Spring开发环境"><span class="nav-number">1.</span> <span class="nav-text">使用Maven构筑Spring开发环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Maven简介"><span class="nav-number">1.1.</span> <span class="nav-text">Maven简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建项目"><span class="nav-number">1.2.</span> <span class="nav-text">创建项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建Spring开发环境"><span class="nav-number">1.3.</span> <span class="nav-text">构建Spring开发环境</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-IoC"><span class="nav-number">2.</span> <span class="nav-text">Spring IoC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于XML的常用依赖注入"><span class="nav-number">3.</span> <span class="nav-text">基于XML的常用依赖注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基于构造器的依赖注入"><span class="nav-number">3.1.</span> <span class="nav-text">基于构造器的依赖注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于属性的依赖注入"><span class="nav-number">3.2.</span> <span class="nav-text">基于属性的依赖注入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工厂方式创建Bean"><span class="nav-number">4.</span> <span class="nav-text">工厂方式创建Bean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bean作用域"><span class="nav-number">5.</span> <span class="nav-text">Bean作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环引用"><span class="nav-number">6.</span> <span class="nav-text">循环引用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-snowflke-o"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">黑面宝宝</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'Bm4PDVfyII7AkipwzxUcreCx-gzGzoHsz',
+        appKey: '615Uf5xJsI8lA8parGYw56gv',
+        placeholder: '发表你的看法吧！',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Bm4PDVfyII7AkipwzxUcreCx-gzGzoHsz", "615Uf5xJsI8lA8parGYw56gv");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
