@@ -375,44 +375,14 @@
 
       
         
-          
-            <p>该笔记包含以下内容：SpringBoot简介、创建SpringBoot工程、SpringBoot搭建MVC实例</p>
-<h2 id="SpringBoot简介"><a href="#SpringBoot简介" class="headerlink" title="SpringBoot简介"></a>SpringBoot简介</h2><p>惭愧惭愧昨天是第一次接触SpringBoot，距离上次我碰JavaWeb的项目已经快两年半了，昨天体验了一下SpringBoot的使用，使用非常顺手，尤其是在项目创建和run的部分。在学习Spring时，框架的搭建对我来说一直是个挑战，而SpringBoot贴心的帮你封装好，并且把复杂的配置统统精简整合，而且在SpringBoot中你可以看见main函数了😂。</p>
-<p>好了这里引用一下资料</p>
-<p>SpringBoot主要解决的是在微服务架构下简化配置、前后端分离以及快速开发</p>
-<ul>
-<li>提供了快速启动入门</li>
-<li>开箱即用，提供默认配置</li>
-<li>内嵌容器化web项目</li>
-<li>没有冗余的代码生成以及xml配置要求</li>
-</ul>
-<p>感觉SpringBoot这个内嵌容器化web项目的设计非常贴心，也更加适合微服务；在使用Spring时最终项目是打包成war文件丢入web服务器中运行，而SpringBoot直接在项目里塞了一个web服务器，这样在启动方式变为直接用<code>java</code>命令运行打出来的jar包就可以了（虽然这个jar包比较大），可以通过写脚本批量的开关服务，运维童鞋的福利呀</p>
-<h2 id="创建SpringBoot工程"><a href="#创建SpringBoot工程" class="headerlink" title="创建SpringBoot工程"></a>创建SpringBoot工程</h2><p>创建SpringBoot工程可以与Spring一样用Maven手动引入依赖</p>
-<p>这里介绍官方提供的一种更便捷的方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://start.spring.io/</span><br></pre></td></tr></table></figure></p>
-<p>这是一个快速生成工程的工具，在这里你选择配置，填写工程的信息，最后选择好工程的依赖，生成工具就会帮你创建好工程，从这个网站下载最后导入到你的IDE中就可以</p>
-<p><img src="/img/firstHead/springbootD1-1.png" width="90%" style="text-align:center"></p>
-<p>这个页面经常会更新，展示的内容也许会发生变化，但是基础的内容是不会改变的，通常来说如果你是在做基于SpringBoot的web项目，那么图中左侧的部分是不需要更改设置的，你只需要填写好工程的信息就可以</p>
-<p>接着来加入SpringBoot的依赖，可以点击右侧的<code>ADD DEPENDENCIES</code>按钮来选择依赖，这里你只需要加入一个<code>Spring web</code>就可以，不需要额外的其他依赖，这是非常爽的，如果后续你还希望添加新的依赖，STS提供了一个与这个页面一样的添加页面供你选择</p>
-<p>这里使用的开发工具依旧是STS</p>
-<p>在STS中导入刚刚下载的工程 ： <code>右击 - import... - Maven/Existing Maven Projects</code></p>
-<p>我们先来观察一下这个工程</p>
-<p>可以看到它的<code>pom.xml</code>文件中依赖只有如下配置<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.junit.vintage<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit-vintage-engine<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p><code>spring-boot-starter-test</code>是与单元测试相关的依赖</p>
-<p><code>spring-boot-starter-web</code>是SpringBoot需要的最基础的依赖，它是对于各种spring、springMVC还有其他框架的整合，过去我们需要手动搭建，而现在SpringBoot索性直接把这部分也封装了，你可以在工程的<code>Maven Dependencies</code>目录中看到之前这种熟悉的jar文件</p>
-<p><strong>Spring Boot引入依赖的方式</strong></p>
-<p>在<code>pom.xml</code>中<code>右击-Spring-Edit Starters</code>，你可以看到熟悉的url<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Service url : https://start.spring.io</span><br></pre></td></tr></table></figure></p>
-<p>其实本质还是这个面板去刚刚我们下载模板工程的地方拉取依赖，你在这里可以通过可以用模块的形式管理依赖，这里的模块我理解是对于过去的单独jar文件再做一层封装，优点是可以简化依赖的配置过程，另外防止出现多个jar间接引用同名不同的版本的jar导致依赖冲突问题，这种问题Maven是不会处理的</p>
-<p><strong>Spring Boot启动</strong></p>
-<p><code>右击 - Run As - Spring Boot App</code></p>
-<p>好了下一条…</p>
-<p>其实启动这里也挺有讲头，但是上面一句就概括了SpringBoot简洁的启动，首先你会发现你不需要配置服务器了，这是因为SpringBoot内嵌了一个tomcat服务器，你可以用IDE带有的<code>Spring Boot App</code>方式启动或者直接找到工程的入口函数以普通的jar文件方式运行也可以，效果是一样的，会在控制台打印出这个经典的logo告诉你项目启动了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">  .   ____          _            __ _ _</span><br><span class="line"> /\\ / ___&apos;_ __ _ _(_)_ __  __ _ \ \ \ \</span><br><span class="line">( ( )\___ | &apos;_ | &apos;_| | &apos;_ \/ _` | \ \ \ \</span><br><span class="line"> \\/  ___)| |_)| | | | | || (_| |  ) ) ) )</span><br><span class="line">  &apos;  |____| .__|_| |_|_| |_\__, | / / / /</span><br><span class="line"> =========|_|==============|___/=/_/_/_/</span><br><span class="line"> :: Spring Boot ::        (v2.3.1.RELEASE)</span><br></pre></td></tr></table></figure>
-<p>对了👆上面这个logo是可以被替换的，你只需要在<code>src/main/resources/</code>目录下创建一个banner.txt文件就可以，最后这个logo会被替换为<code>banner.txt</code>里面的内容</p>
-<p>另外你还可以通过<code>右击 - Run As - Maven install</code>来打包这个工程，最后会被打包成jar包，如果需要部署直接把这个jar包拷贝到服务器上在terminal中输入<code>java path/to/XX.jar</code>命令就可以启动这个服务了；非常的容易，只需要服务器配有jre环境就行，不需要额外的依赖，其他的依赖都在这个jar包里面。</p>
-<p><strong>Spring Boot简单配置</strong><br>最后就是SpringBoot把复杂的配置都简化了，并且整合到同一个配置文件里面，在<code>src/main/resources/applicaiton.properies</code>中，Spring Boot做简化配置其实是对所有配置给了一个默认的值，我们可以在这个配置文件中修改，比如如下设置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#修改默认端口号</span><br><span class="line">server.port = 8090 </span><br><span class="line"></span><br><span class="line">#设置默认虚拟路径</span><br><span class="line">server.servlet.context-path=/app</span><br></pre></td></tr></table></figure>
-<h2 id="SpringBoot搭建MVC实例"><a href="#SpringBoot搭建MVC实例" class="headerlink" title="SpringBoot搭建MVC实例"></a>SpringBoot搭建MVC实例</h2>
-          
+          <p>该笔记包含以下内容：SpringBoot简介、创建SpringBoot工程、SpringBoot搭建MVC实例</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/07/05/java-4/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
