@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Nginx,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="好的，我们来搞web服务器，这一节主要包括一下内容：web服务器、Nginx（Tengine）安装、脚本化操作、Nginx配置文件">
+<meta name="keywords" content="Nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaWeb笔记-Nginx D1">
+<meta property="og:url" content="http://yoursite.com/2020/07/09/architect-1/index.html">
+<meta property="og:site_name" content="黑面宝宝的博客">
+<meta property="og:description" content="好的，我们来搞web服务器，这一节主要包括一下内容：web服务器、Nginx（Tengine）安装、脚本化操作、Nginx配置文件">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-09T13:50:03.031Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaWeb笔记-Nginx D1">
+<meta name="twitter:description" content="好的，我们来搞web服务器，这一节主要包括一下内容：web服务器、Nginx（Tengine）安装、脚本化操作、Nginx配置文件">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/07/09/architect-1/">
+
+
+
+
+
+  <title>JavaWeb笔记-Nginx D1 | 黑面宝宝的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bb1b3f4c4b4bc6dbe5d0c19279b2faa2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">黑面宝宝的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">精通Linux、OpenStack、Docker等单词拼写</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categrories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/09/architect-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="黑面宝宝">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/img.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黑面宝宝的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JavaWeb笔记-Nginx D1</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-09T17:10:45+08:00">
+                2020-07-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java开发/" itemprop="url" rel="index">
+                    <span itemprop="name">Java开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+
+              <span class="post-time">
+                &nbsp; | &nbsp;
+                <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+                </span>
+                <span class="post-meta-item-text">阅读时长</span>
+                <span class="post-count"> 12min </span>
+                </span>
+              </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/07/09/architect-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/07/09/architect-1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/07/09/architect-1/" class="leancloud_visitors" data-flag-title="JavaWeb笔记-Nginx D1">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>好的，我们来搞web服务器，这一节主要包括一下内容：web服务器、Nginx（Tengine）安装、脚本化操作、Nginx配置文件</p>
+<a id="more"></a>
+<p>前三天的博客整理的有些水，主要因为东西是很久以前学的，而且发现自己在CSDN上有整理笔记，但是以前记的东西真的烂，过一段时间拿出来就感觉已经读不懂当初在写些什么了😂。</p>
+<p>从这篇笔记开始会同时开始看SpringBoot等框架的源代码，并且一起更新，到时候会研究一下Hexo这个博客框架如何对同系列笔记目录归档显示，而不是按时间顺序排序。</p>
+<p>好了开始整理今天的笔记</p>
+<h2 id="web服务器"><a href="#web服务器" class="headerlink" title="web服务器"></a>web服务器</h2><p>Web服务器功能就是提供Web信息浏览服务。它需要支持HTTP协议、HTML文档格式及URL，简单来说web服务器要能做到解析主机名、并找到对应的请求资源，这里主要简介一下Nginx</p>
+<p>Nginx是一款轻量级的Web服务器、反向代理服务器、电子邮件代理服务器，由俄罗斯的程序设计师Igor Sysoev所开发；去年年底有关于Nginx之父Sysoev被捕的新闻，大致内容是Sysoev的老东家Rambler公司认为Nginx是Sysoev在公司任职期间开发的，所有权也应该是公司的，那么问题来了业余时间开发的东西也属于公司吗…</p>
+<p>Nginx主要解决的问题包括：</p>
+<ul>
+<li>高并发 ：   官方测试nginx能够支撑5万并发链接，并且cpu、内存等资源消耗却非常低，运行非常稳定</li>
+<li>负载均衡</li>
+<li>高可用</li>
+<li>虚拟主机</li>
+<li>伪静态</li>
+<li>动静分离</li>
+</ul>
+<h2 id="Nginx（Tengine）安装"><a href="#Nginx（Tengine）安装" class="headerlink" title="Nginx（Tengine）安装"></a>Nginx（Tengine）安装</h2><p>这里是使用的是Tengine，Tengine是由淘宝发起的Web服务器项目。它在Nginx的基础上，针对大访问量网站的需求，添加了很多高级功能和特性，完全兼容Nginx的配置，继承了Nginx的特性；Tengine的性能和稳定性已经在大型的网站如淘宝网，天猫商城等得到了很好的检验。它的最终目标是打造一个高效、稳定、安全、易用的Web平台。</p>
+<h3 id="环境-amp-依赖"><a href="#环境-amp-依赖" class="headerlink" title="环境&amp;依赖"></a>环境&amp;依赖</h3><p>操作系统： centOS</p>
+<p>依赖组件： gcc openssl-devel pcre-devel zlib-devel</p>
+<p>安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc openssl-devel pcre-devel zlib-devel</span><br></pre></td></tr></table></figure></p>
+<p><a href="http://tengine.taobao.org/" target="_blank" rel="noopener">Tengine下载和文档</a></p>
+<p><a href="http://nginx.org" target="_blank" rel="noopener">Nginx官网和文档</a></p>
+<h3 id="下载-amp-安装"><a href="#下载-amp-安装" class="headerlink" title="下载&amp;安装"></a>下载&amp;安装</h3><p><strong>下载&amp;解压Tengine</strong></p>
+<p><a href="http://tengine.taobao.org/" target="_blank" rel="noopener">http://tengine.taobao.org/</a></p>
+<p>随意找一个服务器目录解压Tengine源代码，解压后进入源代码根目录</p>
+<p><strong>编译安装</strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./ configure --prefix=/usr/local/tengine</span><br><span class="line"></span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></p>
+<p>通常将tengine安装在<code>/usr/local/tengine</code>目录下</p>
+<p>完成以上两步Nginx就已经安装完成，可以进入到<code>/usr/local/tengine</code>目录中查看编译后的文件，这个目录有conf、html、logs以及sbin四个文件夹，其中sbin里保存所有可执行文件，我们可以运行其中的nginx这样nginx就启动了，打开浏览器访问服务器的公网ip就能看到Nginx默认的主页。</p>
+<p>直接启动nginx的话关闭服务器比较麻烦，需要用传统的kill -9 杀掉对应的所有进程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep nginx</span><br><span class="line">kill -9 [pid]</span><br></pre></td></tr></table></figure></p>
+<h2 id="脚本化操作"><a href="#脚本化操作" class="headerlink" title="脚本化操作"></a>脚本化操作</h2><p>这里提供一个脚本，可以通过简洁的命令控制Nginx的服务，这个脚本不是官方提供的，做开发时逛git找到好用的脚本时不要直接拿来跑，最好先浏览一下脚本的逻辑</p>
+<p>创建<code>/etc/init.d/nginx</code>文件中，将后面提供的脚本拷贝到里面，并修改可执行权限<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 777 nginx</span><br></pre></td></tr></table></figure></p>
+<h4 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h4><p><code>service Nginx start</code>  启动服务</p>
+<p><code>service Nginx stop</code> 停止</p>
+<p><code>service Nginx status</code> 状态</p>
+<p><code>service Nginx reload</code> 动态重载配置文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> nginx - this script starts and stops the nginx daemon</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> chkconfig:   - 85 15 </span><br><span class="line"><span class="meta">#</span> description:  Nginx is an HTTP(S) server, HTTP(S) reverse \</span><br><span class="line"><span class="meta">#</span>               proxy and IMAP/POP3 proxy server</span><br><span class="line"><span class="meta">#</span> processname: nginx</span><br><span class="line"><span class="meta">#</span> config:      /etc/nginx/nginx.conf</span><br><span class="line"><span class="meta">#</span> config:      /etc/sysconfig/nginx</span><br><span class="line"><span class="meta">#</span> pidfile:     /var/run/nginx.pid</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span> Source function library.</span><br><span class="line">. /etc/rc.d/init.d/functions</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span> Source networking configuration.</span><br><span class="line">. /etc/sysconfig/network</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span> Check that networking is up.</span><br><span class="line">[ "$NETWORKING" = "no" ] &amp;&amp; exit 0</span><br><span class="line"> </span><br><span class="line">nginx="/usr/local/tengine/sbin/nginx"</span><br><span class="line">prog=$(basename $nginx)</span><br><span class="line"> </span><br><span class="line">NGINX_CONF_FILE="/usr/local/tengine/conf/nginx.conf"</span><br><span class="line"> </span><br><span class="line">[ -f /etc/sysconfig/nginx ] &amp;&amp; . /etc/sysconfig/nginx</span><br><span class="line"> </span><br><span class="line">lockfile=/var/lock/subsys/nginx</span><br><span class="line"> </span><br><span class="line">make_dirs() &#123;</span><br><span class="line"><span class="meta">   #</span> make required directories</span><br><span class="line">   user=`nginx -V 2&gt;&amp;1 | grep "configure arguments:" | sed 's/[^*]*--user=\([^ ]*\).*/\1/g' -`</span><br><span class="line">   options=`$nginx -V 2&gt;&amp;1 | grep 'configure arguments:'`</span><br><span class="line">   for opt in $options; do</span><br><span class="line">       if [ `echo $opt | grep '.*-temp-path'` ]; then</span><br><span class="line">           value=`echo $opt | cut -d "=" -f 2`</span><br><span class="line">           if [ ! -d "$value" ]; then</span><br><span class="line">               # echo "creating" $value</span><br><span class="line">               mkdir -p $value &amp;&amp; chown -R $user $value</span><br><span class="line">           fi</span><br><span class="line">       fi</span><br><span class="line">   done</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">start() &#123;</span><br><span class="line">    [ -x $nginx ] || exit 5</span><br><span class="line">    [ -f $NGINX_CONF_FILE ] || exit 6</span><br><span class="line">    make_dirs</span><br><span class="line">    echo -n $"Starting $prog: "</span><br><span class="line">    daemon $nginx -c $NGINX_CONF_FILE</span><br><span class="line">    retval=$?</span><br><span class="line">    echo</span><br><span class="line">    [ $retval -eq 0 ] &amp;&amp; touch $lockfile</span><br><span class="line">    return $retval</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">stop() &#123;</span><br><span class="line">    echo -n $"Stopping $prog: "</span><br><span class="line">    killproc $prog -QUIT</span><br><span class="line">    retval=$?</span><br><span class="line">    echo</span><br><span class="line">    [ $retval -eq 0 ] &amp;&amp; rm -f $lockfile</span><br><span class="line">    return $retval</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">restart() &#123;</span><br><span class="line">    configtest || return $?</span><br><span class="line">    stop</span><br><span class="line">    sleep 1</span><br><span class="line">    start</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">reload() &#123;</span><br><span class="line">    configtest || return $?</span><br><span class="line">    echo -n $"Reloading $prog: "</span><br><span class="line">    killproc $nginx -HUP</span><br><span class="line">    RETVAL=$?</span><br><span class="line">    echo</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">force_reload() &#123;</span><br><span class="line">    restart</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">configtest() &#123;</span><br><span class="line"><span class="meta">  $</span>nginx -t -c $NGINX_CONF_FILE</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">rh_status() &#123;</span><br><span class="line">    status $prog</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">rh_status_q() &#123;</span><br><span class="line">    rh_status &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">case "$1" in</span><br><span class="line">    start)</span><br><span class="line">        rh_status_q &amp;&amp; exit 0</span><br><span class="line">        $1</span><br><span class="line">        ;;</span><br><span class="line">    stop)</span><br><span class="line">        rh_status_q || exit 0</span><br><span class="line">        $1</span><br><span class="line">        ;;</span><br><span class="line">    restart|configtest)</span><br><span class="line">        $1</span><br><span class="line">        ;;</span><br><span class="line">    reload)</span><br><span class="line">        rh_status_q || exit 7</span><br><span class="line">        $1</span><br><span class="line">        ;;</span><br><span class="line">    force-reload)</span><br><span class="line">        force_reload</span><br><span class="line">        ;;</span><br><span class="line">    status)</span><br><span class="line">        rh_status</span><br><span class="line">        ;;</span><br><span class="line">    condrestart|try-restart)</span><br><span class="line">        rh_status_q || exit 0</span><br><span class="line">            ;;</span><br><span class="line">    *)</span><br><span class="line">        echo $"Usage: $0 &#123;start|stop|status|restart|condrestart|try-restart|reload|force-reload|configtest&#125;"</span><br><span class="line">        exit 2</span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意脚本中有两个变量需要设置对你的服务器对应位置<br><br>nginx=”/usr/local/tengine/sbin/nginx” <br><br>NGINX_CONF_FILE=”/usr/local/tengine/conf/nginx.conf”`</p>
+</blockquote>
+<h2 id="Nginx配置文件解析"><a href="#Nginx配置文件解析" class="headerlink" title="Nginx配置文件解析"></a>Nginx配置文件解析</h2><h3 id="Nginx配置结构"><a href="#Nginx配置结构" class="headerlink" title="Nginx配置结构"></a>Nginx配置结构</h3><p>nginx配置文件在安装目录的conf目录中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/tengine/conf/nginx.conf</span><br></pre></td></tr></table></figure></p>
+<p>一般来说，Nginx配置文件包含一下几个部分<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 全局块</span><br><span class="line">...              </span><br><span class="line"><span class="meta">#</span> events块</span><br><span class="line">events &#123;         </span><br><span class="line">   ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#</span> http块</span><br><span class="line">http      </span><br><span class="line">&#123;</span><br><span class="line">    # http全局块</span><br><span class="line">    ...   </span><br><span class="line">    # 虚拟主机server块</span><br><span class="line">    server        </span><br><span class="line">    &#123; </span><br><span class="line">        # server全局块</span><br><span class="line">        ...       </span><br><span class="line">        # location块</span><br><span class="line">        location [PATTERN]   </span><br><span class="line">        &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        location [PATTERN] </span><br><span class="line">        &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    server</span><br><span class="line">    &#123;</span><br><span class="line">      ...</span><br><span class="line">    &#125;</span><br><span class="line">    # http全局块</span><br><span class="line">    ...     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>全局块：配置影响nginx全局的指令。</p>
+</li>
+<li><p>events块：配置影响nginx服务器与clinet的网络连接。</p>
+</li>
+<li><p>http块：可以嵌套多个server，配置代理、缓存、日志定义等绝大多数功能和第三方模块的配置。</p>
+</li>
+<li><p>server块：配置虚拟主机的相关参数，一个http中可以有多个server。</p>
+<ul>
+<li>虚拟主机：一种特殊的软硬件技术,它将一台服务器分成多个虚拟的服务器,每个虚拟主机可以独立对外提供服务,这样就可以实现一台主机对外提供多个web服务,你在一个服务器上部署了多个javaWeb工程，然后Nginx这里配置每个工程作为一个server，例如前后端分离，前端工程于后端工程可以作为两个工程部署在同一个服务器，由Nginx统一配置</li>
+</ul>
+</li>
+<li><p>location块：配置请求的路由，以及各种页面的处理情况。</p>
+</li>
+</ul>
+<h3 id="Nginx配置文件具体解析"><a href="#Nginx配置文件具体解析" class="headerlink" title="Nginx配置文件具体解析"></a>Nginx配置文件具体解析</h3><p>这里我会把工程自带的配置文件分段的展示在下方，并整理每个常用配置的作用</p>
+<p><strong>fragment1（全局块）</strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>user  nobody;</span><br><span class="line">worker_processes  1;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>error_log  logs/error.log;</span><br><span class="line"><span class="meta">#</span>error_log  logs/error.log  notice;</span><br><span class="line"><span class="meta">#</span>error_log  logs/error.log  info;</span><br><span class="line"><span class="meta">#</span>error_log  "pipe:rollback logs/error_log interval=1d baknum=7 maxsize=2G";</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>pid        logs/nginx.pid;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>定义Nginx运行的用户和用户组，默认被注释即默认配置为nobody，这个配置代表哪个用户以及用户组运行的Nginx如果在配置时省略了用户组名，那么用户组名默认等于用户名；通常遇到权限问题是这个参数设置的问题，一般不要设置为root</p>
+<p>  <code>user zhou zhou;</code></p>
+</li>
+<li><p>进程数，即Nginx可以开启多少进程，建议设置为等于CPU总核心数。</p>
+<p>  <code>worker_processes 4;</code></p>
+</li>
+<li><p>全局错误日志，格式为<code>error_log &lt;FILE&gt; &lt;LEVEL&gt;;</code>，其中错误日志类型包括<code>[ debug | info | notice | warn | error | crit ]</code></p>
+<p>  <code>error_log /var/log/nginx/error.log info;</code></p>
+</li>
+<li><p>设置进程文件</p>
+<p>  <code>pid /var/run/nginx.pid;</code></p>
+</li>
+</ul>
+<p><strong>fragment2（events块）</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>events模块包含nginx中所有处理连接的设置.</p>
+</li>
+<li><p>events有一个事件模型的配置，默认配置文件中没有设置（后续补充每种设置的作用）</p>
+<p>  <code>use [ kqueue | rtsig | epoll | /dev/poll | select | poll ];</code></p>
+</li>
+<li><p>单个进程最大连接数 <code>worker_connections 1024;</code> </p>
+<ul>
+<li>所以Nginx最大并发总数是 worker_processes 和 worker_connections 的乘积，即 max_clients = worker_processes * worker_connections；</li>
+<li>设置了反向代理的情况下，max_clients = worker_processes * worker_connections / 4，反向代理除以4是一个经验结论</li>
+<li>另外该设置只是理论值，worker_connections值的设置跟内存大小有关，而且因为受到I/O约束，所以max_clients的值要小于系统可以打开的最大文件句柄数，也就是说我的系统最大同时能打开这么多文件，Nginx这边能同时创建的连接应该小于这个值，若查看系统打开的最大文件句柄数使用<code>–$ cat /proc/sys/fs/file-max</code>命令</li>
+<li>worker_connections 的值需根据worker_processes进程数目和系统可以打开的最大文件总数进行适当地进行设置,使得并发总数小于操作系统可以打开的最大文件数目，当然，理论上的并发总数可能会和实际有所偏差，因为主机还有其他的工作进程需要消耗系统资源。</li>
+<li>最后一点是，linux对于一个进程能打开的最大文件句柄也有限制，配置返回如下：系统总限制： <code>/proc/sys/fs/file-max</code>，当前使用句柄数：<code>/proc/sys/fs/file-nr</code>，修改句柄数：<code>ulimit -SHn 65535</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>fragment3（http块）</strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '</span><br><span class="line">    #                  '$status $body_bytes_sent "$http_referer" '</span><br><span class="line">    #                  '"$http_user_agent" "$http_x_forwarded_for"';</span><br><span class="line"></span><br><span class="line">    #access_log  logs/access.log  main;</span><br><span class="line">    #access_log  "pipe:rollback logs/access_log interval=1d baknum=7 maxsize=2G"  main;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    #tcp_nopush     on;</span><br><span class="line"></span><br><span class="line">    #keepalive_timeout  0;</span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line"></span><br><span class="line">    #gzip  on;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">    ...</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">    ...</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p><code>include mime.types;</code> 这里是include了./mime.types这个文件，它存储了文件扩展名与文件类型映射表，内容如下：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">types &#123;</span><br><span class="line">text/html                                        html htm shtml;</span><br><span class="line">text/css                                         css;</span><br><span class="line">text/xml                                         xml;</span><br><span class="line">image/gif                                        gif;</span><br><span class="line">image/jpeg                                       jpeg jpg;</span><br><span class="line">application/javascript                           js;</span><br><span class="line">application/atom+xml                             atom;</span><br><span class="line">application/rss+xml                              rss;</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br></pre></td></tr></table></figure>
+<p>  第一列对应HTTP协议中Content-Type类型，第二列是该类型实际的文件扩展名，Nginx通过服务器端文件的后缀名来判断这个文件属于什么类型，再将该数据类型写入HTTP头部的Content-Type字段中，返回客户端</p>
+</li>
+</ul>
+<ul>
+<li><p><code>default_type application/octet-stream;</code> 即上表中不存在的文件使用该默认类型</p>
+</li>
+<li><p><code>charset utf-8;</code> 默认编码</p>
+</li>
+<li><p><code>client_header_buffer_size 32k;</code> 上传文件大小限制</p>
+</li>
+<li><p><code>sendfile</code> sendfile指令指定nginx是否调用sendfile函数来输出文件</p>
+<ul>
+<li><p>sendfile on; 开启高效文件传输模式，对于普通应用设为 on，对于下载等IO重负载应用，可设置为off，以平衡磁盘与网络I/O处理速度，降低系统的负载，如果图片显示不正常把这个改成off。</p>
+</li>
+<li><p>这个参数的工作原理是这样的，若设置为off时，进行下载时文件首先会传递给Nginx应用，接着Nginx会通知系统内核，并将文件传递给内核，最后由内核通过网卡将文件传输出去，整个过程有两次耗时的IO操作；而若设置为on时，文件不再被传递给Nginx，而是Nginx向内核发送指令，操作内核去获取文件通过网卡将文件传输出去</p>
+</li>
+</ul>
+</li>
+<li><p><code>tcp_nopush</code> 在linux/Unix系统中优化tcp数据传输，仅在sendfile开启时有效</p>
+</li>
+<li><p><code>autoindex on;</code>#开启目录列表访问，合适下载服务器，默认关闭。</p>
+</li>
+<li><p><code>keepalive_timeout 120;</code>长连接超时时间，单位是秒</p>
+</li>
+</ul>
+<ul>
+<li><p><code>gzip on;</code> 开启gzip压缩输出</p>
+<ul>
+<li><p><code>gzip_min_length 1k;</code>  设置允许压缩的页面最小字节数，页面字节数从header头得content-length中进行获取。默认值是0，不管页面多大都压缩。建议设置成大于2k的字节数，小于2k可能会越压越大。  </p>
+</li>
+<li><p><code>gzip_buffers 4 16k;</code> 用于向系统申请缓存，来存储gzip的压缩结果数据流。 例如 4 4k 代表以4k为单位，按照原始数据大小以4k为单位的4倍申请内存。 4 8k 代表以8k为单位，按照原始数据大小以8k为单位的4倍申请内存。如果没有设置，默认值是申请跟原始数据相同大小的内存空间去存储gzip压缩结果。</p>
+</li>
+<li><p><code>gzip_http_version 1.0;</code>压缩版本（默认1.1，前端如果是squid2.5请使用1.0）</p>
+</li>
+<li><p><code>gzip_comp_level 2;</code> 压缩级别，1-10，数字越大压缩的越好，也越占用CPU时间  </p>
+</li>
+<li><p><code>gzip_types text/plain application/x-javascript text/css application/xml;</code>压缩类型，默认值: gzip_types text/html，默认不对js/css文件进行压缩</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><del>哇太多了剩下的明天写</del></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">本文结束 感谢阅读</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/08/java-7/" rel="next" title="JavaWeb笔记-SpringBoot D4">
+                <i class="fa fa-chevron-left"></i> JavaWeb笔记-SpringBoot D4
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/img.jpeg" alt="黑面宝宝">
+            
+              <p class="site-author-name" itemprop="name">黑面宝宝</p>
+              <p class="site-description motion-element" itemprop="description">单纯的菜鸡一枚</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categrories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#web服务器"><span class="nav-number">1.</span> <span class="nav-text">web服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx（Tengine）安装"><span class="nav-number">2.</span> <span class="nav-text">Nginx（Tengine）安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境-amp-依赖"><span class="nav-number">2.1.</span> <span class="nav-text">环境&amp;依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载-amp-安装"><span class="nav-number">2.2.</span> <span class="nav-text">下载&amp;安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#脚本化操作"><span class="nav-number">3.</span> <span class="nav-text">脚本化操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#启动服务"><span class="nav-number">3.0.1.</span> <span class="nav-text">启动服务</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx配置文件解析"><span class="nav-number">4.</span> <span class="nav-text">Nginx配置文件解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx配置结构"><span class="nav-number">4.1.</span> <span class="nav-text">Nginx配置结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx配置文件具体解析"><span class="nav-number">4.2.</span> <span class="nav-text">Nginx配置文件具体解析</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+    
+      <!--/tag cloud-->
+      <!--
+        <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+        <div class="widget-wrap">
+            <h3 class="widget-title"></h3>
+            <div id="myCanvasContainer" class="widget tagcloud" style="margin-top">
+                <canvas width="250" height="250" id="resCanvas" style="width:100%">
+                    <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js基础/">js基础</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/">vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">5</span></li></ul>
+                </canvas>
+            </div>
+        </div>
+      -->
+      <!--/end tag cloud-->
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-snowflke-o"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">黑面宝宝</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'Bm4PDVfyII7AkipwzxUcreCx-gzGzoHsz',
+        appKey: '615Uf5xJsI8lA8parGYw56gv',
+        placeholder: '发表你的看法吧！',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Bm4PDVfyII7AkipwzxUcreCx-gzGzoHsz", "615Uf5xJsI8lA8parGYw56gv");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+ <!-- <script type="text/javascript" src="/js/src/instantclick.js" data-no-instant></script>
+  <script data-no-instant>InstantClick.init();</script>-->
+</body>
+</html>
