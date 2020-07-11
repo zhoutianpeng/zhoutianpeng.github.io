@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="黑面宝宝的博客">
 <meta property="og:description" content="好的，我们来搞web服务器，这一节主要包括一下内容：Nginx（Tengine）安装&amp;amp;脚本化操作、Nginx使用简介、Nginx配置文件分析">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-07-10T13:53:44.236Z">
+<meta property="og:updated_time" content="2020-07-11T03:31:39.234Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaWeb笔记-Nginx D1">
 <meta name="twitter:description" content="好的，我们来搞web服务器，这一节主要包括一下内容：Nginx（Tengine）安装&amp;amp;脚本化操作、Nginx使用简介、Nginx配置文件分析">
@@ -414,8 +414,8 @@
 <h2 id="Nginx使用简介"><a href="#Nginx使用简介" class="headerlink" title="Nginx使用简介"></a>Nginx使用简介</h2><p>Nginx作为一个web服务器，以内存占有少、并发能力强而出名，有非常多国内的互联网公司在使用；首先是因为高并发且低内存占用特性，官方测试Nginx能够支撑5万并发链接，运行非常稳定，其次是我们经常用它来做负载均衡，动静分离等操作</p>
 <h3 id="Web服务器与应用服务器"><a href="#Web服务器与应用服务器" class="headerlink" title="Web服务器与应用服务器"></a>Web服务器与应用服务器</h3><p>第一次接触 Nginx 的时候有一个小小的疑问，哎我不是已经有了一个 tomcat 服务器了吗，这个服务器可以对外提供服务呀，为什么还要使用 Nginx ；</p>
 <p>我对于这个问题的理解是这样的，首先你需要区分Web服务器与应用服务器在功能上的不同，所谓 Web 服务器，或者叫做 HTTP 服务器，它主要关心的是在 HTTP 协议层面的传输和访问控制，比如常见的Web服务器有Nginx、Apache、IIS，它们主要提供的功能是让客户端通过HTTP协议访问服务器上的静态资源，另外就是做代理、负载均衡等；而对于应用服务器，比如tomcat，则是一个应用执行的容器，同时为了方便应用服务器往往也会集成一些HTTP服务器功能，但是不如HTTP服务器那么强大，所以应用服务器一般是运行在HTTP服务器的背后，执行应用程序业务逻辑，最后将动态内容转化为静态的内容后，由HTTP服务器返回客户端；所以你可以看见Nginx+tomcat或者Nginx+nodejs等组合</p>
-<h3 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h3><p>经常听到正向代理与反向代理的概念，其中代理的意思与设计模式中的代理其实是一个意思：给某一个真实对象（realsubject）提供一个代理（proxy），并由代理对象（proxy）来控制对真实对象（realsubject）的访问，我们在基于HTTP协议的web场景中来看一下，这里就俩对象客户端（client）和服务器端（Server），如果你对client做了代理就是正向代理，比如科学上网？我们都知道有些网站是不存在的比如Google、油管，我们上不去，那就由代理服务器来帮我们访问，行了不能再写了…，接着如果你对于Server做了代理那就是反向代理，也就是你并不知道自己真实访问的是哪台物理服务器，这是由代理服务器控制的。</p>
-<h3 id="虚拟主机"><a href="#虚拟主机" class="headerlink" title="虚拟主机"></a>虚拟主机</h3><p>Nginx做虚拟主机，意思就是将一个服务器当做多个服务器用，Nginx部署在一个物理服务器上，却通过ip、端口、域名对外实现多个访问入口，让客户端以为是多个服务器，后面会讲解如何配置虚拟主机。</p>
+<h3 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h3><p>经常听到正向代理与反向代理的概念，其中代理的意思与设计模式中的代理其实是一个意思：给某一个真实对象（realsubject）提供一个代理（proxy），并由代理对象（proxy）来控制对真实对象（realsubject）的访问，我们在基于HTTP协议的web场景中来看一下，这里就俩对象客户端（client）和服务器端（Server），如果你对client做了代理就是正向代理，比如科学上网？我们都知道有些网站是不存在的比如Google、油管，我们上不去，那就由代理服务器来帮我们访问，行了不能再写了…，接着如果你对于Server做了代理那就是反向代理，比如你有非常多的服务器组成了一个集群，通常我们是使用Nginx为这些服务器做代理，用户访问的是Nginx服务器，并不知道自己真实访问的是哪台物理服务器。</p>
+<h3 id="虚拟主机"><a href="#虚拟主机" class="headerlink" title="虚拟主机"></a>虚拟主机</h3><p>Nginx可以做虚拟主机，意思就是将一个服务器当做多个服务器用，Nginx部署在一个物理服务器上，却通过ip、端口、域名对外实现多个访问入口，让客户端以为是多个服务器，后面会讲解如何配置虚拟主机。</p>
 <h3 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h3><p>一台服务器能处理的并发是有上限的，通常我们为了提高服务器的处理并发的能力可以采用负载均衡的方式，简单理解为就是在多台服务器上部署了相同的程序，在Nginx做好配置，用户访问Nignx服务器，由Nginx控制用户请求由哪一台服务器处理，所以负载均衡可以理解为是反向代理 + 为每个代理设置weight权重 </p>
 <h2 id="Nginx配置文件解析"><a href="#Nginx配置文件解析" class="headerlink" title="Nginx配置文件解析"></a>Nginx配置文件解析</h2><p>Nginx使用比较容易，上节提到的功能我们直接在Nginx的配置文件中做相应的配置就可以使用，而不需要做单独的编程</p>
 <p>nginx配置文件在安装目录的conf目录中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/tengine/conf/nginx.conf</span><br></pre></td></tr></table></figure></p>
@@ -516,6 +516,13 @@
 </ul>
 <p><strong>优先级</strong>：= &gt; ^~ &gt; ~|~* &gt;  /|/dir/</p>
 <p>这里展示一个demo<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"># =是指匹配与条件完全相同的路径，此时只匹配/的资源路径，形如/account等路径不会被匹配</span><br><span class="line">location = / &#123;</span><br><span class="line">    [ configuration A ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 因为所有的地址都以 / 开头，所以这条规则将匹配到所有请求，但还会继续往下匹配，正则和最长字符串会优先匹配</span><br><span class="line">location / &#123;</span><br><span class="line">    [ configuration B ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 匹配任何以 /documents/ 开头的路径，匹配符合以后，还会继续往下搜索，只有后面的正则表达式没有匹配到时，这一条才会采用这一条</span><br><span class="line">location /documents/ &#123;</span><br><span class="line">    [ configuration C ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 匹配任何以 /images/ 开头的地址，如果匹配符合以后，则不需要后续进行正则匹配</span><br><span class="line">location ^~ /images/ &#123;</span><br><span class="line">    [ configuration D ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 匹配所有以 gif,jpg或jpeg 结尾的请求</span><br><span class="line">location ~* \.(gif|jpg|jpeg)$ &#123;</span><br><span class="line">    [ configuration E ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<!-- 
+结论
+- location会从头开始顺序遍历到最后
+    - 如果location 是=精确匹配指定的路径，若找到对应匹配直接结束
+    - 如果location 是^~，后续不会再匹配任何的正则表达式location，继续遍历但不是顺序而是跳序
+    - 其他location 如果匹配上记录并继续向下，未匹配上也继续向下
+- 结束后找到最长字符串最为匹配结果 -->
 
       
     </div>
