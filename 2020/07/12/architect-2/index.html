@@ -87,10 +87,12 @@
 <meta property="og:site_name" content="黑面宝宝的博客">
 <meta property="og:description" content="这节笔记包含如下内容：Nginx反向代理、负载均衡、配置session共享、动静分离以及其他简单配置">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-07-13T02:40:51.256Z">
+<meta property="og:image" content="http://yoursite.com/img/java/nginxD2.png">
+<meta property="og:updated_time" content="2020-07-13T03:59:10.020Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaWeb笔记-Nginx D2">
 <meta name="twitter:description" content="这节笔记包含如下内容：Nginx反向代理、负载均衡、配置session共享、动静分离以及其他简单配置">
+<meta name="twitter:image" content="http://yoursite.com/img/java/nginxD2.png">
 
 
 
@@ -330,7 +332,7 @@
                 <i class="fa fa-clock-o"></i>
                 </span>
                 <span class="post-meta-item-text">阅读时长</span>
-                <span class="post-count"> 3min </span>
+                <span class="post-count"> 10min </span>
                 </span>
               </span>
 
@@ -409,20 +411,78 @@
 <p><strong>负载均衡策略</strong></p>
 <p>我们常用的负载均衡策略有6种，分别是<code>轮询</code>、<code>轮询+weight</code>、<code>ip_hash</code>、<code>url_hash</code>、<code>least_conn</code>、<code>least_time</code></p>
 <ul>
-<li><p>默认轮询方式<br>  未在<code>upstream</code>中设置策略时，默认是轮询方式，即每个请求按时序逐一分配到不同的服务器</p>
+<li><p>默认轮询方式</p>
+<p>  未在<code>upstream</code>中设置策略时，默认是轮询方式，即每个请求按时序逐一分配到不同的服务器</p>
 </li>
-<li><p>轮询+weight`<br>  即权重越大的服务器访问概率越大，用在各个服务器性能不一样的情况   </p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">upstream backserver &#123;</span><br><span class="line">    server 192.168.0.14 weight=1;</span><br><span class="line">    server 192.168.0.15 weight=2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li><p>轮询+weight</p>
+<p>  即权重越大的服务器访问概率越大，用在各个服务器性能不一样的情况   </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat &#123;</span><br><span class="line">    server 192.168.0.14 weight=1;</span><br><span class="line">    server 192.168.0.15 weight=2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>ip_hash<br>  ip_hash是指若客户已经访问了某个服务器，当用户再次访问时，会自动定位到该服务器</p>
+<li><p>ip_hash</p>
+<p>  ip_hash是指若客户已经访问了某个服务器，当用户再次访问时，会自动定位到该服务器</p>
 <p>  使用ip_hash后是无法保证后端服务器的负载均衡，可能导致部分服务器接收的请求多，有的服务器收到的请求少，而且权重等方法将不起作用</p>
 <p>  ip_hash可以避免些别的问题例如session问题，但是建议采用后端服务的session共享方式代替ip_hash方式</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream backserver &#123;</span><br><span class="line">    ip_hash;</span><br><span class="line">    server 192.168.0.14;</span><br><span class="line">    server 192.168.0.15;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat &#123;</span><br><span class="line">    ip_hash;</span><br><span class="line">    server 192.168.0.14;</span><br><span class="line">    server 192.168.0.15;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li></li>
+<li><p>url_hash</p>
+<p>  根据每次请求的url地址不同，将会访问到不同的服务器节点，hash后访问到的服务器节点将会固定。</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat &#123;</span><br><span class="line">    #使用ip_hash作负载均衡</span><br><span class="line">    ip_hash;</span><br><span class="line">    #获取到请求的ip地址</span><br><span class="line">    hash $request_uri;</span><br><span class="line">    server 192.168.0.14;</span><br><span class="line">    server 192.168.0.15;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>least_conn</p>
+<p>  会找到连接数最少的服务器中，并且配合权重来处理，如果有多台候选服务器的话，会接着使用轮询的方式</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat &#123;</span><br><span class="line">    least_time; </span><br><span class="line">    server 192.168.0.14;</span><br><span class="line">    server 192.168.0.15;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>least_time</p>
+<p>  找到平均响应时间最少并且连接数最少的机器，并结合权重，如何有多台候选服务器的话，会接着使用轮询的方式；配置方式与least_conn类似</p>
+</li>
 </ul>
-<div class="note warning"><p>未完待更</p></div>
-
+<h3 id="健康检查模块"><a href="#健康检查模块" class="headerlink" title="健康检查模块"></a>健康检查模块</h3><p>该模块是Tengine提供的主动式后端服务器健康检查功能，该模块在Tengine-1.4.0版本以前没有默认开启，它可以在配置编译选项的时候开启：./configure –with-http_upstream_check_module</p>
+<p>我们需要配置location，专门设置一个url来显示健康检查模块，当你配置好并访问时会显示如下页面</p>
+<p><img src="/img/java/nginxD2.png" width="90%" style="text-align:center"></p>
+<p>这个页面会展示所有配置的服务器，但不会显示设置了down关键字的服务器，如果某些服务器在运行过程中挂掉，对应的记录会显示红色</p>
+<ul>
+<li>server number是后端服务器的数量</li>
+<li>generation是Nginx reload的次数</li>
+<li>Index是服务器的索引</li>
+<li>Upstream是在配置中upstream的名称</li>
+<li>Name是服务器IP</li>
+<li>Status是服务器的状态</li>
+<li>Rise是服务器连续检查成功的次数</li>
+<li>Fall是连续检查失败的次数</li>
+<li>Check type是检查的方式，</li>
+<li>Check port是后端专门为健康检查设置的端口</li>
+</ul>
+<p>下面是一个配置健康检查模块的Examples</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    upstream cluster1 &#123;</span><br><span class="line">        # simple round-robin</span><br><span class="line">        server 192.168.0.1:80;</span><br><span class="line">        server 192.168.0.2:80;</span><br><span class="line"></span><br><span class="line">        check interval=3000 rise=2 fall=5 timeout=1000 type=http;</span><br><span class="line">        check_http_send &quot;HEAD / HTTP/1.0\r\n\r\n&quot;;</span><br><span class="line">        check_http_expect_alive http_2xx http_3xx;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    upstream cluster2 &#123;</span><br><span class="line">        # simple round-robin</span><br><span class="line">        server 192.168.0.3:80;</span><br><span class="line">        server 192.168.0.4:80;</span><br><span class="line"></span><br><span class="line">        check interval=3000 rise=2 fall=5 timeout=1000 type=http;</span><br><span class="line">        check_keepalive_requests 100;</span><br><span class="line">        check_http_send &quot;HEAD / HTTP/1.1\r\nConnection: keep-alive\r\n\r\n&quot;;</span><br><span class="line">        check_http_expect_alive http_2xx http_3xx;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line"></span><br><span class="line">        location /1 &#123;</span><br><span class="line">            proxy_pass http://cluster1;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location /2 &#123;</span><br><span class="line">            proxy_pass http://cluster2;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location /status &#123;</span><br><span class="line">            check_status;</span><br><span class="line"></span><br><span class="line">            access_log   off;</span><br><span class="line">            allow SOME.IP.ADD.RESS;</span><br><span class="line">            deny all;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先需要配置location，为我们提供检查模块入口，这里使用allow/deny通过IP限制了该模块的访问，</p>
+<p>接着是在upstream块中配置check指令打开后端服务器的健康检查功能，其参数意义是：</p>
+<ul>
+<li>interval：向后端发送的健康检查包的间隔。</li>
+<li>fall(fall_count): 如果连续失败次数达到fall_count，服务器就被认为是down。</li>
+<li>rise(rise_count): 如果连续成功次数达到rise_count，服务器就被认为是up。</li>
+<li>timeout: 后端健康请求的超时时间。</li>
+<li>default_down: 设定初始时服务器的状态，如果是true，就说明默认是down的，如果是false，就是up的。默认值是true，也就是一开始服务器认为是不可用，要等健康检查包达到一定成功次数以后才会被认为是健康的。</li>
+<li>typehttp：发送HTTP请求，通过后端的回复包的状态来判断后端是否存活</li>
+</ul>
+<p>check_http_send指令：该指令可以配置http健康检查包发送的请求内容。为了减少传输数据量，推荐采用”HEAD”方法</p>
+<p>check_http_expect_alive指令：该指令指定HTTP回复的成功状态，默认认为2XX和3XX的状态是健康的</p>
+<h2 id="Session共享"><a href="#Session共享" class="headerlink" title="Session共享"></a>Session共享</h2><p>当我们使用多台服务器做负载均衡时会出现session问题，用户在第一台服务器登录，再次访问假设被Nginx代理到了第二台服务器中，此时用户的session信息被保存到第一台服务器中，就会出现需要用户重新登录的问题，上面提到Nginx可以用ip_hash方式来避免这个问题，但通常我们会用Session共享的方案来解决问题</p>
+<h3 id="Memcached"><a href="#Memcached" class="headerlink" title="Memcached"></a>Memcached</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><ul>
+<li>安装libevent</li>
+<li>安装memcached</li>
+</ul>
+<p>可以用yum方式安装 <code>yum –y install memcached</code></p>
+<h4 id="启动memcached"><a href="#启动memcached" class="headerlink" title="启动memcached"></a>启动memcached</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">memcached -d -m 128 -u root -l 192.168.43.151 -p 11211 -c 256 -P /tmp/memcached.pid</span><br><span class="line">memcached-tool 192.168.2.51:11211</span><br><span class="line">参数解释：</span><br><span class="line">-d:后台启动服务</span><br><span class="line">-m:缓存大小</span><br><span class="line">-p：端口</span><br><span class="line">-l:IP</span><br><span class="line">-P:服务器启动后的系统进程ID，存储的文件</span><br><span class="line">-u:服务器启动是以哪个用户名作为管理用户</span><br></pre></td></tr></table></figure>
+<h3 id="Nginx配置"><a href="#Nginx配置" class="headerlink" title="Nginx配置"></a>Nginx配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat&#123;</span><br><span class="line">    server 192.168.2.52:8080;</span><br><span class="line">    server 192.168.2.53:8080;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location /tomcat &#123;</span><br><span class="line">    proxy_pass http://tomcat/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Tomcat配置"><a href="#Tomcat配置" class="headerlink" title="Tomcat配置"></a>Tomcat配置</h3><p>到tomcat的lib下，jar包见附件</p>
+<p>每个tomcat里面的context.xml中加入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;Manager className=&quot;de.javakaffee.web.msm.MemcachedBackupSessionManager&quot; </span><br><span class="line">	memcachedNodes=&quot;n1:1192.168.2.52:11211&quot; </span><br><span class="line">    sticky=&quot;false&quot; </span><br><span class="line">    lockingMode=&quot;auto&quot;</span><br><span class="line">    sessionBackupAsync=&quot;false&quot;</span><br><span class="line">	requestUriIgnorePattern=&quot;.*\.(ico|png|gif|jpg|css|js)$&quot;</span><br><span class="line">    sessionBackupTimeout=&quot;1000&quot; transcoderFactoryClass=&quot;de.javakaffee.web.msm.serializer.kryo.KryoTranscoderFactory&quot; </span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+<p>在使用session共享时要注意每个服务器的本机时间，如果时间不一致会导致session离奇的失效</p>
+<h2 id="Nginx动静分离"><a href="#Nginx动静分离" class="headerlink" title="Nginx动静分离"></a>Nginx动静分离</h2><p>动静分离是指对于请求静态资源比如html、js、css、图片，该请求由Nginx处理，而不再交给应用服务器，这样会有效的提高应用服务器的负载，让应用服务器专心处理业务请求；比如在部署前后端分离工程时，由webpack打包出来的前端工程可以通过Nginx来配置访问，但需要解决好跨域问题</p>
+<p>动静分离的配置如下，似乎此时这个配置还有很多细节问题未注意，后续遇到时会补充<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    proxy_pass http://192.168.150.11:803;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|html|htm|css|js)$ &#123;</span><br><span class="line">    root  /var/data/;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Nginx其他配置"><a href="#Nginx其他配置" class="headerlink" title="Nginx其他配置"></a>Nginx其他配置</h2><h3 id="设置开机自动启动"><a href="#设置开机自动启动" class="headerlink" title="设置开机自动启动"></a>设置开机自动启动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --list</span><br><span class="line">chkconfig --add nginx</span><br><span class="line">chkconfig nginx on</span><br></pre></td></tr></table></figure>
+<h2 id="配置虚拟目录"><a href="#配置虚拟目录" class="headerlink" title="配置虚拟目录"></a>配置虚拟目录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location /www &#123;</span><br><span class="line">    alias  /var/data/www1;</span><br><span class="line">    index  index.html index.htm a.html;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="配置自动索引"><a href="#配置自动索引" class="headerlink" title="配置自动索引"></a>配置自动索引</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location /dir &#123;</span><br><span class="line">    alias  /var/data/www1/;</span><br><span class="line">    autoindex on;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -623,7 +683,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#反向代理"><span class="nav-number">1.</span> <span class="nav-text">反向代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#负载均衡"><span class="nav-number">2.</span> <span class="nav-text">负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#负载均衡配置"><span class="nav-number">2.1.</span> <span class="nav-text">负载均衡配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#负载均衡参数"><span class="nav-number">2.2.</span> <span class="nav-text">负载均衡参数</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#反向代理"><span class="nav-number">1.</span> <span class="nav-text">反向代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#负载均衡"><span class="nav-number">2.</span> <span class="nav-text">负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#负载均衡配置"><span class="nav-number">2.1.</span> <span class="nav-text">负载均衡配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#负载均衡参数"><span class="nav-number">2.2.</span> <span class="nav-text">负载均衡参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#健康检查模块"><span class="nav-number">2.3.</span> <span class="nav-text">健康检查模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Session共享"><span class="nav-number">3.</span> <span class="nav-text">Session共享</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Memcached"><span class="nav-number">3.1.</span> <span class="nav-text">Memcached</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装"><span class="nav-number">3.1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动memcached"><span class="nav-number">3.1.2.</span> <span class="nav-text">启动memcached</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx配置"><span class="nav-number">3.2.</span> <span class="nav-text">Nginx配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tomcat配置"><span class="nav-number">3.3.</span> <span class="nav-text">Tomcat配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx动静分离"><span class="nav-number">4.</span> <span class="nav-text">Nginx动静分离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx其他配置"><span class="nav-number">5.</span> <span class="nav-text">Nginx其他配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#设置开机自动启动"><span class="nav-number">5.1.</span> <span class="nav-text">设置开机自动启动</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置虚拟目录"><span class="nav-number">6.</span> <span class="nav-text">配置虚拟目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置自动索引"><span class="nav-number">7.</span> <span class="nav-text">配置自动索引</span></a></li></ol></div>
             
 
           </div>
