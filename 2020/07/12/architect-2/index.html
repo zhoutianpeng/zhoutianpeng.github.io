@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="黑面宝宝的博客">
 <meta property="og:description" content="这节笔记包含如下内容：Nginx反向代理、负载均衡、配置session共享、动静分离以及其他简单配置">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-07-12T16:06:13.792Z">
+<meta property="og:updated_time" content="2020-07-13T02:40:51.256Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaWeb笔记-Nginx D2">
 <meta name="twitter:description" content="这节笔记包含如下内容：Nginx反向代理、负载均衡、配置session共享、动静分离以及其他简单配置">
@@ -419,6 +419,7 @@
 <p>  ip_hash可以避免些别的问题例如session问题，但是建议采用后端服务的session共享方式代替ip_hash方式</p>
   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream backserver &#123;</span><br><span class="line">    ip_hash;</span><br><span class="line">    server 192.168.0.14;</span><br><span class="line">    server 192.168.0.15;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
+<li></li>
 </ul>
 <div class="note warning"><p>未完待更</p></div>
 
