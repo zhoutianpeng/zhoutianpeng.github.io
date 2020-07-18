@@ -87,13 +87,13 @@
 <meta property="og:site_name" content="黑面宝宝的博客">
 <meta property="og:description" content="该笔记记录了使用FastDFS搭建单节点文件服务器的过程，主要包括FastDFS简介，FastDFS工作流程，单节点安装配置，配置Nginx进行http访问等操作">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2020/07/16/img/java/upload.png">
-<meta property="og:image" content="http://yoursite.com/2020/07/16/img/java/download.png">
-<meta property="og:updated_time" content="2020-07-18T14:18:30.287Z">
+<meta property="og:image" content="http://yoursite.com/img/java/upload.png">
+<meta property="og:image" content="http://yoursite.com/img/java/download.png">
+<meta property="og:updated_time" content="2020-07-18T14:21:19.105Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaWeb笔记-FastDFS D1">
 <meta name="twitter:description" content="该笔记记录了使用FastDFS搭建单节点文件服务器的过程，主要包括FastDFS简介，FastDFS工作流程，单节点安装配置，配置Nginx进行http访问等操作">
-<meta name="twitter:image" content="http://yoursite.com/2020/07/16/img/java/upload.png">
+<meta name="twitter:image" content="http://yoursite.com/img/java/upload.png">
 
 
 
@@ -398,7 +398,6 @@
       
         <p>该笔记记录了使用FastDFS搭建单节点文件服务器的过程，主要包括FastDFS简介，FastDFS工作流程，单节点安装配置，配置Nginx进行http访问等操作</p>
 <a id="more"></a>
-<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>FastDFS简介</p>
 <h2 id="FastDFS简介"><a href="#FastDFS简介" class="headerlink" title="FastDFS简介"></a>FastDFS简介</h2><p>FastDFS是使用C语言开发的轻量级分布式文件系统，特别适合于以文件为载体的在线服务，比如视频网站，图片网站；它主要提供对于文件管理的功能，包括但不仅限于文件存储、文件同步、文件上传&amp;下载；FastDFS考虑了冗余备份、负载均衡、线性扩容等机制，并注重高可用、高性能指标，所以使用FastDFS能够快速的搭建出一套高性能的文件服务器集群</p>
 <p>FastDFS中主要包含三个角色：客户端（Client）、追踪服务器（Tracker Server）、存储服务器（Storage Server）</p>
 <ul>
@@ -410,7 +409,7 @@
 <p>FastDFS的存储服务与追踪服务可以是单机或者是由多台由服务器构成的集群，存储服务与追踪服务的服务器可以随时增加或者下线而不会影响线上服务；</p>
 <p>存储服务完成了文件管理的所有功能：存储、同步、存取等接口，存储服务不仅仅保存文件还可以保存文件的元信息(metadata)，metadata是文件的属性列表以键值对的形式保存了文件的属性信息。存储服务为了支持大容量存储，采用了分组的组织方式，整个存储系统由一个或者多个组构成，组就类似于Windows的C、D、F等磁盘的概念，每个组之间的文件是相互独立的，最终整个存储系统的总存储容量是所有组的存储容量之和；一个组可以由一台或者多台服务器构成，这里要提一下如果一个组有多台服务器并不能起到增加这个组存储容量的作用，同组的多台服务器之间存储的内容是相同的，如果你在某组内上传一个文件，系统会自动把这个文件在同组内所有服务器中拷贝一份，所以同组之内的多台服务器是用来做冗余备份和负载均衡的，因此某个组的最大存储容量时等于这个组内最小的那台服务器存储空间；如果你需要在某个组内增加服务器，系统会先在新服务器中自动同步组内的文件，同步完成后系统才会允许新增服务器上线提供服务。为了提高系统的总存储空间我们应该增加新的组，而不是在组内添加服务器，只需要添加一台或者多台服务器，并配置为新的组，这样就可以了，所以在FastDFS中标示一个文件的是由两部分组成：组名+文件名。</p>
 <p>因为FastDFS是一个以组为单位的分布式的文件系统，所以在请求文件时需要一个调用的程序来决定实际由哪个服务器来处理请求。这就是追踪服务器的任务，主要是做调度任务并且在访问上起到了负载均衡的作用，例如请求是上传文件到某一个组内，追踪服务器会根据一定的策略查询这个组可用的存储服务器，返回存储服务器的IP与端口，追踪服务器记录了所有的存储服务器状态，是连接client与存储服务器的枢纽。如果在FastDFS中部署了多台存储服务器，存储服务器之间是对等的关系，同时提供服务。存储服务器会定期的向追踪服务器集群发送自己的存储信息，包括磁盘剩余空间、文件同步状态、文件上传下载次数等数据。</p>
-<h2 id="FastDFS上传下载流程"><a href="#FastDFS上传下载流程" class="headerlink" title="FastDFS上传下载流程"></a>FastDFS上传下载流程</h2><p><strong>上传流程</strong><br><img src="../img/java/upload.png" width="90%" style="text-align:center"></p>
+<h2 id="FastDFS上传下载流程"><a href="#FastDFS上传下载流程" class="headerlink" title="FastDFS上传下载流程"></a>FastDFS上传下载流程</h2><p><strong>上传流程</strong><br><img src="/img/java/upload.png" width="90%" style="text-align:center"></p>
 <ul>
 <li>storage定期的向tracker发送自己的存储信息</li>
 <li>client向tracker发送上传文件的请求，不需要附加参数<ul>
@@ -426,7 +425,7 @@
 </ul>
 </li>
 </ul>
-<p><strong>下载流程</strong><br><img src="../img/java/download.png" width="90%" style="text-align:center"></p>
+<p><strong>下载流程</strong><br><img src="/img/java/download.png" width="90%" style="text-align:center"></p>
 <ul>
 <li>client询问tracker下载文件的storage，参数为文件标识（组名和文件名）；</li>
 <li>tracker返回一台可用的storage；</li>
@@ -739,7 +738,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FastDFS简介"><span class="nav-number">2.</span> <span class="nav-text">FastDFS简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FastDFS上传下载流程"><span class="nav-number">3.</span> <span class="nav-text">FastDFS上传下载流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单节点安装配置FastDFS"><span class="nav-number">4.</span> <span class="nav-text">单节点安装配置FastDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装依赖"><span class="nav-number">4.1.</span> <span class="nav-text">安装依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置启动Storage服务器"><span class="nav-number">4.2.</span> <span class="nav-text">配置启动Storage服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置使用Client"><span class="nav-number">4.3.</span> <span class="nav-text">配置使用Client</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Nginx组件"><span class="nav-number">5.</span> <span class="nav-text">配置Nginx组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java客户端"><span class="nav-number">5.1.</span> <span class="nav-text">Java客户端</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#FastDFS简介"><span class="nav-number">1.</span> <span class="nav-text">FastDFS简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FastDFS上传下载流程"><span class="nav-number">2.</span> <span class="nav-text">FastDFS上传下载流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单节点安装配置FastDFS"><span class="nav-number">3.</span> <span class="nav-text">单节点安装配置FastDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装依赖"><span class="nav-number">3.1.</span> <span class="nav-text">安装依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置启动Storage服务器"><span class="nav-number">3.2.</span> <span class="nav-text">配置启动Storage服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置使用Client"><span class="nav-number">3.3.</span> <span class="nav-text">配置使用Client</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Nginx组件"><span class="nav-number">4.</span> <span class="nav-text">配置Nginx组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java客户端"><span class="nav-number">4.1.</span> <span class="nav-text">Java客户端</span></a></li></ol></li></ol></div>
             
 
           </div>
