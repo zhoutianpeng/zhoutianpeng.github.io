@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/img/java/upload.png">
 <meta property="og:image" content="http://yoursite.com/img/java/download.png">
-<meta property="og:updated_time" content="2020-07-18T14:21:19.105Z">
+<meta property="og:updated_time" content="2020-07-18T14:27:45.733Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaWeb笔记-FastDFS D1">
 <meta name="twitter:description" content="该笔记记录了使用FastDFS搭建单节点文件服务器的过程，主要包括FastDFS简介，FastDFS工作流程，单节点安装配置，配置Nginx进行http访问等操作">
@@ -523,7 +523,7 @@
 <p>只要修改Nginx的配置就可以</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location ~ /group([0-9])/M00 &#123;</span><br><span class="line">    ngx_fastdfs_module;</span><br><span class="line">    add_header Content-Disposition &quot;attachment;filename=$arg_attname&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这样我们在访问文件时url需要加上这样的一个参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://your.ip/group1/M00/00/00/wKiWC10xxc6AfHCKAAAib-i5DLU543_big.log？attachment=a.log</span><br></pre></td></tr></table></figure></p>
-<h3 id="Java客户端"><a href="#Java客户端" class="headerlink" title="Java客户端"></a>Java客户端</h3><p>上文中都是通过程序自带的命令作为client，该小节记录实际将JavaWeb工程作为client来访问FastDFS，这里使用了FastDFS_Client这个项目来访问FastDFS，在Java工程中配置可以参看源代码的README，<code>https://github.com/tobato/FastDFS_Client</code>，是一个蛮详细的中文文档，这里只简单的记录基本的使用</p>
+<h2 id="Java客户端"><a href="#Java客户端" class="headerlink" title="Java客户端"></a>Java客户端</h2><p>上文中都是通过程序自带的命令作为client，该小节记录实际将JavaWeb工程作为client来访问FastDFS，这里使用了FastDFS_Client这个项目来访问FastDFS，在Java工程中配置可以参看源代码的README，<code>https://github.com/tobato/FastDFS_Client</code>，是一个蛮详细的中文文档，这里只简单的记录基本的使用</p>
 <p><strong>1、安装依赖</strong></p>
 <dependency><br>   <groupid>net.oschina.zcx7878</groupid><br>   <artifactid>fastdfs-client-java</artifactid><br>   <version>1.27.0.0</version><br></dependency>
 
@@ -738,7 +738,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#FastDFS简介"><span class="nav-number">1.</span> <span class="nav-text">FastDFS简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FastDFS上传下载流程"><span class="nav-number">2.</span> <span class="nav-text">FastDFS上传下载流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单节点安装配置FastDFS"><span class="nav-number">3.</span> <span class="nav-text">单节点安装配置FastDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装依赖"><span class="nav-number">3.1.</span> <span class="nav-text">安装依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置启动Storage服务器"><span class="nav-number">3.2.</span> <span class="nav-text">配置启动Storage服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置使用Client"><span class="nav-number">3.3.</span> <span class="nav-text">配置使用Client</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Nginx组件"><span class="nav-number">4.</span> <span class="nav-text">配置Nginx组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java客户端"><span class="nav-number">4.1.</span> <span class="nav-text">Java客户端</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#FastDFS简介"><span class="nav-number">1.</span> <span class="nav-text">FastDFS简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FastDFS上传下载流程"><span class="nav-number">2.</span> <span class="nav-text">FastDFS上传下载流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单节点安装配置FastDFS"><span class="nav-number">3.</span> <span class="nav-text">单节点安装配置FastDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装依赖"><span class="nav-number">3.1.</span> <span class="nav-text">安装依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置启动Storage服务器"><span class="nav-number">3.2.</span> <span class="nav-text">配置启动Storage服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置使用Client"><span class="nav-number">3.3.</span> <span class="nav-text">配置使用Client</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Nginx组件"><span class="nav-number">4.</span> <span class="nav-text">配置Nginx组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java客户端"><span class="nav-number">5.</span> <span class="nav-text">Java客户端</span></a></li></ol></div>
             
 
           </div>
