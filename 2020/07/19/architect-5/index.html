@@ -79,21 +79,21 @@
 
 
 
-<meta name="description" content="我们暂时跳过FastDSF集群的搭建，先来看一下其他的负载均衡技术，这节笔记包括以下内容：LVS与Nginx在做负载均衡时的区别，接着看一下LVS的三种负载均衡的模型">
+<meta name="description" content="我们暂时跳过FastDSF集群的搭建，先来看一下其他的负载均衡技术，这节笔记包括以下内容：LVS简介、LVS的三种负载均衡的模型">
 <meta name="keywords" content="LVS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaWeb笔记-LVS负载均衡 D1">
 <meta property="og:url" content="http://yoursite.com/2020/07/19/architect-5/index.html">
 <meta property="og:site_name" content="黑面宝宝的博客">
-<meta property="og:description" content="我们暂时跳过FastDSF集群的搭建，先来看一下其他的负载均衡技术，这节笔记包括以下内容：LVS与Nginx在做负载均衡时的区别，接着看一下LVS的三种负载均衡的模型">
+<meta property="og:description" content="我们暂时跳过FastDSF集群的搭建，先来看一下其他的负载均衡技术，这节笔记包括以下内容：LVS简介、LVS的三种负载均衡的模型">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2020/07/19/img/java/LVSROUTER.png">
 <meta property="og:image" content="http://yoursite.com/2020/07/19/img/java/LVS1.png">
 <meta property="og:image" content="http://yoursite.com/2020/07/19/img/java/LVS2.png">
-<meta property="og:updated_time" content="2020-07-20T16:27:17.464Z">
+<meta property="og:updated_time" content="2020-07-20T16:28:59.301Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaWeb笔记-LVS负载均衡 D1">
-<meta name="twitter:description" content="我们暂时跳过FastDSF集群的搭建，先来看一下其他的负载均衡技术，这节笔记包括以下内容：LVS与Nginx在做负载均衡时的区别，接着看一下LVS的三种负载均衡的模型">
+<meta name="twitter:description" content="我们暂时跳过FastDSF集群的搭建，先来看一下其他的负载均衡技术，这节笔记包括以下内容：LVS简介、LVS的三种负载均衡的模型">
 <meta name="twitter:image" content="http://yoursite.com/2020/07/19/img/java/LVSROUTER.png">
 
 
@@ -397,7 +397,7 @@
       
 
       
-        <p>我们暂时跳过FastDSF集群的搭建，先来看一下其他的负载均衡技术，这节笔记包括以下内容：LVS与Nginx在做负载均衡时的区别，接着看一下LVS的三种负载均衡的模型</p>
+        <p>我们暂时跳过FastDSF集群的搭建，先来看一下其他的负载均衡技术，这节笔记包括以下内容：LVS简介、LVS的三种负载均衡的模型</p>
 <a id="more"></a>
 <p>似乎上学期间翘课太多了，并且毕业以后知识都还给老师了，计算机网络这门课现在能记住的东西真的不多😂，之前我们提到过负载均衡可以提高服务器处理并发的能力，也就是如果一台服务器面对大量的请求忙不过来，我们就多加几台服务器一起顶上去，并通过一个应用来分流转发请求给这些服务器，之前是通过Nginx来实现的，这里学习另外一种负载均衡的实现方式也就是标题的LVS</p>
 <h2 id="LVS简介"><a href="#LVS简介" class="headerlink" title="LVS简介"></a>LVS简介</h2><p>LVS（Linux Virtual Server）是指Linux虚拟服务器。这是一个由章文嵩博士发起的一个开源项目，<a href="http://www.linuxvirtualserver.org" target="_blank" rel="noopener">这个是它的官网</a>， 目前 LVS 已经是 Linux 内核标准的一部分。使用 LVS 可以达到的技术目标是：通过 LVS 和 Linux 操作系统实现一个高性能高可用的 Linux 服务器集群，它具有良好的可靠性、可扩展性和可操作性，从而以低廉的成本实现最优的性能。</p>
