@@ -87,14 +87,14 @@
 <meta property="og:site_name" content="黑面宝宝的博客">
 <meta property="og:description" content="我们暂时跳过FastDSF集群的搭建，先来看一下其他的负载均衡技术，这节笔记包括以下内容：LVS简介、LVS的三种负载均衡的模型">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2020/07/19/img/java/LVSROUTER.png">
-<meta property="og:image" content="http://yoursite.com/2020/07/19/img/java/LVS1.png">
-<meta property="og:image" content="http://yoursite.com/2020/07/19/img/java/LVS2.png">
-<meta property="og:updated_time" content="2020-07-20T16:28:59.301Z">
+<meta property="og:image" content="http://yoursite.com/img/java/LVSROUTER.png">
+<meta property="og:image" content="http://yoursite.com/img/java/LVS1.png">
+<meta property="og:image" content="http://yoursite.com/img/java/LVS2.png">
+<meta property="og:updated_time" content="2020-07-20T16:32:38.919Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaWeb笔记-LVS负载均衡 D1">
 <meta name="twitter:description" content="我们暂时跳过FastDSF集群的搭建，先来看一下其他的负载均衡技术，这节笔记包括以下内容：LVS简介、LVS的三种负载均衡的模型">
-<meta name="twitter:image" content="http://yoursite.com/2020/07/19/img/java/LVSROUTER.png">
+<meta name="twitter:image" content="http://yoursite.com/img/java/LVSROUTER.png">
 
 
 
@@ -415,7 +415,7 @@
 <h3 id="LVS三种负载均衡模型"><a href="#LVS三种负载均衡模型" class="headerlink" title="LVS三种负载均衡模型"></a>LVS三种负载均衡模型</h3><p>这几简单介绍三种LVS负载模型流程来认识它的工作原理，穿插需要的机网知识，<del>原计划是系统整理一下但是发现东西太多，几乎是贯穿了整个计算机网络这门课</del>，三种常用的常用的模型分别是NAT、RD、TUN</p>
 <h4 id="小小的前置"><a href="#小小的前置" class="headerlink" title="小小的前置"></a>小小的前置</h4><p><strong>网络层-路由表</strong></p>
 <p>我们知道将多台计算机连接在一起组成了网络，而将多个网络通过路由器连接在一起就构成了互联网，那么互联网中计算机A是怎样把数据包发送给计算机B？我们用下图表示一个简单的通信模型</p>
-<p><img src="../img/java/LVSROUTER.png" width="90%" style="text-align:center"></p>
+<p><img src="/img/java/LVSROUTER.png" width="90%" style="text-align:center"></p>
 <p>首先要知道计算机B的IP地址，但是数据包如何从A一步一步确定路由路径发送给计算机B，我们肯定无法事先保存A到B的完整路径，所以计算机是通过获取数据包下一跳的来确定的，就是数据包每到一个节点再确定路由的下一个点是什么，最终一步步发送到计算机B上，每个节点中都有一个路由表来保存跳转关系，通过这个表就知道数据包该发向谁。在Linux系统中使用<code>route -n</code> 命令可以查询路由表</p>
 <p>假设此时计算机A的路由表如下：</p>
 <table>
@@ -460,7 +460,7 @@
 <p><strong>链路层-MAC地址</strong></p>
 <p>上一节我们提到数据包在网络层通过下一跳的方式寻找路由，而实际传递转发数据包时需到数据链路层，这一层为了正常工作为数据包加了新的字段mac地址，mac地址是一个硬件地址，可以简单理解为一个路由器有一个确定的mac地址；我们在确定了数据包的下一跳地址，在数据包中会添加源mac地址与目标mac地址，源mac地址是当前这个路由器的mac地址，目标mac地址是下一跳路由器mac地址，这样数据包就会传输到下一个路由器中，每到下一跳源mac与目标mac地址就会改变；整个数据包在互联网中进行一跳一跳传输时，数据包中的源IP/目标IP地址字段是不会改变的，而数据包中源mac/目标mac在每一跳都会改变</p>
 <h4 id="NAT"><a href="#NAT" class="headerlink" title="NAT"></a>NAT</h4><p>NAT的架构图如下：</p>
-<p><img src="../img/java/LVS1.png" width="90%" style="text-align:center"></p>
+<p><img src="/img/java/LVS1.png" width="90%" style="text-align:center"></p>
 <p>NAT模型是指从客户端网关发出的数据包全部发送给DS负载均衡服务器，DS将数据包转发给RS服务器，因为LVS是在四层，导致DS不会与client发生三次握手建立连接，DS的目的只有转发这个数据包到RS中，所以处理起来特别快，同样是因为四层缘故，所以它能解析的数据只有数据包中IP信息与MAC地址信息，其余信息比如端口号url是获取不到的，例如所此时它获取的数据包中部分信息如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">源IP:CIP</span><br><span class="line">目标IP:VIP</span><br></pre></td></tr></table></figure></p>
 <p>如果DS此时直接把数据包转发给RS，RS是不会处理的，因为数据包中<code>目标IP</code>是DS的IP，RS拿到这个数据包检查IP后发现不是发给自己的就会直接丢弃，所以DS中应该需要做一步网络地址转换（Network Address Translation,简写NAT）也就是从DS中转发的数据包IP部分信息改写为如下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">源IP:CIP</span><br><span class="line">目标IP:RIP</span><br></pre></td></tr></table></figure></p>
 <p>最后由RS服务器拿到数据包，建立连接处理请求，此时服务器建立的是从<code>CIP -&gt; DIP</code>的一个连接，处理完成后返回结果信息，其中返回数据包中IP部分的信息是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">源IP:RIP</span><br><span class="line">目标IP:CIP</span><br></pre></td></tr></table></figure></p>
@@ -468,7 +468,7 @@
 <p>这种方式需要做网络地址转换，所以也叫NAT模型；通过NAT我们了解到作为负载均衡服务器应该能够快速的转发数据包，正是因为LVS是在网络模型第四层它不会继续与client建立握手连接，而是直接转发数据包，所以能够快速的处理数据</p>
 <p>这种模型虽然实现了 LVS 负载均衡，但是它也有一些问题，首先由于所有的数据包来回都要通过 DS 服务器，所以 DS 的服务器带宽就成为了瓶颈，通常通信是非对称的，也就是下行的数据量要比上行的数据量大；另外就是因为需要 DS 做网络地址转换，所以对 DS 有一定的算力要求</p>
 <h4 id="DR模型"><a href="#DR模型" class="headerlink" title="DR模型"></a>DR模型</h4><p>DR的架构图如下：</p>
-<p><img src="../img/java/LVS2.png" width="90%" style="text-align:center"></p>
+<p><img src="/img/java/LVS2.png" width="90%" style="text-align:center"></p>
 <p>DR小名直接路由模型，我们通过特殊的手段在RS服务器上配置VIP的IP地址，这个地址只有本服务器知道，其他服务器不知道，当DS拿到数据包时不再需要转换目标IP地址，直接转发给RS就可以，这个转发过程就是直接修改mac地址，DS拿到数据包只需要解开两层（链路层），然后修改这个数据包的源mac/目标mac地址为DS的mac地址/RS的mac地址，这样这个数据包就跳到RS上了；相比与NAT，NAT需要解开三层（网络层）修改目标IP地址再转发，这样就减少了算力的消耗；不过DR有一个要求就是DS与RS需要在同一个局域网内，这样直接改mac地址才有用，这点很好理解不在同一个局域网内DS是没办法只修改一次mac地址就让数据包跳到RS上了，最后在RS中建立的连接是从CIP到VIP的，因为我们配置了RS的IP就是VIP，所以RS返回的数据包可以不走DS直接返回给client，这样就减轻了 DS 带宽瓶颈的问题，下行带宽被分流到了各个服务器上</p>
 <p>通常DR的模型使用是最广泛的</p>
 <h4 id="TUN"><a href="#TUN" class="headerlink" title="TUN"></a>TUN</h4><p><del>明天在更</del></p>
