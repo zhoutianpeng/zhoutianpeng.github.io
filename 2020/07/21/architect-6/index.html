@@ -87,12 +87,12 @@
 <meta property="og:site_name" content="黑面宝宝的博客">
 <meta property="og:description" content="这一节记录在Linux环境下搭建LVS负载均衡集群的过程，由于一些设备的原因目前笔记中的内容还没有实际操作过，但是会尽量补全教材中的环境">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2020/07/21/img/java/LVS4.png">
-<meta property="og:updated_time" content="2020-07-21T14:48:02.419Z">
+<meta property="og:image" content="http://yoursite.com/img/java/LVS4.png">
+<meta property="og:updated_time" content="2020-07-21T14:49:47.336Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaWeb笔记-LVS负载均衡 D2">
 <meta name="twitter:description" content="这一节记录在Linux环境下搭建LVS负载均衡集群的过程，由于一些设备的原因目前笔记中的内容还没有实际操作过，但是会尽量补全教材中的环境">
-<meta name="twitter:image" content="http://yoursite.com/2020/07/21/img/java/LVS4.png">
+<meta name="twitter:image" content="http://yoursite.com/img/java/LVS4.png">
 
 
 
@@ -398,7 +398,7 @@
         <p>这一节记录在Linux环境下搭建LVS负载均衡集群的过程，由于一些设备的原因目前笔记中的内容还没有实际操作过，但是会尽量补全教材中的环境</p>
 <a id="more"></a>
 <h2 id="教材使用环境"><a href="#教材使用环境" class="headerlink" title="教材使用环境"></a>教材使用环境</h2><p>由于整理这个笔记时我还没有完整搭建过LVS集群所以这里尽量的还原教材使用的环境</p>
-<p><img src="../img/java/LVS4.png" width="95%" style="text-align:center"></p>
+<p><img src="/img/java/LVS4.png" width="95%" style="text-align:center"></p>
 <p>先介绍一下集群结构，首先教材中所有的服务器都是在一个虚拟机环境中模拟的也就是你看到的那一大坨乱七八糟线的那块，其实上面整张图都是在一台计算机中，实际每个Node都应该是一台Linux服务器</p>
 <p>这里搭建的是DR模型，Node01是LVS负载均衡服务器，它在集群内的IP地址是192.168.150.1，这个IP对应上个笔记提到概念中的DIP，我们又在Node01节点的网卡上配置了一个新的IP地址是192.168.150.10，这个IP对应VIP，也就是用户直接访问的服务器</p>
 <p>Node 02、03、04都是RS，也就是实际的服务器，它们各自在局域网内IP （192.168.150.2|3|4）对应是DIP，即LVS内部通信的IP，还记得之前介绍DR时，我们在RS中动了点手脚，在每台RS中配置了一个VIP地址，并且这个地址要满足只有本机可见、其他机器不可见的条件，这个IP地址其实是配置在了每台机器的虚拟网卡中，就是你每次本地搭建web开发环境，访问的127.0.0.1这个地址对应的虚拟网卡，因为这个虚拟网卡可以满足外界不能访问前提，所以VIP会配置在这个网卡上</p>
