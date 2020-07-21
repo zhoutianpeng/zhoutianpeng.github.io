@@ -88,7 +88,7 @@
 <meta property="og:description" content="这一节记录在Linux环境下搭建LVS负载均衡集群的过程，由于一些设备的原因目前笔记中的内容还没有实际操作过，但是会尽量补全教材中的环境">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/img/java/LVS4.png">
-<meta property="og:updated_time" content="2020-07-21T14:49:47.336Z">
+<meta property="og:updated_time" content="2020-07-21T14:58:25.948Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaWeb笔记-LVS负载均衡 D2">
 <meta name="twitter:description" content="这一节记录在Linux环境下搭建LVS负载均衡集群的过程，由于一些设备的原因目前笔记中的内容还没有实际操作过，但是会尽量补全教材中的环境">
@@ -400,8 +400,8 @@
 <h2 id="教材使用环境"><a href="#教材使用环境" class="headerlink" title="教材使用环境"></a>教材使用环境</h2><p>由于整理这个笔记时我还没有完整搭建过LVS集群所以这里尽量的还原教材使用的环境</p>
 <p><img src="/img/java/LVS4.png" width="95%" style="text-align:center"></p>
 <p>先介绍一下集群结构，首先教材中所有的服务器都是在一个虚拟机环境中模拟的也就是你看到的那一大坨乱七八糟线的那块，其实上面整张图都是在一台计算机中，实际每个Node都应该是一台Linux服务器</p>
-<p>这里搭建的是DR模型，Node01是LVS负载均衡服务器，它在集群内的IP地址是192.168.150.1，这个IP对应上个笔记提到概念中的DIP，我们又在Node01节点的网卡上配置了一个新的IP地址是192.168.150.10，这个IP对应VIP，也就是用户直接访问的服务器</p>
-<p>Node 02、03、04都是RS，也就是实际的服务器，它们各自在局域网内IP （192.168.150.2|3|4）对应是DIP，即LVS内部通信的IP，还记得之前介绍DR时，我们在RS中动了点手脚，在每台RS中配置了一个VIP地址，并且这个地址要满足只有本机可见、其他机器不可见的条件，这个IP地址其实是配置在了每台机器的虚拟网卡中，就是你每次本地搭建web开发环境，访问的127.0.0.1这个地址对应的虚拟网卡，因为这个虚拟网卡可以满足外界不能访问前提，所以VIP会配置在这个网卡上</p>
+<p>这里搭建的是DR模型，Node01是LVS负载均衡服务器，它在集群内的IP地址是192.168.150.1，这个IP对应上个笔记提到概念中的DIP，我们又在Node01节点的网卡上配置了一个新的IP地址是192.168.150.10，这个IP对应VIP，也就是用户直接访问的IP</p>
+<p>Node 02、03、04都是RS，就是实际的服务器，它们各自在局域网内IP （192.168.150.2|3|4）对应是RIP，即LVS内部通信的IP，还记得之前介绍DR时，我们在RS中动了点手脚，在每台RS中配置了一个特殊的IP地址，就就是之前提到的VIP，并且这个地址要满足只有本机可见、其他机器不可见的条件，这个IP地址其实是配置在了每台机器的虚拟网卡中，就是你每次本地搭建web开发环境，访问的127.0.0.1这个地址对应的虚拟网卡，因为这个虚拟网卡可以满足外界不能访问前提，所以VIP会配置在这个网卡上</p>
 <p>接下来我们只需要做到不让其他机器知道这个VIP地址就可以，这里是修改Linux内核改变计算机接受外部主机ARP询问结果实现的；首先每个主机内部都有一个ARP高速缓存，用来记录本局域网内所有主机&amp;路由器的IP到它们物理地址的映射，之前提到数据包确定下一跳的IP后会再封装一层，在数据包中添加源/目标mac地址字段，目标mac地址就是下一跳IP对应的物理地址字段，这是通过查询ARP表得到的，那么主机是如何凭空构造出ARP表的？这是通过ARP协议实现的，简单来说，<del>这里没法复杂说，内容太多了</del>，就是计算机A需要与本局域网内B通信，但如果A只知道B的IP不知道B的mac物理地址，A会先在局域网内广播一个ARP请求包，里面记录如下信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">源IP：A@IP</span><br><span class="line">目标IP:B@IP</span><br><span class="line">源mac:A@mac</span><br><span class="line">目标mac:FFFFFFFF</span><br></pre></td></tr></table></figure></p>
 <p>这个数据包就是用来询问B的mac地址的，所有计算机都能收到，只有当B收到时才会响应返回ARP响应包，即B告诉A自己的mac地址，同时B也会更新自己的ARP高速缓存表添加上A的IP到MAC的映射</p>
 <p>回到刚刚的问题为不让其他机器知道RS服务器配置有VIP地址，我们需要修改RS服务器对于ARP请求与响应的策略。一台计算机可以有多个网卡，每个网卡也是可以配置多个IP地址的，但服务器是很实诚的，当它的某一个网卡收到某一个IP的ARP请求时，只要这个IP是自己这台服务器上任意一个网卡上配置的IP地址他都会作出响应，就像陌生人对你说出了你爸爸的手机号码，然后你回应了陌生人：嗯这是我爸爸的手机号，他的名字是布拉布拉布拉布拉…，Linux内核中有两个参数是用来分别控制ARP协议应答行为的，分别是<code>arp_ignore</code>与<code>arp_announce</code></p>
@@ -420,7 +420,7 @@
 </ul>
 </li>
 </ul>
-<p>回到上图的模型，Node 02中虚拟网卡配置了VIP，这个网卡是不会被外界访问到的，所以为了不让其他主机知道Node 02配置了VIP，只需要将Node 02中网卡eth01的<code>arp_ignore</code>设置为1，<code>arp_announce</code>设置为2，如果Node还有其他网卡依旧做相同配置</p>
+<p>回到上图的模型，Node 02中虚拟网卡配置了VIP，这个虚拟网卡是不会被外界访问到的，所以为了不让其他主机知道Node 02配置了VIP，只需要将Node 02中网卡eth01的<code>arp_ignore</code>设置为1，<code>arp_announce</code>设置为2，如果Node还有其他网卡依旧做相同配置</p>
 <p>好了基本的环境介绍完</p>
 <h2 id="搭建LVS集群"><a href="#搭建LVS集群" class="headerlink" title="搭建LVS集群"></a>搭建LVS集群</h2><h3 id="搭建LVS负载均衡服务器"><a href="#搭建LVS负载均衡服务器" class="headerlink" title="搭建LVS负载均衡服务器"></a>搭建LVS负载均衡服务器</h3><p>搭建是非常容易的因为之前说过LVS已经是Linux内核的一部分了，模块名叫做ipvs不需要单独安装模块，为了能够让系统调用需要暴露出调用模块，这个调用模块通常需要安装</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install ipvsadm -y</span><br></pre></td></tr></table></figure>
