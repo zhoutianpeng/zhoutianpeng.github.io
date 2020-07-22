@@ -82,17 +82,17 @@
 <meta name="description" content="该笔记是基于keepalived的LVS集群搭建">
 <meta name="keywords" content="LVS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaWeb笔记-LVS负载均衡 D2">
+<meta property="og:title" content="JavaWeb笔记-LVS负载均衡 D3">
 <meta property="og:url" content="http://yoursite.com/2020/07/22/architect-7/index.html">
 <meta property="og:site_name" content="黑面宝宝的博客">
 <meta property="og:description" content="该笔记是基于keepalived的LVS集群搭建">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2020/07/22/img/java/LVS5.png">
-<meta property="og:updated_time" content="2020-07-22T08:00:37.640Z">
+<meta property="og:image" content="http://yoursite.com/img/java/LVS5.png">
+<meta property="og:updated_time" content="2020-07-22T08:06:00.853Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaWeb笔记-LVS负载均衡 D2">
+<meta name="twitter:title" content="JavaWeb笔记-LVS负载均衡 D3">
 <meta name="twitter:description" content="该笔记是基于keepalived的LVS集群搭建">
-<meta name="twitter:image" content="http://yoursite.com/2020/07/22/img/java/LVS5.png">
+<meta name="twitter:image" content="http://yoursite.com/img/java/LVS5.png">
 
 
 
@@ -128,7 +128,7 @@
 
 
 
-  <title>JavaWeb笔记-LVS负载均衡 D2 | 黑面宝宝的博客</title>
+  <title>JavaWeb笔记-LVS负载均衡 D3 | 黑面宝宝的博客</title>
   
 
 
@@ -292,7 +292,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">JavaWeb笔记-LVS负载均衡 D2</h1>
+          <h1 class="post-title" itemprop="name headline">JavaWeb笔记-LVS负载均衡 D3</h1>
         
 
         <div class="post-meta">
@@ -364,7 +364,7 @@
 
           
           
-             <span id="/2020/07/22/architect-7/" class="leancloud_visitors" data-flag-title="JavaWeb笔记-LVS负载均衡 D2">
+             <span id="/2020/07/22/architect-7/" class="leancloud_visitors" data-flag-title="JavaWeb笔记-LVS负载均衡 D3">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -413,7 +413,7 @@
 <p>通常在HTTP服务器中做健康检查就是负载均衡服务器向RS定期发送一个HTTP请求，比如规定返回了200的状态码就认为RS是正常的，还记不记得之前的tengine内部也有健康检查模块，工作原理与这个是一样的</p>
 <p>我们上述问题的解决方案已经有了一个开源的软件叫做keepalived，它主要实现的集群中主备模型，以及健康检查模块</p>
 <h2 id="基于keepalived的LVS集群"><a href="#基于keepalived的LVS集群" class="headerlink" title="基于keepalived的LVS集群"></a>基于keepalived的LVS集群</h2><p>先来看一下整个集群的结构图，同样我还并没有实际操作过…</p>
-<p><img src="../img/java/LVS5.png" width="95%" style="text-align:center"></p>
+<p><img src="/img/java/LVS5.png" width="95%" style="text-align:center"></p>
 <p>这里与上节笔记类型，所有操作都是在虚拟环境下完成的，内部有四个单独的Linux虚拟机，模拟实际的四台Linux服务器，其中Node01与Node04是DS，而01是主服务器，04是备用机，Node02与Node03是实际处理业务的服务器RS</p>
 <h3 id="RS服务器搭建"><a href="#RS服务器搭建" class="headerlink" title="RS服务器搭建"></a>RS服务器搭建</h3><p>修改配置的主机Node02、Node03</p>
 <p>这里的RS节点与上一节一毛一样，这里冗余的在写一遍，但是不再做原理的解释</p>
