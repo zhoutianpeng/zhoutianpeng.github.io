@@ -88,7 +88,7 @@
 <meta property="og:description" content="这一节记录在Linux环境下搭建LVS负载均衡集群的过程，由于一些设备的原因目前笔记中的内容还没有实际操作过，但是会尽量补全教材中的环境">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/img/java/LVS4.png">
-<meta property="og:updated_time" content="2020-07-21T14:58:25.948Z">
+<meta property="og:updated_time" content="2020-07-22T07:41:10.999Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaWeb笔记-LVS负载均衡 D2">
 <meta name="twitter:description" content="这一节记录在Linux环境下搭建LVS负载均衡集群的过程，由于一些设备的原因目前笔记中的内容还没有实际操作过，但是会尽量补全教材中的环境">
@@ -342,7 +342,7 @@
                 <i class="fa fa-clock-o"></i>
                 </span>
                 <span class="post-meta-item-text">阅读时长</span>
-                <span class="post-count"> 7min </span>
+                <span class="post-count"> 8min </span>
                 </span>
               </span>
 
@@ -397,6 +397,15 @@
       
         <p>这一节记录在Linux环境下搭建LVS负载均衡集群的过程，由于一些设备的原因目前笔记中的内容还没有实际操作过，但是会尽量补全教材中的环境</p>
 <a id="more"></a>
+<h2 id="前置相关术语"><a href="#前置相关术语" class="headerlink" title="前置相关术语"></a>前置相关术语</h2><p>防止有童鞋是直接看这节</p>
+<ul>
+<li><code>DS</code> : Director Server 指负载均衡服务器</li>
+<li><code>RS</code> : Real Server 指真实的业务服务器</li>
+<li><code>CIP</code> : Client IP 指客户端IP</li>
+<li><code>VIP</code> : Virtual IP 指用户请求的目标IP地址</li>
+<li><code>DIP</code> : Director IP 指用于集群内通信的主机IP</li>
+<li><code>RIP</code> : Real IP 指后端服务器的真实IP地址</li>
+</ul>
 <h2 id="教材使用环境"><a href="#教材使用环境" class="headerlink" title="教材使用环境"></a>教材使用环境</h2><p>由于整理这个笔记时我还没有完整搭建过LVS集群所以这里尽量的还原教材使用的环境</p>
 <p><img src="/img/java/LVS4.png" width="95%" style="text-align:center"></p>
 <p>先介绍一下集群结构，首先教材中所有的服务器都是在一个虚拟机环境中模拟的也就是你看到的那一大坨乱七八糟线的那块，其实上面整张图都是在一台计算机中，实际每个Node都应该是一台Linux服务器</p>
@@ -518,6 +527,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2020/07/22/architect-7/" rel="prev" title="JavaWeb笔记-LVS负载均衡 D2">
+                JavaWeb笔记-LVS负载均衡 D2 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -598,7 +611,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -669,7 +682,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#教材使用环境"><span class="nav-number">1.</span> <span class="nav-text">教材使用环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搭建LVS集群"><span class="nav-number">2.</span> <span class="nav-text">搭建LVS集群</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建LVS负载均衡服务器"><span class="nav-number">2.1.</span> <span class="nav-text">搭建LVS负载均衡服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建RS服务器"><span class="nav-number">2.2.</span> <span class="nav-text">搭建RS服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证"><span class="nav-number">2.3.</span> <span class="nav-text">验证</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前置相关术语"><span class="nav-number">1.</span> <span class="nav-text">前置相关术语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#教材使用环境"><span class="nav-number">2.</span> <span class="nav-text">教材使用环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搭建LVS集群"><span class="nav-number">3.</span> <span class="nav-text">搭建LVS集群</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建LVS负载均衡服务器"><span class="nav-number">3.1.</span> <span class="nav-text">搭建LVS负载均衡服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建RS服务器"><span class="nav-number">3.2.</span> <span class="nav-text">搭建RS服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证"><span class="nav-number">3.3.</span> <span class="nav-text">验证</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -687,7 +700,7 @@
             <h3 class="widget-title"></h3>
             <div id="myCanvasContainer" class="widget tagcloud" style="margin-top">
                 <canvas width="250" height="250" id="resCanvas" style="width:100%">
-                    <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/FastDFS/">FastDFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LVS/">LVS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js基础/">js基础</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/">vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">5</span></li></ul>
+                    <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/FastDFS/">FastDFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LVS/">LVS</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js基础/">js基础</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/">vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">5</span></li></ul>
                 </canvas>
             </div>
         </div>
