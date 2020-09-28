@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="Git安装Git &amp;amp; 设置请参考这个官方文档点我 最小配置user.name和user.email12$ git config --global user.name &apos;your name&apos;$ git config --global user.email &apos;your email@domain.com&apos; 若配置基本信息时未添加--global参数，则等同于local，此时的配置只针对当前仓库有">
+<meta name="description" content="Git安装Git &amp;amp; 设置请参考这个官方文档点我 最小配置user.name和user.email12$ git config --global user.name &apos;your name&apos;$ git config --global user.email &apos;your email@domain.com&apos; 若配置基本信息时未添加--global参数，则等同于local，此时的配置只针对当前仓库">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git随手瞎记D2～～不要点开看">
 <meta property="og:url" content="http://yoursite.com/2020/09/26/git-post-2/index.html">
 <meta property="og:site_name" content="黑面宝宝的博客">
-<meta property="og:description" content="Git安装Git &amp;amp; 设置请参考这个官方文档点我 最小配置user.name和user.email12$ git config --global user.name &apos;your name&apos;$ git config --global user.email &apos;your email@domain.com&apos; 若配置基本信息时未添加--global参数，则等同于local，此时的配置只针对当前仓库有">
+<meta property="og:description" content="Git安装Git &amp;amp; 设置请参考这个官方文档点我 最小配置user.name和user.email12$ git config --global user.name &apos;your name&apos;$ git config --global user.email &apos;your email@domain.com&apos; 若配置基本信息时未添加--global参数，则等同于local，此时的配置只针对当前仓库">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-09-28T13:51:51.465Z">
+<meta property="og:updated_time" content="2020-09-28T13:53:09.309Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git随手瞎记D2～～不要点开看">
-<meta name="twitter:description" content="Git安装Git &amp;amp; 设置请参考这个官方文档点我 最小配置user.name和user.email12$ git config --global user.name &apos;your name&apos;$ git config --global user.email &apos;your email@domain.com&apos; 若配置基本信息时未添加--global参数，则等同于local，此时的配置只针对当前仓库有">
+<meta name="twitter:description" content="Git安装Git &amp;amp; 设置请参考这个官方文档点我 最小配置user.name和user.email12$ git config --global user.name &apos;your name&apos;$ git config --global user.email &apos;your email@domain.com&apos; 若配置基本信息时未添加--global参数，则等同于local，此时的配置只针对当前仓库">
 
 
 
@@ -392,7 +392,8 @@
       
 
       
-        <h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><h2 id="安装Git-amp-设置"><a href="#安装Git-amp-设置" class="headerlink" title="安装Git &amp; 设置"></a>安装Git &amp; 设置</h2><p>请参考这个官方文档<a href="https://git-scm.com/book/zh/v2/%E8%B5%B7%E6%AD%A5-%E5%AE%89%E8%A3%85-Git" target="_blank" rel="noopener">点我</a></p>
+        <a id="more"></a>
+<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><h2 id="安装Git-amp-设置"><a href="#安装Git-amp-设置" class="headerlink" title="安装Git &amp; 设置"></a>安装Git &amp; 设置</h2><p>请参考这个官方文档<a href="https://git-scm.com/book/zh/v2/%E8%B5%B7%E6%AD%A5-%E5%AE%89%E8%A3%85-Git" target="_blank" rel="noopener">点我</a></p>
 <p>最小配置<code>user.name</code>和<code>user.email</code><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> git config --global user.name 'your name'</span><br><span class="line"><span class="meta">$</span> git config --global user.email 'your email@domain.com'</span><br></pre></td></tr></table></figure></p>
 <p>若配置基本信息时未添加<code>--global</code>参数，则等同于local，此时的配置只针对当前仓库有效<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> config的三个作用域</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 仅对当前仓库有效</span><br><span class="line"><span class="meta">$</span> git config --local </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 对当前用户所有仓库生效</span><br><span class="line"><span class="meta">$</span> git config --global </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 所有登陆系统用户都生效</span><br><span class="line"><span class="meta">$</span> git config --system</span><br></pre></td></tr></table></figure></p>
 <p>若想查看config配置，使用<code>--list</code>参数<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> git config --list --local </span><br><span class="line"><span class="meta">$</span> git config --list --global </span><br><span class="line"><span class="meta">$</span> git config --list --system</span><br></pre></td></tr></table></figure></p>
