@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="该文转译自 https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html  各位JavaScripters程序猿们，是时候承认一点：我们对于promise的使用一直存在问题。 不是promise自身的问题，A+ spec定义的promise规范非常棒，在过去的几年中，笔者看到了很多程序猿在调用 PouchDB 或者其他 p">
+<meta name="description" content="该文转译自 https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html  各位JavaScripters程序猿们，是时候承认一点：我们对于promise的使用一直存在问题。 不是promise自身的问题，A+ spec定义的Promise规范非常棒，在过去的几年中，笔者看到了很多程序猿在调用 PouchDB 或者其他 p">
 <meta name="keywords" content="js基础">
 <meta property="og:type" content="article">
 <meta property="og:title" content="We have a problem with promises">
 <meta property="og:url" content="http://yoursite.com/2020/02/23/promise/index.html">
 <meta property="og:site_name" content="黑面宝宝的博客">
-<meta property="og:description" content="该文转译自 https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html  各位JavaScripters程序猿们，是时候承认一点：我们对于promise的使用一直存在问题。 不是promise自身的问题，A+ spec定义的promise规范非常棒，在过去的几年中，笔者看到了很多程序猿在调用 PouchDB 或者其他 p">
+<meta property="og:description" content="该文转译自 https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html  各位JavaScripters程序猿们，是时候承认一点：我们对于promise的使用一直存在问题。 不是promise自身的问题，A+ spec定义的Promise规范非常棒，在过去的几年中，笔者看到了很多程序猿在调用 PouchDB 或者其他 p">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-02-24T14:03:12.777Z">
+<meta property="og:updated_time" content="2020-10-03T02:01:45.712Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="We have a problem with promises">
-<meta name="twitter:description" content="该文转译自 https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html  各位JavaScripters程序猿们，是时候承认一点：我们对于promise的使用一直存在问题。 不是promise自身的问题，A+ spec定义的promise规范非常棒，在过去的几年中，笔者看到了很多程序猿在调用 PouchDB 或者其他 p">
+<meta name="twitter:description" content="该文转译自 https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html  各位JavaScripters程序猿们，是时候承认一点：我们对于promise的使用一直存在问题。 不是promise自身的问题，A+ spec定义的Promise规范非常棒，在过去的几年中，笔者看到了很多程序猿在调用 PouchDB 或者其他 p">
 
 
 
@@ -397,7 +397,7 @@
 <p>该文转译自 <a href="https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html" target="_blank" rel="noopener">https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html</a></p>
 </blockquote>
 <p>各位JavaScripters程序猿们，是时候承认一点：我们对于promise的使用一直存在问题。</p>
-<p>不是promise自身的问题，<a href="https://promisesaplus.com/" target="_blank" rel="noopener">A+ spec</a>定义的promise规范非常棒，在过去的几年中，笔者看到了很多程序猿在调用 <code>PouchDB</code> 或者其他 <code>promise</code> 化的 API 时遇到了很多困难。这让笔者认识到，在 JavaScript 程序员之中，只有少数人是真正理解了 promise 规范的。如果这个事实让你难以接受，那么思考一下我在 Twitter 上出的题：<br><a id="more"></a></p>
+<p>不是promise自身的问题，<a href="https://promisesaplus.com/" target="_blank" rel="noopener">A+ spec</a>定义的Promise规范非常棒，在过去的几年中，笔者看到了很多程序猿在调用 <code>PouchDB</code> 或者其他 <code>promise</code> 化的 API 时遇到了很多困难。这让笔者认识到，在 JavaScript 程序员之中，只有少数人是真正理解了 promise 规范的。如果这个事实让你难以接受，那么思考一下我在 Twitter 上出的题：<br><a id="more"></a></p>
 <blockquote>
 <p>Q: What is the difference between these four promises?<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">doSomething().then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> doSomethingElse();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">doSomething().then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  doSomethingElse();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">doSomething().then(doSomethingElse());</span><br><span class="line"></span><br><span class="line">doSomething().then(doSomethingElse);</span><br></pre></td></tr></table></figure></p>
 </blockquote>
@@ -407,7 +407,7 @@
 <p>在此之前，我们先了解一下有关 <code>promise</code> 的一些常识。</p>
 <h2 id="promise的起源"><a href="#promise的起源" class="headerlink" title="promise的起源"></a>promise的起源</h2><p>如果你读过有关 <code>promise</code> 的文章，你会发现文章中一定会提到 <a href="https://medium.com/@wavded/managing-node-js-callback-hell-1fe03ba8baf" target="_blank" rel="noopener">Callback hell</a>，不说别的，在视觉上，回调金字塔会让你的代码最终超过屏幕的宽度。</p>
 <p><code>promise</code> 是能够解决这个问题的，但是它解决的问题不仅仅是缩进。在讨论到如何 解决 <code>Callback hell</code> 问题 的时候，我们遇到真正的难题是回调函数剥夺了程序员使用 return 和 throw 的能力。而程序的执行流程的基础建立于一个函数在执行过程中调用另一个函数时产生的副作用。（因为回调是微任务，所以不是在栈上运行的）</p>
-<p>事实上，回调函数还有更恼人的——剥夺我们在栈上执行代码的能力，而在其他语言当中，我们始终都能够在栈上执行代码。编写不在栈上运行的代码就像开没有刹车的车一样，在你真正需要它的时候，才明白它有多么的重要。</p>
+<p>事实上，回调函数还有更恼人的问题：剥夺我们在栈上执行代码的能力，而在其他语言当中，我们始终都能够在栈上执行代码。编写不在栈上运行的代码就像开没有刹车的车一样，在你真正需要它的时候，才明白它有多么的重要。</p>
 <p><code>promise</code> 被设计为能够让我们重新使用那些编程语言的基本要素：<code>return</code>，<code>throw</code>以及栈。但是想要 <code>promise</code> 能够提供便利给你的前提是你知道如何正确的使用它。</p>
 <h2 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h2><p>一些人尝试使用漫画的方式解释 <code>promise</code>，或者是像是解释名词一样解释它：它表示同步代码中的值，并且能在代码中被传递。</p>
 <p>笔者并没有觉得这些解释对理解 <code>promise</code> 有用。笔者自己的理解是：<code>promise</code> 是关于代码结构和代码运行流程的。因此，笔者认为展示一些常见错误，并告诉大家如何修正它才是王道。</p>
@@ -641,7 +641,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categrories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -652,7 +652,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -719,7 +719,7 @@
             <h3 class="widget-title"></h3>
             <div id="myCanvasContainer" class="widget tagcloud" style="margin-top">
                 <canvas width="250" height="250" id="resCanvas" style="width:100%">
-                    <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/FastDFS/">FastDFS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LVS/">LVS</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js基础/">js基础</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/">vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">5</span></li></ul>
+                    <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cmake/">Cmake</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FastDFS/">FastDFS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LVS/">LVS</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js基础/">js基础</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/">vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">5</span></li></ul>
                 </canvas>
             </div>
         </div>
