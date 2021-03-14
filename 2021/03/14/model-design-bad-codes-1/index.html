@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="单纯的菜鸡一枚">
+<meta name="description" content="该笔记包含一下内容：  缺乏业务含义的命名，如何精确的命名？ 乱用英语，站在中国人的视角来看英文命名">
 <meta property="og:type" content="article">
 <meta property="og:title" content="代码之丑-13种典型的坏代码味道 D1">
 <meta property="og:url" content="http://yoursite.com/2021/03/14/model-design-bad-codes-1/index.html">
 <meta property="og:site_name" content="黑面宝宝的博客">
-<meta property="og:description" content="单纯的菜鸡一枚">
+<meta property="og:description" content="该笔记包含一下内容：  缺乏业务含义的命名，如何精确的命名？ 乱用英语，站在中国人的视角来看英文命名">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-03-14T13:09:49.810Z">
+<meta property="og:updated_time" content="2021-03-14T15:04:04.132Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="代码之丑-13种典型的坏代码味道 D1">
-<meta name="twitter:description" content="单纯的菜鸡一枚">
+<meta name="twitter:description" content="该笔记包含一下内容：  缺乏业务含义的命名，如何精确的命名？ 乱用英语，站在中国人的视角来看英文命名">
 
 
 
@@ -349,7 +349,7 @@
                 <i class="fa fa-clock-o"></i>
                 </span>
                 <span class="post-meta-item-text">阅读时长</span>
-                <span class="post-count"> 1min </span>
+                <span class="post-count"> 7min </span>
                 </span>
               </span>
 
@@ -402,7 +402,44 @@
       
 
       
-        
+        <p>该笔记包含一下内容：</p>
+<ol>
+<li>缺乏业务含义的命名，如何精确的命名？</li>
+<li>乱用英语，站在中国人的视角来看英文命名</li>
+</ol>
+<a id="more"></a>
+<h2 id="缺乏业务含义的命名，如何精确的命名？"><a href="#缺乏业务含义的命名，如何精确的命名？" class="headerlink" title="缺乏业务含义的命名，如何精确的命名？"></a>缺乏业务含义的命名，如何精确的命名？</h2><h3 id="问题1：不精准的命名"><a href="#问题1：不精准的命名" class="headerlink" title="问题1：不精准的命名"></a>问题1：不精准的命名</h3><p>这是我个人急需改善的第一个问题，这里并不是指使用拼音、abcd命名这样低级的错误，而是指在为变量、函数命名时，名称无法精确的概括其作用，例如如下代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">processChapter</span><span class="params">(<span class="keyword">long</span> chapterId)</span> </span>&#123; </span><br><span class="line">    Chapter chapter = <span class="keyword">this</span>.repository.findByChapterId(chapterId); </span><br><span class="line">    <span class="keyword">if</span> (chapter == <span class="keyword">null</span>) &#123; </span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Unknown chapter ["</span> + chapterId + <span class="string">"]"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    chapter.setTranslationState(TranslationState.TRANSLATING);</span><br><span class="line">    <span class="keyword">this</span>.repository.save(chapter);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这段代码写的很不错，但是从这段函数的名称我们仅能得知他是在处理章节，为了了解这段代码真正的作用我们需要去阅读它，通过阅读我们发现这个函数是把某一个章节的翻译状态修改为翻译中，这个问题就出在了函数的名称上，<code>processChapter</code>这个名称起的过于宽泛，我们可以将「修改状态为翻译中」这个行为叫做处理章节，同样的我们也可以将「修改状态为翻译完成」叫做处理章节。这样的现象本质是命名问题导致的，名称不够精确，从表面来看名字是有含义的，但实际上这个名字并不能准确的去概括这段代码的含义。</p>
+<p><strong>命名过于宽泛，不能精准的描述，这是许多代码在命名上存在的严重问题，也是代码难以理解的根源所在</strong></p>
+<p>例如你是否在代码中频繁使用过这些名称？<code>data</code>,<code>info</code>,<code>flag</code>,<code>process</code>,<code>handle</code>,<code>build</code>,<code>maintain</code>,<code>manage</code>等，直接使用这些名称都是典型的命名不精确，多数情况是在写代码的时候没有想法命名就开始写了。</p>
+<p>回到示例中，我们该如何为这段函数起名字？首先第一个原则是<strong>命名要能够描述这段代码在做的事情</strong>，那么命名叫做<code>changeChapterToTranlsating</code>如何？不可否认这个名称相比于<code>processChapter</code>已经进一步的描述了函数的行为，但是他并不算是一个好的名字，因为它更多的是在描述代码的细节，而我们之所以将一段代码封装起来一个重要的原因就是我们不需要知道他的实现细节，平铺的将函数细节展开那本质上跟在读这段代码没有什么区别。</p>
+<p>所以第二个命名原则是<strong>一个好的名字应该是在描述意图，而并非细节</strong>，回到刚刚的代码，函数本身的行为是将翻译状态设置为翻译中，这么做是有原因的，也就是有意图的，具体到这段函数涉及的业务，我们应该命名为<code>startTranslation</code></p>
+<h3 id="问题2：使用技术术语来命名"><a href="#问题2：使用技术术语来命名" class="headerlink" title="问题2：使用技术术语来命名"></a>问题2：使用技术术语来命名</h3><p>来看一个变量名<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Book&gt; bookList = service.getBooks();</span><br></pre></td></tr></table></figure></p>
+<p>这是一段蛮常见的代码，至少我个人经常会写类似的代码，使用<code>List</code>,<code>Map</code>等名称，这也带来一个经典的不能再经典的问题：<strong>用技术术语命名</strong>，bookList之所以叫做bookList，原因就是它的声明类型是List，但是这样的命名会带来维护上的困难，根本原因是这种命名是基于实现细节的命名方式，我们都知道编程的一个重要原则就是面向接口编程，从另一面来解释就是不要面向实现来编程，因为接口是稳定的，而实现是易变的，虽然这个原则是针对类或者叫针对类型的，但在命名上我们应该遵循同样的思想，不要针对实现细节来命名，举例假设在后续的迭代中，产品修改需求要一个不重复的书籍列表，也就是我们可能需要把这个List修改为Set，变量的类型你会修改那么你会修改变量名称吗，这就不一定，一旦忘记未来就会出现奇特的现象，因此一个奇怪的混淆就会产生了，因此我们自这里需要一个更加偏向意图的名称，这是获取了一堆书我们可以这样命名<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Book&gt; books = service.getBooks();</span><br></pre></td></tr></table></figure></p>
+<p>以上我们只举例了一种简单的名称问题，其实<strong>在实际的项目中如果出现了技术名词，往往代表这个名词缺少了一个应有的模型</strong></p>
+<p>例如我们使用Redis，如果代码是这样的<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Book book = RedisBookStore.get(isbn);</span><br></pre></td></tr></table></figure></p>
+<p>其实这里的需要的是一个缓存，Redis是一个缓存的实现，我们可以修改<code>RedisBookStore</code>为<code>cache</code>，进一步的说其实缓存也是一个技术术语，某种程度上来说cache这个词也不应该出现在业务代码中，这里处理的比较好的是Spring，在使用Spring框架时，如果需要缓存我们通常是在方法上增加一个注解 <code>@Cacheable(&quot;book&quot;)</code>。</p>
+<p>程序人员喜欢用技术名字去命名，一是因为这是大家都习惯的语言，另一个重要的原因是在学习代码的时候会参考优秀的开源项目代码，而这类开源项目往往是偏技术类的项目并非偏业务类。对于偏技术类的项目，这些技术术语本身就是它的业务语言，但是对于业务向的项目这个说法就需要重新审视了。例如前端的渲染框架PIXIJS，它所使用的资源加载器是一个第三方开源项目，曾经因为业务需求而去阅读这个加载器的代码，他的需求就是管理资源的加载，缓存，内部的函数以及变量的命名会频繁使用cache等名词。</p>
+<h3 id="问题3：使用业务语言写代码"><a href="#问题3：使用业务语言写代码" class="headerlink" title="问题3：使用业务语言写代码"></a>问题3：使用业务语言写代码</h3><p>不论是不精确的命名，或者是技术名词问题，我们在深入看其实可以归结为同一个问题：对业务的理解不到位，<strong>编写可维护的代码是要使用业务语言</strong>，最简单的判断自己是否使用业务语言的方式就是把名词给产品看，看看他明不明白意思。</p>
+<p>从团队的角度来看，一个比较好的实践是建立团队的词汇表，让团队中的成员有信息可以参参考。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>坏味道：缺乏业务含义的命名</p>
+<p>错误命名：</p>
+<ol>
+<li>宽泛的命名。</li>
+<li>用技术术语命名。</li>
+</ol>
+<p>命名的几个原则：</p>
+<ol>
+<li>命名要能够描述这段代码在做的事情</li>
+<li>命名要描述意图，而非细节</li>
+<li>使用业务语言</li>
+</ol>
+<p>总结：<br>好的命名，是体现业务含义的命名</p>
+<h2 id="乱用英语，站在中国人的视角来看英文命名"><a href="#乱用英语，站在中国人的视角来看英文命名" class="headerlink" title="乱用英语，站在中国人的视角来看英文命名"></a>乱用英语，站在中国人的视角来看英文命名</h2><p>这一节也是国外经典编程数据不会涉及到的话题，英文命名😂，目前主流的程序设计语言都是以英文为基础的，就连日本人设计的Ruby、巴西人设计的lua语法都是采用英文，这里的一个原则并不是是要求程序员英语有多好，<strong>最低限度要求是写出来的代码要是像用英文表达</strong></p>
+<h3 id="问题1-违反语法规则的命名"><a href="#问题1-违反语法规则的命名" class="headerlink" title="问题1:违反语法规则的命名"></a>问题1:违反语法规则的命名</h3><p>这部分就是在考察程序员的英语水平了，常见的命名规则是<strong>类名是一个名词，表示一个对象，而方法名是一个动词，或者是动宾短语，表示一个动作</strong>，例如<code>completedTranslate</code>，这并不是一个有效的动宾结构，可以改为<code>completeTranslation</code>,拿不准的时候可以去查询一下，词性没有用错就不会有太大问题</p>
+<h3 id="问题2-不准确的英文词汇"><a href="#问题2-不准确的英文词汇" class="headerlink" title="问题2:不准确的英文词汇"></a>问题2:不准确的英文词汇</h3><p>这是我最拿不准的问题，在写代码的时候会拿捏不清楚哪个词来命名，去百度查询从一堆结果中挑一个顺眼的就用上了，这样写出来的程序就像是一个国外人在讲中文，虽然你明白他的意思但是就是会感觉哪里怪怪的，<strong>种情况我们还是最好为项目建立一个专业的词汇表，不要臆测</strong>，</p>
+<h3 id="问题3-单词拼写错误"><a href="#问题3-单词拼写错误" class="headerlink" title="问题3:单词拼写错误"></a>问题3:单词拼写错误</h3><p>这个问题算是蛮简单容易犯的问题，解决也很容易，目前主流的IDE都支持拼写检查插件，可以避开拼写的错误</p>
+
       
     </div>
     
@@ -503,8 +540,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -582,6 +628,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#缺乏业务含义的命名，如何精确的命名？"><span class="nav-number">1.</span> <span class="nav-text">缺乏业务含义的命名，如何精确的命名？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题1：不精准的命名"><span class="nav-number">1.1.</span> <span class="nav-text">问题1：不精准的命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题2：使用技术术语来命名"><span class="nav-number">1.2.</span> <span class="nav-text">问题2：使用技术术语来命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题3：使用业务语言写代码"><span class="nav-number">1.3.</span> <span class="nav-text">问题3：使用业务语言写代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.4.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#乱用英语，站在中国人的视角来看英文命名"><span class="nav-number">2.</span> <span class="nav-text">乱用英语，站在中国人的视角来看英文命名</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题1-违反语法规则的命名"><span class="nav-number">2.1.</span> <span class="nav-text">问题1:违反语法规则的命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题2-不准确的英文词汇"><span class="nav-number">2.2.</span> <span class="nav-text">问题2:不准确的英文词汇</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题3-单词拼写错误"><span class="nav-number">2.3.</span> <span class="nav-text">问题3:单词拼写错误</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
