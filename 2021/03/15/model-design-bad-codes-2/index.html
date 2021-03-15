@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="该笔记包含一下内容：  重复代码：简单需求到处修改，怎么办？ 长函数：为什么你总是不可避免地写出长函数？">
+<meta name="description" content="该笔记包含一下内容：  重复代码：简单需求到处修改，怎么办？ 长函数：为什么你总是不可避免地写出长函数？ 大类：如何避免写出难以理解的大类？">
 <meta property="og:type" content="article">
 <meta property="og:title" content="代码之丑-13种典型的坏代码味道 D2">
 <meta property="og:url" content="http://yoursite.com/2021/03/15/model-design-bad-codes-2/index.html">
 <meta property="og:site_name" content="黑面宝宝的博客">
-<meta property="og:description" content="该笔记包含一下内容：  重复代码：简单需求到处修改，怎么办？ 长函数：为什么你总是不可避免地写出长函数？">
+<meta property="og:description" content="该笔记包含一下内容：  重复代码：简单需求到处修改，怎么办？ 长函数：为什么你总是不可避免地写出长函数？ 大类：如何避免写出难以理解的大类？">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-03-15T14:44:39.765Z">
+<meta property="og:updated_time" content="2021-03-15T15:08:55.755Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="代码之丑-13种典型的坏代码味道 D2">
-<meta name="twitter:description" content="该笔记包含一下内容：  重复代码：简单需求到处修改，怎么办？ 长函数：为什么你总是不可避免地写出长函数？">
+<meta name="twitter:description" content="该笔记包含一下内容：  重复代码：简单需求到处修改，怎么办？ 长函数：为什么你总是不可避免地写出长函数？ 大类：如何避免写出难以理解的大类？">
 
 
 
@@ -349,7 +349,7 @@
                 <i class="fa fa-clock-o"></i>
                 </span>
                 <span class="post-meta-item-text">阅读时长</span>
-                <span class="post-count"> 4min </span>
+                <span class="post-count"> 6min </span>
                 </span>
               </span>
 
@@ -405,9 +405,10 @@
         <p>该笔记包含一下内容：</p>
 <ol start="3">
 <li>重复代码：简单需求到处修改，怎么办？</li>
-<li>长函数：为什么你总是不可避免地写出长函数？<a id="more"></a>
-</li>
+<li>长函数：为什么你总是不可避免地写出长函数？</li>
+<li>大类：如何避免写出难以理解的大类？</li>
 </ol>
+<a id="more"></a>
 <h2 id="重复代码：简单需求到处修改，怎么办？"><a href="#重复代码：简单需求到处修改，怎么办？" class="headerlink" title="重复代码：简单需求到处修改，怎么办？"></a>重复代码：简单需求到处修改，怎么办？</h2><p>这节最直白的建议就是不要复制粘贴代码，真正应该做的是<strong>先提取出函数，然后在需要的地方调用这个函数</strong></p>
 <h2 id="长函数：为什么你总是不可避免地写出长函数？"><a href="#长函数：为什么你总是不可避免地写出长函数？" class="headerlink" title="长函数：为什么你总是不可避免地写出长函数？"></a>长函数：为什么你总是不可避免地写出长函数？</h2><h3 id="问题1-多长的函数才算“长”？"><a href="#问题1-多长的函数才算“长”？" class="headerlink" title="问题1: 多长的函数才算“长”？"></a>问题1: 多长的函数才算“长”？</h3><p>对于函数长度的容忍度高，这是导致长函数产生的关键点，一个优秀的程序员面对代码库是要有不同尺度的观察能力，看设计时要能够高屋建瓴，看代码时能细致入微，随着对于长代码的容忍度降低，对代码细节的感知力就会逐渐提升，你才能看到那些原本所谓的细枝末节的地方隐藏的各种问题。</p>
 <p>在具体工作中，越短越好是一个追求的目标，不过没有一个具体的数字就没有办法约束人的行为，因此这里参考资料中建议的一个函数程度长度标准是，对于Python、Ruby这样表达能力比较强的动态语言，大约是5行左右，对于Java这样表达能力若的静态类型语言是争取在10行左右解决问题，对于多数的程序员可以前期稍微放宽限制，以这个标准翻倍即20行即可。</p>
@@ -432,6 +433,12 @@
 <blockquote>
 <p>让营地比你来的时候更干净<br><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;—–童子军军规</p>
 </blockquote>
+<p>简言之，任何时刻我们对于代码的改动不应该是让原有的代码变得更糟糕，如果是就需要改进它</p>
+<h2 id="大类：如何避免写出难以理解的大类？"><a href="#大类：如何避免写出难以理解的大类？" class="headerlink" title="大类：如何避免写出难以理解的大类？"></a>大类：如何避免写出难以理解的大类？</h2><p>大类是指一打开就是一片无边无际的代码，产生大类的一种重要原因是长函数，一般来说一个大类只要有几个长函数就肯定是一眼看不到边，除此之外大类的另一种重要表现形式就是类中有特别多的字段以及函数，这一节主要侧重如何处理后者。</p>
+<h3 id="分模块的程序"><a href="#分模块的程序" class="headerlink" title="分模块的程序"></a>分模块的程序</h3><p>我们来考虑一个极端，把代码都写到同一个文件里会怎么样？从结果来看这个程序的复杂度会远远超出一个人能掌握的认知范围，一个人理解问题的能力是有限的，没有人能同时面对所有的细节，人类面对复杂事物给出的解决方案是分而治之，我们看到各式各样的语言都是有自己的模块划分方案，从最初的按文件划分，到后来使用面向对象的方式进行划分，如果一个类的内容过多，那么顾此失彼也就在所难免了，解决大类的方案也随之而来，就是把大类拆解为若干个小类，出现大类很可能的几种原因如下：</p>
+<p><strong>职责不单一</strong></p>
+<p><strong>字段未分组</strong></p>
+<p>所谓的将大类拆解成小类，本质上在做的工作是一个设计工作。我们分解的依据其实是单一职责这个重要的设计原则。很多人写代码写不好，其实是缺乏软件设计的功底，不能有效地把各种模型识别出来。所以，想要写好代码，还是要好好学学软件设计的。</p>
 
       
     </div>
@@ -627,7 +634,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#重复代码：简单需求到处修改，怎么办？"><span class="nav-number">1.</span> <span class="nav-text">重复代码：简单需求到处修改，怎么办？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#长函数：为什么你总是不可避免地写出长函数？"><span class="nav-number">2.</span> <span class="nav-text">长函数：为什么你总是不可避免地写出长函数？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题1-多长的函数才算“长”？"><span class="nav-number">2.1.</span> <span class="nav-text">问题1: 多长的函数才算“长”？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题2-长函数的产生"><span class="nav-number">2.2.</span> <span class="nav-text">问题2: 长函数的产生</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#重复代码：简单需求到处修改，怎么办？"><span class="nav-number">1.</span> <span class="nav-text">重复代码：简单需求到处修改，怎么办？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#长函数：为什么你总是不可避免地写出长函数？"><span class="nav-number">2.</span> <span class="nav-text">长函数：为什么你总是不可避免地写出长函数？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题1-多长的函数才算“长”？"><span class="nav-number">2.1.</span> <span class="nav-text">问题1: 多长的函数才算“长”？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题2-长函数的产生"><span class="nav-number">2.2.</span> <span class="nav-text">问题2: 长函数的产生</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大类：如何避免写出难以理解的大类？"><span class="nav-number">3.</span> <span class="nav-text">大类：如何避免写出难以理解的大类？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分模块的程序"><span class="nav-number">3.1.</span> <span class="nav-text">分模块的程序</span></a></li></ol></li></ol></div>
             
 
           </div>
