@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Nginx,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="该笔记包含如下内容：HTTPS、SSL、OpenSSL自签名">
-<meta name="keywords" content="Nginx">
+<meta name="description" content="可变的数据：不要让你的代码“失控” 变量声明与赋值分离：普通的变量声明，怎么也有坏味道？ 依赖混乱：你可能还没发现问题，代码就已经无法挽救了">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaWeb笔记-Nginx D3">
-<meta property="og:url" content="http://yoursite.com/2020/07/13/architect-3/index.html">
+<meta property="og:title" content="代码之丑-13种典型的坏代码味道 D4">
+<meta property="og:url" content="http://yoursite.com/2021/03/21/model-design-bad-codes-4/index.html">
 <meta property="og:site_name" content="黑面宝宝的博客">
-<meta property="og:description" content="该笔记包含如下内容：HTTPS、SSL、OpenSSL自签名">
+<meta property="og:description" content="可变的数据：不要让你的代码“失控” 变量声明与赋值分离：普通的变量声明，怎么也有坏味道？ 依赖混乱：你可能还没发现问题，代码就已经无法挽救了">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-07-16T08:13:34.797Z">
+<meta property="og:updated_time" content="2021-03-21T08:23:48.271Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaWeb笔记-Nginx D3">
-<meta name="twitter:description" content="该笔记包含如下内容：HTTPS、SSL、OpenSSL自签名">
+<meta name="twitter:title" content="代码之丑-13种典型的坏代码味道 D4">
+<meta name="twitter:description" content="可变的数据：不要让你的代码“失控” 变量声明与赋值分离：普通的变量声明，怎么也有坏味道？ 依赖混乱：你可能还没发现问题，代码就已经无法挽救了">
 
 
 
@@ -120,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/07/13/architect-3/">
+  <link rel="canonical" href="http://yoursite.com/2021/03/21/model-design-bad-codes-4/">
 
 
 
 
 
-  <title>JavaWeb笔记-Nginx D3 | 黑面宝宝的博客</title>
+  <title>代码之丑-13种典型的坏代码味道 D4 | 黑面宝宝的博客</title>
   
 
 
@@ -283,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/13/architect-3/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/21/model-design-bad-codes-4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="黑面宝宝">
@@ -300,7 +299,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">JavaWeb笔记-Nginx D3</h1>
+          <h1 class="post-title" itemprop="name headline">代码之丑-13种典型的坏代码味道 D4</h1>
         
 
         <div class="post-meta">
@@ -312,8 +311,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-13T12:01:10+08:00">
-                2020-07-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-21T14:45:33+08:00">
+                2021-03-21
               </time>
             
 
@@ -335,8 +334,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java开发/" itemprop="url" rel="index">
-                    <span itemprop="name">Java开发</span>
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
                   </a>
                 </span>
 
@@ -350,7 +349,7 @@
                 <i class="fa fa-clock-o"></i>
                 </span>
                 <span class="post-meta-item-text">阅读时长</span>
-                <span class="post-count"> 1min </span>
+                <span class="post-count"> 7min </span>
                 </span>
               </span>
 
@@ -363,8 +362,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/07/13/architect-3/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/07/13/architect-3/" itemprop="commentCount"></span>
+                <a href="/2021/03/21/model-design-bad-codes-4/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2021/03/21/model-design-bad-codes-4/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -372,7 +371,7 @@
 
           
           
-             <span id="/2020/07/13/architect-3/" class="leancloud_visitors" data-flag-title="JavaWeb笔记-Nginx D3">
+             <span id="/2021/03/21/model-design-bad-codes-4/" class="leancloud_visitors" data-flag-title="代码之丑-13种典型的坏代码味道 D4">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -403,52 +402,42 @@
       
 
       
-        <p>该笔记包含如下内容：HTTPS、SSL、OpenSSL自签名</p>
+        <ol start="9">
+<li>可变的数据：不要让你的代码“失控”</li>
+<li>变量声明与赋值分离：普通的变量声明，怎么也有坏味道？</li>
+<li><p>依赖混乱：你可能还没发现问题，代码就已经无法挽救了</p>
 <a id="more"></a>
-<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><!-- 
-这里主要介绍HTTPS的工作流程，它为什么可以保障数据的安全以及防篡改
-
-首先提一下非对称加密算法，简单来说就是对信息加密时，加密与解密所用的密钥是不相同的，我们称用来加密的密钥为私钥，解密的密钥是公钥，因为加密用密钥是不能公开不能告诉别人的所以叫私钥；另外公私钥是成对的，通常公钥是由私钥生成的，OK到这里就可以，我们回到HTTPS
-
-众所周知HTTP协议是不安全的，因为它所有的传输数据在网络信道上都是明文，这样非常容易造成数据的泄露以及篡改，数据泄露是不可避免的而数据篡改是最致命的，所以保证信息安全重要的一点就防止信息被篡改
-
-<img src="/img/java/ar3/ar3-1.png" width="90%" style="text-align:center">
-
-这里需要你发挥想象力，把小明看作浏览器，小红是服务器，云朵代表HTTP request/response的数据，这里的整个通信过程数据都是明文传输，可以看作是HTTP传输数据的一个模型，假设小明有一个情敌小黑，他可以轻而易举的拦截获得信息，并且发坏偷偷修改了小红返回给小明的信件，改为「小明我不喜欢你」，这样是很麻烦的
-
-于是聪明的小红想了一个办法，她把传递给小明的消息加密，可是在她们之间只能通过互联网通信，没有其他的办法做通信了，那小红如何告诉小明解密的密钥呢，小红可以把密钥加密返回，可这是不行哦，这不套娃了吗，在小明不知道密钥前提下，他该如何解密一段密文获取其中的密钥？所以小红只能把密钥用明文返回了
-
-为了能够让小明可以有办法解密，小红需要把解密的钥匙跟着密文一起发送给小明，假如小红使用了对称加密，我们来看一下会发生什么，因为小黑可以截获到信息，然后取出密钥对信息解密，小黑看完了以后在嫉妒心的驱使下修改了信息的内容，由于使用了对称加密，即加密解密是用了相同的密钥，也就是说小黑可以用截获到的密钥把自己修改的内容重新加密返回给小明，此时小明是看不出异常的，他没有办法分辨出自己得到的消息有没有被篡改
-
-可以看出对称加密是无法防止信息被篡改的，所以小红应该使用非对称加密来杜绝上面的情况
-
-使用非对称加密时，小红手中会持有一个私钥，这是不能公开的只有小红自己知道是什么，她用这个私钥对信息进行加密，接着将解密的公钥与密文一起作为信息内容发送给小明，假设此时不幸信息内容又双叒叕被小黑拦截到了，他能获得公钥对密文解密，但是他不能再修改内容重新加密发给小明，因为小黑手里没有私钥，无法对新信息重新加密；如果他强行加密返回给小明，小明就会发现：哎这内容中的密文用公钥解不开了，那就说明密文出现了问题，我不能信任这个消息了
-
-<img src="/img/java/ar3/ar3-2.png" width="90%" style="text-align:center">
-
-~~于是从此小红与小明过上了幸福生活~~，然而好景不长，小黑学聪明了
-
-
-他想了一个办法，就是自己造一套公/私钥，每次拦截到小红的消息，首先拿小红的公钥解密，然后修改信息改完之后用自己的私钥把信息加密了，最后他模仿小红把信息与自己的私钥当作内容返回给小明，这样小明接收到消息可以正常的解密，但是他不知道信息与公钥被小黑已经给换了，这就是比较麻烦的中间人攻击，这个漏洞是因为协议只关心我能不能个用公钥解开密文，而不关心这个公钥的安全性
-
-<img src="/img/java/ar3/ar3-3.png" width="90%" style="text-align:center">
-
-为了解决这个问题出现了一个第三方机构CA，也就是通过第三方为公钥做背书的方式保证你的公钥是安全的
-
-简单来说就是小红与小明之间在进行通信之前就与CA机构联系好，小红向CA提交自己的个人信息以及一个公钥，然后获得一个证书，你可以理解这个证书是CA把小红的个人信息与公钥一起进行了非对称加密得到的密文，当然用的是CA自己的私钥；而小明这边向CA索要他们的公钥，这样以后小红与小明在通信时，小红发送发的内容除了公钥与加密信息还有CA给自己的证书，小明在获得内容后用CA提供的公钥对内容中的证书解密，从中取出小红早早就保存在里的公钥，小明用这个公钥与内容中的公钥进行比较，如果一样说明没有问题，如果不一样就表示内容中的公钥被替换过，通过这种方式避免了中间人攻击，也就是保证了内容中公钥的安全性
-
-<img src="/img/java/ar3/ar3-4.png" width="90%" style="text-align:center">
-
-除此以外，如果小黑也效仿小明去要CA的公钥，其实这是没用的，对根结底是因为小黑没有CA的私钥不能篡改CA里内容，即使他同样用中间人攻击的方式替换了CA证书，由于解密CA证书的公钥早早就小明就拿到手了，所以小明拿到CA证书后一眼就知道这个CA有没有被篡改
-
-这种方式就是我们的HTTPS的工作原理，公司用自己的域名以及公钥和公司信息去向权威的CA机构申请证书，最后把公钥、证书配置到Nginx中去，这样浏览器每次请求时都拿到这个公钥与证书，而浏览器厂家早早的就与CA取得联系能够认证证书，最后浏览器解析请求时会参考证书里的信息。
-
-HTTPS本质还是建立了一种第三方背书的信任方式，就是我们作为用户首先你要信任浏览器，接着浏览器又信任CA机构，CA又帮用户对公司的公钥做了认证；所以间接的就是你可以相信你拿到的公钥，最终用公钥能够拿到正确的信息，还记得中间人攻击吗，他的本质就是替换了你本该拿到的公钥，所以造成了问题漏洞，而CA帮我们建立了一种相对的信任机制；~~吼吼吼而区块链就是去掉了这个第三方背书~~
-
-最后就是即使在HTTPS中，我们依旧是把公钥以明文方式发送，这个特性就说明信息总是可以被破解的，当然这不是指信息100%不安全的，就是总有办法破解你的加密信息，但是HTTPS能保证信息难以被篡改
-
--->
-<div class="note warning"><p>发现自己对于HTTPS的理解过于浅薄，而且文中包含太多错误，回炉重造中… </p></div>
+<h2 id="可变的数据：不要让你的代码“失控”"><a href="#可变的数据：不要让你的代码“失控”" class="headerlink" title="可变的数据：不要让你的代码“失控”"></a>可变的数据：不要让你的代码“失控”</h2></li>
+</ol>
+<p>对于程序，最朴素的一种认知是“程序 = 数据结构 + 算法”，所以数据几乎是软件开发最核心的一个组成部分。在一些人的认知中，所谓做软件，就是一系列的 CRUD 操作，也就是对数据进行增删改查。再具体一点，写代码就把各种数据拿来，然后改来改去。改数据，几乎已经成了很多程序员写代码的标准做法。然而这种做法也带来了很多的问题。</p>
+<h3 id="满地天飞的Setter"><a href="#满地天飞的Setter" class="headerlink" title="满地天飞的Setter"></a>满地天飞的Setter</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">approve</span><span class="params">(<span class="keyword">final</span> <span class="keyword">long</span> bookId)</span> </span>&#123;</span><br><span class="line">    ... </span><br><span class="line">    book.setReviewStatus(ReviewStatus.APPROVED); </span><br><span class="line">    ... </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是一段对作品进行审核的代码，通过 bookId，找到对应的作品，接下来，将审核状态设置成了审核通过。之所以举例到这段代码，就是因为这里用了 setter。setter 往往是缺乏封装的一种表现，它意味着，你不仅可以读到一个对象的数据，还可以修改一个对象的数据。相比于读数据，修改是一个更危险的操作。你不知道数据会在哪里被何人以什么方式修改，造成的结果是往往是<strong>别人的修改</strong>会让你的代码崩溃。与之相伴的还有各种衍生出来的问题，最常见的就是我们常说的并发问题。</p>
+<p>可变的数据是可怕，但是比可变的数据。更可怕的是不可控的变化。而暴露 setter 就是这种不可控的变化，把各种实现细节完全交给对这个类不了解的使用者去修改，没有人会知道他会怎么改，所以这种修改完全是不可控的。缺乏封装再加上不可控的变化，在作者的心目中 setter 几乎是排名第一的坏味道。</p>
+<p>处理这种情况就是限制修改数据的接口，尽量不提供setter方法，例如刚刚上述的例子中，可以封装一个这样的方法对外使用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span> </span>&#123; </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">approve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         <span class="keyword">this</span>.reviewStatus = ReviewStatus.APPROVED; </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>setter 破坏了封装，相信你对这点已经有了一定的理解，不过，有时候 setter 只是用在初始化过程中，而并不需要在使用的过程去调用，就像下面这样:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Book book = <span class="keyword">new</span> Book(); </span><br><span class="line">book.setBookId(bookId); </span><br><span class="line">book.setTitle(title); </span><br><span class="line">book.setIntroduction(introduction);</span><br></pre></td></tr></table></figure></p>
+<p>实际上，对于这种只在初始化中使用的代码，压根没有必要以 setter 的形式存在，真正需要的是一个有参数的构造函数，如果参数过多，可以使用Builder模式封装构造过程。</p>
+<h3 id="可变的数据"><a href="#可变的数据" class="headerlink" title="可变的数据"></a>可变的数据</h3><p>我们反对使用 setter，一个重要的原因就是它暴露了数据，我们前面说过，暴露数据造成的问题就在于数据的修改，进而导致出现难以预料的 Bug。在上面的代码中，我们把 setter 封装成一个个的函数，实际上是把不可控的修改限制在一个有限的范围内。那么，这个思路再进一步的话，如果我们的数据压根不让修改，犯下各种低级错误的机会就进一步降低了。在这种思路下，可变数据（Mutable Data）就成了一种坏味道，这是 Martin Fowler 在新版《重构》里增加的坏味道，它反映着整个行业对于编程的新理解。</p>
+<p>这种思想源自于函数式编程范式，在part2我会系统整理这个范式，这里简单记录一下，在函数式编程中，数据是建立在不变的基础上的，如果需要更新则会产生一个新的数据副本，而旧的数据保持不变，随摄函数式编程在开发领域的地位越来越重要，人们对于不变性的理解也越发得深刻，不变性有效的解决了可变数据产生的各种问题。</p>
+<p>Martin Fowler 对于可变数据给出的解决方案，基本上是限制对于数据的更新，降低其风险，这与我们前面提到的对 setter 的封装如出一辙。除了该方案可以解决可变数据，还有一个解决方案是编写不变类。</p>
+<p>Java 中的 String 类就是一个不变类，比如，如果我们把字符串中的一个字符替换成<br>另一个字符，String 类给出的函数签名是这样的：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">String <span class="title">replace</span><span class="params">(<span class="keyword">char</span> oldChar, <span class="keyword">char</span> newChar)</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p>其含义是，这里的替换并不是在原有字符串上进行修改，而是产生了一个新的字符串。如何设计不变类，主要做到以下三点：</p>
+<ul>
+<li>所有的字段只在构造函数中初始化</li>
+<li>所有的方法都是纯函数</li>
+<li>如果需要有改变，返回一个新的对象，而不是修改已有字段</li>
+</ul>
+<p>这里提一下第二点，笔者最早接触纯函数这个概念是在学习前端的React框架中，纯函数的意思是指：函数的输出只依赖于输入，不依赖于上下文，在React中又有一个著名的状态管理框架Redux，使用这个组件管理数据需要你先初始化一个store用初始化数据，并定义action，action是用来描述行为的数据结构，而action仅仅是描述行为，为了真正的修改数据需要使用reducer这个纯函数，这里仅仅展示一个reduce demo就能明白纯函数的含义<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> counter = <span class="function">(<span class="params">state = ininialState, action</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> (action.Type) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"ADD-ONE"</span>:</span><br><span class="line">            <span class="keyword">return</span> &#123;<span class="attr">counter</span> : state.counter + <span class="number">1</span>&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在 JDK 的演化中，我们可以看到一个很明显的趋势，新增的类越来越多地采用了不变类的设计，比如用来表示时间的类。就目前的开发状态而言，想要完全消除可变数据是很难做到的，但我们可以尽可能地编写一些不变类。</p>
+<blockquote>
+<p>为什么不变类需要方法是纯函数 ？</p>
+</blockquote>
+<h2 id="变量声明与赋值分离：普通的变量声明，怎么也有坏味道？"><a href="#变量声明与赋值分离：普通的变量声明，怎么也有坏味道？" class="headerlink" title="变量声明与赋值分离：普通的变量声明，怎么也有坏味道？"></a>变量声明与赋值分离：普通的变量声明，怎么也有坏味道？</h2><p>变量声明是写程序不可或缺的一部分，并不打算戒掉变量声明，严格地说，我们是要把变量初始化这件事做好。</p>
+<h3 id="变量的初始化"><a href="#变量的初始化" class="headerlink" title="变量的初始化"></a>变量的初始化</h3><p>来看这段代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">EpubStatus status = <span class="keyword">null</span>; </span><br><span class="line">CreateEpubResponse response = createEpub(request); </span><br><span class="line"><span class="keyword">if</span> (response.getCode() == <span class="number">201</span>) &#123; </span><br><span class="line">    status = EpubStatus.CREATED; </span><br><span class="line">&#125; <span class="keyword">else</span> &#123; </span><br><span class="line">    status = EpubStatus.TO_CREATE; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们这次的重点在 status 这个变量上，虽然 status 这个变量在声明的时候，就赋上了一个 null 值，但实际上，这个值并没有起到任何作用，因为 status 的变量值，其实是在经过后续处理之后，才有了真正的值。换言之，从语义上说，第一行的变量初始化其实是没有用的，这是一次假的初始化。按照我们通常的理解，一个变量的初始化是分成了声明和赋值两个部分，而我这里要说的就是，变量初始化最好一次性完成。</p>
+<p>这种代码真正的问题就是不清晰，变量初始化与业务处理混在在一起。通常来说，这种代码后面紧接着就是一大堆更复杂的业务处理。当代码混在一起的时候，我们必须小心翼翼地从一堆业务逻辑里抽丝剥茧，才能把逻辑理清，知道变量到底是怎么初始化的。很多代码难读，一个重要的原因就是把不同层面的代码混在了一起。</p>
+<p>所以，我们编程时要有一个基本原则：<strong>变量一次性完成初始化</strong>。例如使用如下的形式：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> CreateEpubResponse response = createEpub(request); </span><br><span class="line"><span class="keyword">final</span> EpubStatus status = toEpubStatus(response); </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> EpubStatus <span class="title">toEpubStatus</span><span class="params">(<span class="keyword">final</span> CreateEpubResponse response)</span> </span>&#123; </span><br><span class="line">    <span class="keyword">if</span> (response.getCode() == <span class="number">201</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> EpubStatus.CREATED;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> EpubStatus.TO_CREATE; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="依赖混乱：你可能还没发现问题，代码就已经无法挽救了"><a href="#依赖混乱：你可能还没发现问题，代码就已经无法挽救了" class="headerlink" title="依赖混乱：你可能还没发现问题，代码就已经无法挽救了"></a>依赖混乱：你可能还没发现问题，代码就已经无法挽救了</h2><p>讲大类这个坏味道的时候曾经说过，为了避免同时面对所有细节，我们需要把程序进行拆分，分解成一个又一个的小模块。但随之而来的问题就是，我们需要把这些拆分出来的模块按照一定的规则重新组装在一起，这就是依赖的缘起。</p>
+<p>为了解决这个问题，在设计的原则中又一个叫做依赖倒置的原则是专门用处理这类问题的，会在那片博客中专门整理</p>
 
       
     </div>
@@ -474,12 +463,6 @@ HTTPS本质还是建立了一种第三方背书的信任方式，就是我们作
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Nginx/" rel="tag"># Nginx</a>
-          
-        </div>
-      
 
       
       
@@ -489,8 +472,8 @@ HTTPS本质还是建立了一种第三方背书的信任方式，就是我们作
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/07/12/architect-2/" rel="next" title="JavaWeb笔记-Nginx D2">
-                <i class="fa fa-chevron-left"></i> JavaWeb笔记-Nginx D2
+              <a href="/2021/03/16/model-design-bad-codes-3/" rel="next" title="代码之丑-13种典型的坏代码味道 D3">
+                <i class="fa fa-chevron-left"></i> 代码之丑-13种典型的坏代码味道 D3
               </a>
             
           </div>
@@ -499,8 +482,8 @@ HTTPS本质还是建立了一种第三方背书的信任方式，就是我们作
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/07/16/architect-4/" rel="prev" title="JavaWeb笔记-FastDFS D1">
-                JavaWeb笔记-FastDFS D1 <i class="fa fa-chevron-right"></i>
+              <a href="/2021/03/21/model-design-bad-codes-5/" rel="prev" title="代码之丑-13种典型的坏代码味道 D5">
+                代码之丑-13种典型的坏代码味道 D5 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -654,7 +637,7 @@ HTTPS本质还是建立了一种第三方背书的信任方式，就是我们作
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTPS"><span class="nav-number">1.</span> <span class="nav-text">HTTPS</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#可变的数据：不要让你的代码“失控”"><span class="nav-number">1.</span> <span class="nav-text">可变的数据：不要让你的代码“失控”</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#满地天飞的Setter"><span class="nav-number">1.1.</span> <span class="nav-text">满地天飞的Setter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可变的数据"><span class="nav-number">1.2.</span> <span class="nav-text">可变的数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量声明与赋值分离：普通的变量声明，怎么也有坏味道？"><span class="nav-number">2.</span> <span class="nav-text">变量声明与赋值分离：普通的变量声明，怎么也有坏味道？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#变量的初始化"><span class="nav-number">2.1.</span> <span class="nav-text">变量的初始化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖混乱：你可能还没发现问题，代码就已经无法挽救了"><span class="nav-number">3.</span> <span class="nav-text">依赖混乱：你可能还没发现问题，代码就已经无法挽救了</span></a></li></ol></div>
             
 
           </div>

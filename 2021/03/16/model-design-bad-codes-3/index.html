@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="黑面宝宝的博客">
 <meta property="og:description" content="该笔记包含以下内容：  长参数列表：如何处理不同类型的长参数？ 滥用控制语句：出现控制结构，多半是错误的提示 缺乏封装：如何应对火车代码和基本类型偏执问题？">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-03-20T15:43:38.037Z">
+<meta property="og:updated_time" content="2021-03-21T06:57:05.006Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="代码之丑-13种典型的坏代码味道 D3">
 <meta name="twitter:description" content="该笔记包含以下内容：  长参数列表：如何处理不同类型的长参数？ 滥用控制语句：出现控制结构，多半是错误的提示 缺乏封装：如何应对火车代码和基本类型偏执问题？">
@@ -436,14 +436,14 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span> </span>&#123; </span><br><span class="line">    ... </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getAuthorName</span><span class="params">()</span> </span>&#123; </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.author.getName(); </span><br><span class="line">    &#125;</span><br><span class="line">    ... </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在学习数据结构时，我们所编写的代码都是拿到各种细节直接操作，但那是在做编程练习，并不是工程上的编码方式,很多人把这种编码习惯带到了工作中。比如说，有人编写一个新的类，第一步是写出这个类要用到的字段，接着就是给这些字段生成相应的 getter/setter方法。很多语言或框架提供的约定就是基于这种getter的，就像 Java 里的 JavaBean，所以相应的配套工具也很方便。现在写出一个getter 往往是 IDE 中一个快捷键的操作，甚至不需要自己手工敲代码。诸如此类种种因素叠加，让暴露细节这种事越来越容易，封装反而成了稀缺品。</p>
 <blockquote>
-<p>这里说一些我的想法，我认为这个坏case成立的前提应该是你的大类目的是用来封装，举一个我最近重构发现的问题，我在设计一个编辑器，它可以编辑操作一种草稿结构，实际上我最早设计这个草稿结构的时候，就使用了这种封装的方式，这个草稿结构是一个List，List中保存对象的属性中还包含另一个List，这个内部List持有的是一个很复杂的类型，简单来说你可以理解为草稿是一个很复杂二维数组结构，我在最早的时候设计这编辑器的Model对象时，将内部所有的方法全部写到了最顶层的草稿类中，即编辑器不知道这个草稿内部到底是什么样子，统统使用草稿类获取自己各个组件需要的data，最后发现了很多问题，比如因为草稿内部的结构过于复杂，对外暴露的方法集中在草稿最的顶层的类上，导致这个类及其的臃肿难以维护。小规模重构时我重新设计了顶层草稿类的作用，草稿类的作用仅仅维护草稿的基础结构，即草稿类不负责获取/修改每一个具体内部的数据，只负责维护这个大的二维数组，每一个小的Mode对象负责维护自己的数据方法，即这个草稿类本身就不是为了封装，而是为了合理的组织每一个小的Model对象，编辑器为了实现正常工作是需要了解草稿内部的一些细节，因为编辑器主UI组件就是为了适配这样特殊的二维数组Model而存在的，而在这个问题中我认为真正需要隐藏是二维数组中保存的每一个对象的实现细节。</p>
+<p>这里说一些我的想法，我认为这个坏case成立的前提应该是你的大类目的是用来封装，举一个我最近重构发现的问题，我在设计一个编辑器，它可以编辑操作一种草稿结构，实际上我最早设计这个草稿结构的时候，就使用了这种封装的方式，这个草稿结构是一个List，List中保存对象的属性中还包含另一个List，这个内部List持有的是一个很复杂的类型，简单来说你可以理解为草稿是一个很复杂二维数组结构，我在最早的时候设计这编辑器的Model对象时，将内部所有的方法全部写到了最顶层的草稿类中，即编辑器不知道这个草稿内部到底是什么样子，统统使用草稿类获取自己各个组件需要的data，最后发现了很多问题，比如因为草稿内部的结构过于复杂，对外暴露的方法集中在草稿最的顶层的类上，导致这个类及其的臃肿难以维护。小规模重构时我重新设计了顶层草稿类的作用，草稿类的作用仅仅维护草稿的基础结构，即草稿类不负责获取/修改每一个具体内部的数据，只负责维护这个大的二维数组，每一个小的Model对象负责维护自己的数据方法，即这个草稿类本身不是为了封装，而是为了组织每一个子Model对象，编辑器为了实现正常工作是需要了解草稿内部的一些细节，因为编辑器主UI组件就是为了适配这样特殊的二维数组Model而存在的，而在这个问题中我认为真正需要隐藏是二维数组中保存的每一个对象的实现细节。</p>
 </blockquote>
-<h3 id="基本类型偏执"><a href="#基本类型偏执" class="headerlink" title="基本类型偏执"></a>基本类型偏执</h3><p>来看这段代码，这是一个非常清晰的带阿妹，这里有什么坏味道吗？<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getEpubPrice</span><span class="params">(<span class="keyword">final</span> <span class="keyword">boolean</span> highQuality, <span class="keyword">final</span> <span class="keyword">int</span> chapterSequenc ... &#125;</span></span></span><br></pre></td></tr></table></figure></p>
-<p>有的，主要问题集中在了这个返回值上，也就是这个函数签名使用了 double 来表示一个价格，并不是说这样做会有精度问题，而是这样采用基本类型的设计缺少了一个模型，价格本身确实是用浮点数来存储的，但价格与浮点数本身不是同一个概念，有不同的行为需求，例如我们的价格是要求不能小于0的，但是 doubel 类型本身是没有这个限制的，当然使用 double 也可以做非负的限制，可以在这个函数的返回处判断一下若为负则抛出异常。如果使用 double 作为类型，那我们要在使用的地方都保证价格的正确性，像这样的价格校验就应该是使用的地方到处写的。所以我们可以引入一个模型封装基础类型的重构手法，即<strong>以对象取代基本类型</strong>，出现这样问题就在于，我们只看到了模型的相同之处，却忽略了差异的地方。对象健身操这篇文章中中提到过跟这个问题相关的建议</p>
+<h3 id="基本类型偏执"><a href="#基本类型偏执" class="headerlink" title="基本类型偏执"></a>基本类型偏执</h3><p>来看这段代码，这是一个非常清晰的代码，这里有什么坏味道吗？<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getEpubPrice</span><span class="params">(<span class="keyword">final</span> <span class="keyword">boolean</span> highQuality, <span class="keyword">final</span> <span class="keyword">int</span> chapterSequenc ... &#125;</span></span></span><br></pre></td></tr></table></figure></p>
+<p>有的，主要问题集中在了这个返回值上，也就是这个函数签名使用了 double 来表示一个价格，并不是说这样做会有精度问题，而是这样采用基本类型的设计缺少了一个模型，价格本身确实是用浮点数来存储的，但价格与浮点数本身不是同一个概念，有不同的行为需求，例如我们的价格是要求不能小于0的，但是 doubel 类型本身是没有这个限制的，当然使用 double 也可以做非负的限制，可以在这个函数的返回处判断一下若为负则抛出异常。如果使用 double 作为类型，那我们要在使用的地方都保证价格的正确性，像这样的价格校验就应该是使用的地方到处写的。所以我们可以引入一个<strong>模型封装基础类型</strong>的重构手法，即<strong>以对象取代基本类型</strong>，创建一个Price类来代替double，出现这样问题就在于，我们只看到了模型的相同之处，却忽略了差异的地方。对象健身操这篇文章中也提到过跟这个问题相关的建议：</p>
 <ul>
 <li>封装所有的基本类型和字符串；</li>
 </ul>
-<p>笔者的做工程的朋友经常安利Kotlin，这门语言是一套设计比较优秀符合软工思想的语言，就例如在Kotlin中没有基础类型，全部使用包装类代替，我最早听到这个概念的时候感觉又像是容器的迭代器一样为了面向对象而面向对象但其实不是，使用包装类是为了跟好的符合工程的思想，我第一次跟他聊这个的时候用性能来做反驳，“一个基础类型才多大呀，封装成包装类多占地”，似乎这个问题也在这次学习找到了答案，性能优化从来不是开发工程首要考虑的任务</p>
+<p>笔者的做工程的朋友经常安利Kotlin，是一套设计优秀切符合软工思想的语言，就例如在Kotlin中没有基础类型，全部使用包装类代替，我最早听到这个概念的时候感觉又像是容器的迭代器一样为了面向对象而面向对象但其实不是，使用包装类是为了跟好的符合工程的思想，我第一次跟他聊这个的时候用性能来做反驳，“一个基础类型才多大呀，封装成包装类多占地”，似乎这个问题也在这次学习找到了答案，性能优化从来不是开发工程首要考虑的任务</p>
 
       
     </div>
@@ -487,6 +487,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/03/21/model-design-bad-codes-4/" rel="prev" title="代码之丑-13种典型的坏代码味道 D4">
+                代码之丑-13种典型的坏代码味道 D4 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -568,7 +572,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
